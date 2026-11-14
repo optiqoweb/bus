@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="Optiqo Web">
+<meta name="description" content="Book bus tickets online from Noapara to Dhaka Medical via Padma Bridge. Board and drop at any stop.">
 <title>Narail Express – Safe. Comfortable. On Time.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 /* ===== THEME TOKENS: change --brand to recolor the whole site ===== */
 :root{--brand:#0b7a4b;--brand-d:#085c38;--brand-l:#e3f4eb;--accent:#f4a51c;--bg:#f6f8f7;--card:#fff;--ink:#14231c;--mut:#5d6f66;--line:#dbe5df;--sh:0 8px 28px rgba(12,60,40,.10);--r:18px;--bad:#c62f3b;--ok:#0b7a4b;--btn:#0b7a4b;--btn-d:#085c38}
@@ -101,7 +101,12 @@ footer .grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
 footer h4{color:#fff;margin-bottom:10px}footer li{list-style:none;margin:6px 0;font-size:.9rem}footer ul{padding:0}
 footer a:hover{color:var(--accent)}
 .soc{display:flex;gap:8px;margin-top:12px}.soc a{width:44px;height:44px;border-radius:12px;background:#0e3b2a;display:grid;place-items:center;font-weight:700}
-.copy{border-top:1px solid #174a37;margin-top:30px;padding-top:18px;font-size:.82rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.copy{border-top:1px solid #174a37;margin-top:30px;padding-top:18px;font-size:.82rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px 16px}
+.copy .credit{background:#fff;color:#1b1b1b;padding:8px 16px;border-radius:999px;font-size:.84rem;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.copy .credit a{color:#0b0b0b;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.copy .credit a:after{content:" \2197";text-decoration:none;display:inline-block}
+.copy .credit a:hover{color:#000;text-decoration-thickness:2px}
+@media(max-width:640px){.copy{justify-content:center;text-align:center}}
 .fab{position:fixed;right:16px;bottom:16px;width:56px;height:56px;border-radius:50%;background:var(--accent);display:none;place-items:center;font-size:1.5rem;box-shadow:var(--sh);z-index:40}
 /* ===== BOOKING ===== */
 #booking{display:none;padding:28px 0 120px}
@@ -185,9 +190,10 @@ body.booking #booking{display:block}body.booking .home{display:none}body.booking
 .stub .sp{display:block;font-size:1.6rem;font-weight:800;color:var(--brand);margin-top:4px}
 .stub p{color:var(--mut);font-size:.87rem;max-width:34ch;margin-top:6px;line-height:1.5}
 .qr-bc{display:flex;flex-direction:column;gap:10px;align-items:center}
-.qr{background:#fff;padding:10px;border-radius:14px;width:150px;height:150px;border:1px solid var(--line);flex:none}
+.qr{background:#fff;padding:8px;border-radius:14px;width:196px;height:196px;border:1px solid var(--line);flex:none}
 .qr svg{width:100%;height:100%;display:block}
-.bc-wrap{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px 6px;text-align:center;width:150px}
+.bc-wrap{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px 6px;text-align:center;width:196px}
+.qr-cap{font-size:.7rem;color:var(--mut);text-align:center;line-height:1.35;margin-top:-4px}
 .bc-wrap svg{display:block;width:100%;height:52px}
 .bc-id{font-size:.68rem;font-weight:700;letter-spacing:2px;color:var(--mut);margin-top:4px;font-family:'Courier New',monospace}
 /* Footer band */
@@ -208,15 +214,28 @@ body.booking #booking{display:block}body.booking .home{display:none}body.booking
  .perf:before,.perf:after{background:#fff}
  .g4{margin:0 30px 24px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== MULTI-PAGE ===== */
+footer ul.ql{display:grid;grid-template-columns:1fr 1fr;column-gap:28px}
+
+nav a.active{background:var(--brand-l);color:var(--brand);font-weight:600}
+.phead{padding:44px 0 40px;background:linear-gradient(135deg,#06402a,#0b7a4b 60%,#17a566);color:#fff}
+[data-theme=dark] .phead{background:linear-gradient(135deg,#0a1511,#0f3426 65%,#145a3d)}
+.phead h1{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;letter-spacing:-.5px}
+.phead p{opacity:.92;margin-top:6px;max-width:60ch}
+.back{display:inline-block;color:var(--brand);font-weight:600;font-size:.9rem;padding:6px 0}
+.back:hover{text-decoration:underline}
+.linkrow{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
+.rl{padding-left:18px;color:var(--mut);font-size:.92rem}.rl li{margin:6px 0}
+.prose p{color:var(--mut);max-width:70ch}.prose p+p{margin-top:12px}
 </style>
 </head>
-<body>
+<body data-page="home">
 <header><div class="wrap hd">
- <button class="logo" onclick="goHome()" aria-label="Narail Express home">
+ <a class="logo" href="index.html" aria-label="Narail Express home">
   <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="var(--brand)"/><path d="M9 25V15a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v10H9z" fill="#fff"/><rect x="12" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><rect x="21" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><circle cx="15" cy="27" r="3" fill="var(--accent)"/><circle cx="26" cy="27" r="3" fill="var(--accent)"/></svg>
-  <span><span class="cname">Narail Express</span><small data-i="tag">Safe. Comfortable. On Time.</small></span></button>
- <nav id="nav" aria-label="Main">
-  <a onclick="goHome()" data-i="nHome">Home</a><a onclick="goHome('search')" data-i="nBook">Book Ticket</a><a onclick="goHome('fares')" data-i="nFare">Fare Chart</a><a href="#about" onclick="goHome()" data-i="nAbout">About Us</a><a href="#policy" onclick="goHome()" data-i="nPolicy">Policy</a><a href="#contact" onclick="goHome()" data-i="nContact">Contact</a></nav>
+  <span><span class="cname">Narail Express</span><small data-i="tag">Safe. Comfortable. On Time.</small></span></a>
+ <nav id="nav" aria-label="Main"><a href="index.html" data-page="home" data-i="nHome">Home</a><a href="book.html" data-page="book" data-i="nBook">Book Ticket</a><a href="fares.html" data-page="fares" data-i="nFare">Fare Chart</a><a href="about.html" data-page="about" data-i="nAbout">About Us</a><a href="policy.html" data-page="policy" data-i="nPolicy">Policy</a><a href="contact.html" data-page="contact" data-i="nContact">Contact</a></nav>
  <div class="tools">
   <button class="ib" id="lang" onclick="toggleLang()" aria-label="Switch language">বাং</button>
   <button class="ib" id="dark" onclick="toggleDark()" aria-label="Toggle dark mode"></button>
@@ -225,13 +244,11 @@ body.booking #booking{display:block}body.booking .home{display:none}body.booking
 </div></header>
 
 <main>
-<div class="home">
-<!-- HERO + SEARCH -->
 <div class="hero" id="search">
  <svg class="bg" viewBox="0 0 1400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 220 Q200 150 400 210 T800 190 T1200 200 T1400 170 V300H0Z" fill="#0a5a3a" opacity=".6"/><path d="M0 260 Q300 210 600 250 T1400 240 V300H0Z" fill="#06402a"/><rect y="272" width="1400" height="3" fill="#f4a51c" opacity=".5"/>
  <g class="bus-anim" transform="translate(0,222)"><rect width="110" height="44" rx="10" fill="#f4a51c"/><rect x="10" y="8" width="20" height="14" rx="3" fill="#06402a"/><rect x="36" y="8" width="20" height="14" rx="3" fill="#06402a"/><rect x="62" y="8" width="20" height="14" rx="3" fill="#06402a"/><rect x="88" y="8" width="16" height="22" rx="3" fill="#06402a"/><circle cx="26" cy="46" r="8" fill="#14231c"/><circle cx="84" cy="46" r="8" fill="#14231c"/></g></svg>
  <div class="wrap">
-  <div><h1 data-i="h1">Noapara to Gulistan, travelling the easy way.</h1><p class="lead" data-i="lead">Pick any stop to board and any stop to get off. Book your seat in under two minutes.</p></div>
+  <div><h1 data-i="h1">Noapara to Dhaka Medical, travelling the easy way.</h1><p class="lead" data-i="lead">Pick any stop to board and any stop to get off. Book your seat in under two minutes.</p></div>
   <form class="card search" id="sf" novalidate onsubmit="return doSearch(event)">
    <div class="fld"><label for="from" data-i="from">From</label><select class="in" id="from"></select></div>
    <button type="button" class="swap" onclick="swapStops()" aria-label="Swap stops">⇄</button>
@@ -250,39 +267,29 @@ body.booking #booking{display:block}body.booking .home{display:none}body.booking
 
 <section><div class="wrap"><h2 data-i="popH">Popular trips</h2><p class="sub" data-i="popS">Tap a trip to start booking.</p>
  <div class="grid" id="pops"></div>
+ <div class="linkrow"><a class="btn alt" href="fares.html" data-i="allFares">View full fare chart</a></div>
  <h2 style="margin-top:44px" data-i="depH">Today's departures</h2><p class="sub" id="depSub"></p><div id="deps"></div></div></section>
 
 <section style="background:var(--card)"><div class="wrap"><h2 data-i="howH">How it works</h2><p class="sub">&nbsp;</p><div class="grid steps" id="steps"></div></div></section>
 
 <section><div class="wrap"><h2 data-i="testH">Passengers say</h2><p class="sub">&nbsp;</p><div class="grid tr" id="tests"></div></div></section>
 
-<section id="fares" style="background:var(--card)"><div class="wrap"><h2 data-i="fareH">Fare chart</h2><p class="sub" data-i="fareS"></p><div class="fld" style="max-width:320px;margin-bottom:16px"><label for="fs" data-i="fareFrom"></label><select class="in" id="fs" onchange="fareTable()"></select></div><div class="card routebox"><table id="ft"></table></div></div></section>
 
-<section id="policy" style="padding-top:0"><div class="wrap"><h2 data-i="faqH">Questions, answered</h2><p class="sub">&nbsp;</p><div id="faq" style="max-width:820px"></div></div></section>
-</div>
-
-<!-- ===== BOOKING FLOW ===== -->
-<div id="booking"><div class="wrap">
- <div class="prog" id="prog" aria-label="Progress"></div>
- <div class="hold" id="hold" hidden><span data-i="holdT">Seats held for</span><span id="clock">05:00</span></div>
- <div class="layout"><div id="stepBody" aria-live="polite"></div><aside class="card sum" id="sum"></aside></div>
-</div></div>
 </main>
 
-<footer id="contact"><div class="wrap"><div class="grid">
+<footer><div class="wrap"><div class="grid">
  <div><h4 class="cname">Narail Express</h4><p data-i="tag">Safe. Comfortable. On Time.</p><p style="margin-top:10px"><i data-ic="phone"></i> <a href="tel:01935128454" class="ph">01935128454</a></p>
   <div class="soc"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="YouTube">yt</a><a href="#" aria-label="WhatsApp">w</a><a href="#" aria-label="Instagram">ig</a></div></div>
- <div id="about"><h4 data-i="quick">Quick links</h4><ul><li><a onclick="goHome()" href="#" data-i="nHome">Home</a></li><li><a onclick="goHome('search')" href="#" data-i="nBook">Book Ticket</a></li><li><a href="#about" data-i="nAbout">About Us</a></li><li><a href="#policy" data-i="nPolicy">Policy</a></li></ul></div>
- <div><h4 data-i="routes">Routes</h4><ul><li>Noapara → Gulistan</li><li>Noapara → Jatrabari</li><li>Gulistan → Noapara</li><li>Via Padma Bridge</li></ul></div></div>
- <div class="copy"><span>© <span id="yr"></span> <span class="cname">Narail Express</span>. <span data-i="rights">All rights reserved.</span></span><span data-i="tag">Safe. Comfortable. On Time.</span></div></div></footer>
+ <div><h4 data-i="quick">Quick links</h4><ul class="ql"><li><a href="index.html" data-i="nHome">Home</a></li><li><a href="book.html" data-i="nBook">Book Ticket</a></li><li><a href="fares.html" data-i="nFare">Fare Chart</a></li><li><a href="about.html" data-i="nAbout">About Us</a></li><li><a href="policy.html" data-i="nPolicy">Policy</a></li><li><a href="contact.html" data-i="nContact">Contact</a></li></ul></div>
+ <div><h4 data-i="routes">Routes</h4><ul><li>Noapara → Dhaka Medical</li><li>Noapara → Jatrabari</li><li>Dhaka Medical → Noapara</li><li>Via Padma Bridge</li></ul></div></div>
+ <div class="copy"><span>© <span id="yr"></span> <span class="cname">Narail Express</span>. <span data-i="rights">All rights reserved.</span></span><span data-i="tag">Safe. Comfortable. On Time.</span><span class="credit">Designed &amp; Maintained by <a href="https://optiqoweb.github.io/optiqoweb/" target="_blank" rel="noopener">Optiqo Web</a></span></div></div></footer>
 
 <a class="fab" id="fab" href="tel:01935128454" aria-label="Call support"><i data-ic="phone"></i></a>
-<div class="mbar" id="mbar"><div><span id="mbL"></span><b id="mbT"></b></div><button class="btn" id="mbBtn" onclick="next()"></button></div>
 
 <script>
 /* =====================================================================
    CONFIG — edit everything here: name, phone, colors (see CSS --brand),
-   stops, fares. Stops are listed in order from Noapara (index 0) to Gulistan.
+   stops, fares. Stops are listed in order from Noapara (index 0) to Dhaka Medical.
    `km` = distance from Dhaka. Fare = max(minFare, km difference × perKm),
    rounded to nearest 5. Add exact fares in `fareOverrides` ("A|B": taka).
    ===================================================================== */
@@ -292,26 +299,33 @@ const CONFIG={
  stops:[
   {id:"Noapara",bn:"নওয়াপাড়া",km:0,major:"Noapara",majorBn:"নওয়াপাড়া"},
   {id:"Bhangagate Bridge",bn:"ভাঙ্গাগেট ব্রিজ",km:14},
-  {id:"Kalna Bridge",bn:"কালনা সেতু",km:38},
-  {id:"Padma Bridge",bn:"পদ্মা সেতু",km:52,major:"Padma Bridge",majorBn:"পদ্মা সেতু"},
-  {id:"Jatrabari",bn:"যাত্রাবাড়ী",km:102},
-  {id:"Sayedabad",bn:"সায়েদাবাদ",km:106},
-  {id:"Gulistan",bn:"গুলিস্থান",km:112,major:"Dhaka",majorBn:"ঢাকা"}],
+  {id:"Singari",bn:"সিংগাড়ী",km:20},
+  {id:"Agdia",bn:"আগদীয়া",km:26},
+  {id:"Gobra",bn:"গোবরা",km:31},
+  {id:"Narail",bn:"নড়াইল",km:36,major:"Narail",majorBn:"নড়াইল"},
+  {id:"Kalna Bridge",bn:"কালনা সেতু",km:48},
+  {id:"Padma Bridge",bn:"পদ্মা সেতু",km:68,major:"Padma Bridge",majorBn:"পদ্মা সেতু"},
+  {id:"Jatrabari",bn:"যাত্রাবাড়ী",km:118},
+  {id:"Gulistan",bn:"গুলিস্থান",km:122},
+  {id:"Bangabazar",bn:"বঙ্গবাজার",km:124},
+  {id:"Dhaka Medical",bn:"ঢাকা মেডিকেল",km:126,major:"Dhaka",majorBn:"ঢাকা"}],
  fareOverrides:{ /* e.g. "Noapara|Padma Bridge":250 */ },
  departures:["06:30","08:00","10:30","14:00","20:30","22:30"],   // base times from first stop of the direction
- popular:[["Noapara","Gulistan"],["Noapara","Jatrabari"],["Noapara","Padma Bridge"],["Gulistan","Noapara"]]
+ popular:[["Noapara","Dhaka Medical"],["Noapara","Jatrabari"],["Noapara","Padma Bridge"],["Dhaka Medical","Noapara"]]
 };
 // Fare matrix generator (symmetric). TODO: connect API – fetch fares from backend.
 function fare(a,b){const k=CONFIG.fareOverrides[a+"|"+b]||CONFIG.fareOverrides[b+"|"+a];if(k)return k;
  const A=CONFIG.stops.find(s=>s.id==a),B=CONFIG.stops.find(s=>s.id==b);const f=Math.max(CONFIG.minFare,Math.abs(A.km-B.km)*CONFIG.perKm);return Math.round(f/5)*5}
 
 /* ============================ i18n ============================ */
-const T={en:{tag:"Safe. Comfortable. On Time.",nHome:"Home",nBook:"Book Ticket",nAbout:"About Us",nPolicy:"Policy",nContact:"Contact",h1:"Noapara to Gulistan, travelling the easy way.",lead:"Pick any stop to board and any stop to get off. Book your seat in under two minutes.",from:"From",to:"To",date:"Date",pax:"Passengers",searchBtn:"Search Buses",routeH:"Our route",routeS:"Board or drop at any stop along the way.",whyH:"Why travel with Narail Express",whyS:"Small things done right, on every trip.",popH:"Popular trips",popS:"Tap a trip to start booking.",depH:"Today's departures",howH:"How it works",testH:"Passengers say",faqH:"Questions, answered",quick:"Quick links",routes:"Routes",rights:"All rights reserved.",holdT:"Seats held for",
- s1:"Choose bus",s2:"Seats",s3:"Passengers",s4:"Payment",s5:"E-Ticket",pickStop:"Please choose both stops.",sameStop:"Boarding and dropping stops must be different.",pastDate:"Please pick today or a later date.",seatsLeft:"seats left",select:"Select seats",all:"All",ac:"AC",nonac:"Non-AC",sleeper:"Sleeper",morning:"Morning",afternoon:"Afternoon",night:"Evening/Night",sortP:"Price: low to high",sortT:"Earliest departure",noBus:"No buses match these filters.",back:"Back",cont:"Continue",boarding:"Boarding stop",dropping:"Dropping stop",seatsT:"Seats",perSeat:"Fare per seat",svc:"Service charge",total:"Total",none:"None yet",pickSeats:"Select",seatsWord:"seat(s)",avail:"Available",selected:"Selected",booked:"Booked",ladies:"Ladies only",front:"Front",name:"Full name",phone:"Mobile number",email:"Email (optional)",passenger:"Passenger",vName:"Please enter the passenger's name.",vPhone:"Use a valid mobile number like 01XXXXXXXXX.",vEmail:"That email doesn't look right.",payH:"Choose payment method",cash:"Cash at counter",card:"Card",payNote:"Payment is simulated. No money is charged.",pay:"Confirm & pay",needSeats:"Select all your seats to continue.",expired:"Your seat hold expired. Please choose seats again.",tkt:"E-Ticket",bid:"Booking ID",route:"Route",dt:"Date & time",st:"Seats",ps:"Passengers",fr:"Fare paid",bd:"Boarding",dr:"Dropping",sup:"Support",print:"Download PDF (A4)",another:"Book Another",arrive:"Arrives",dur:"h",bus:"Bus",confirmed:"Booking confirmed!",reach:"Please reach the boarding point 15 minutes early.",f1:"On-time departures",f1d:"We leave when we say we will, and we publish live timings.",f2:"Clean buses",f2d:"Every bus is washed and sanitised before each trip.",f3:"Trained drivers",f3d:"Verified licences, rest rules and speed monitoring.",f4:"Online tickets",f4d:"Book from your phone and show the QR at boarding.",f5:"Board anywhere",f5d:"Pick up and drop at any of our stops, not just the ends.",f6:"Real support",f6d:"A human on the phone, every day: 01935128454.",h1t:"Search",h1d:"Choose your boarding and dropping stops and a date.",h2t:"Pick seats",h2d:"See the seat map, choose the seats you like.",h3t:"Pay & travel",h3d:"Pay your way and show the e-ticket at boarding.",today:"Buses on",book:"Book",nFare:"Fare Chart",fareH:"Fare chart",fareS:"Pick a stop to see the fare to every other stop.",fareFrom:"Fares from",km:"Distance",dlPng:"Save image (A4)"},
- bn:{tag:"নিরাপদ। আরামদায়ক। সময়মতো।",nHome:"হোম",nBook:"টিকিট কাটুন",nAbout:"আমাদের সম্পর্কে",nPolicy:"নীতিমালা",nContact:"যোগাযোগ",h1:"নওয়াপাড়া থেকে গুলিস্থান, ভ্রমণ এখন সহজ।",lead:"যেকোনো স্টপ থেকে উঠুন, যেকোনো স্টপে নামুন। দুই মিনিটেই সিট বুক করুন।",from:"কোথা থেকে",to:"কোথায়",date:"তারিখ",pax:"যাত্রী",searchBtn:"বাস খুঁজুন",routeH:"আমাদের রুট",routeS:"পথের যেকোনো স্টপে উঠুন বা নামুন।",whyH:"কেন নড়াইল এক্সপ্রেস",whyS:"প্রতিটি যাত্রায় ছোট ছোট বিষয়ে যত্ন।",popH:"জনপ্রিয় ট্রিপ",popS:"বুকিং শুরু করতে ট্রিপে ট্যাপ করুন।",depH:"আজকের ছাড়ার সময়",howH:"কীভাবে কাজ করে",testH:"যাত্রীরা বলছেন",faqH:"সাধারণ জিজ্ঞাসা",quick:"দ্রুত লিংক",routes:"রুটসমূহ",rights:"সর্বস্বত্ব সংরক্ষিত।",holdT:"সিট ধরে রাখা আছে",
- s1:"বাস বাছাই",s2:"সিট",s3:"যাত্রী",s4:"পেমেন্ট",s5:"ই-টিকিট",pickStop:"দুটি স্টপই নির্বাচন করুন।",sameStop:"উঠা ও নামার স্টপ আলাদা হতে হবে।",pastDate:"আজ বা পরের তারিখ বাছাই করুন।",seatsLeft:"টি সিট বাকি",select:"সিট বাছুন",all:"সব",ac:"এসি",nonac:"নন-এসি",sleeper:"স্লিপার",morning:"সকাল",afternoon:"দুপুর",night:"সন্ধ্যা/রাত",sortP:"দাম: কম থেকে বেশি",sortT:"আগে ছাড়বে যেটি",noBus:"এই ফিল্টারে কোনো বাস নেই।",back:"পিছনে",cont:"এগিয়ে যান",boarding:"উঠার স্টপ",dropping:"নামার স্টপ",seatsT:"সিট",perSeat:"প্রতি সিট ভাড়া",svc:"সার্ভিস চার্জ",total:"মোট",none:"এখনো নেই",pickSeats:"বাছুন",seatsWord:"টি সিট",avail:"খালি",selected:"নির্বাচিত",booked:"বুকড",ladies:"শুধু মহিলা",front:"সামনে",name:"পূর্ণ নাম",phone:"মোবাইল নম্বর",email:"ইমেইল (ঐচ্ছিক)",passenger:"যাত্রী",vName:"যাত্রীর নাম লিখুন।",vPhone:"সঠিক নম্বর দিন, যেমন 01XXXXXXXXX।",vEmail:"ইমেইলটি সঠিক মনে হচ্ছে না।",payH:"পেমেন্ট মাধ্যম বাছুন",cash:"কাউন্টারে নগদ",card:"কার্ড",payNote:"পেমেন্ট ডেমো মাত্র। কোনো টাকা কাটা হবে না।",pay:"নিশ্চিত ও পেমেন্ট",needSeats:"এগোতে সব সিট বাছাই করুন।",expired:"সিট ধরে রাখার সময় শেষ। আবার সিট বাছুন।",tkt:"ই-টিকিট",bid:"বুকিং আইডি",route:"রুট",dt:"তারিখ ও সময়",st:"সিট",ps:"যাত্রী",fr:"ভাড়া",bd:"উঠবেন",dr:"নামবেন",sup:"সাপোর্ট",print:"পিডিএফ ডাউনলোড (A4)",another:"আরেকটি বুক করুন",arrive:"পৌঁছাবে",dur:"ঘ.",bus:"বাস",confirmed:"বুকিং নিশ্চিত হয়েছে!",reach:"অনুগ্রহ করে ১৫ মিনিট আগে পৌঁছান।",f1:"সময়মতো ছাড়া",f1d:"যে সময় বলি, সে সময়েই ছাড়ি।",f2:"পরিচ্ছন্ন বাস",f2d:"প্রতি ট্রিপের আগে বাস ধোয়া ও জীবাণুমুক্ত করা হয়।",f3:"প্রশিক্ষিত চালক",f3d:"যাচাইকৃত লাইসেন্স, বিশ্রামের নিয়ম ও গতি নজরদারি।",f4:"অনলাইন টিকিট",f4d:"ফোনেই বুক করুন, উঠার সময় QR দেখান।",f5:"যেকোনো স্টপে উঠুন",f5d:"শুধু শেষ প্রান্তে নয়, সব স্টপেই উঠা-নামা।",f6:"আসল সাপোর্ট",f6d:"প্রতিদিন ফোনে মানুষ পাবেন: 01935128454।",h1t:"খুঁজুন",h1d:"উঠা-নামার স্টপ ও তারিখ বাছুন।",h2t:"সিট বাছুন",h2d:"সিট ম্যাপ দেখে পছন্দের সিট নিন।",h3t:"পেমেন্ট ও যাত্রা",h3d:"পেমেন্ট করে ই-টিকিট দেখান।",today:"বাস",book:"বুক করুন",nFare:"ভাড়ার তালিকা",fareH:"ভাড়ার তালিকা",fareS:"একটি স্টপ বাছুন, অন্য সব স্টপের ভাড়া দেখুন।",fareFrom:"ভাড়া শুরু",km:"দূরত্ব",dlPng:"ছবি সেভ (A4)"}};
+const T={en:{tag:"Safe. Comfortable. On Time.",nHome:"Home",nBook:"Book Ticket",nAbout:"About Us",nPolicy:"Policy",nContact:"Contact",h1:"Noapara to Dhaka Medical, travelling the easy way.",lead:"Pick any stop to board and any stop to get off. Book your seat in under two minutes.",from:"From",to:"To",date:"Date",pax:"Passengers",searchBtn:"Search Buses",routeH:"Our route",routeS:"Board or drop at any stop along the way.",whyH:"Why travel with Narail Express",whyS:"Small things done right, on every trip.",popH:"Popular trips",popS:"Tap a trip to start booking.",depH:"Today's departures",howH:"How it works",testH:"Passengers say",faqH:"Questions, answered",quick:"Quick links",routes:"Routes",rights:"All rights reserved.",holdT:"Seats held for",
+ s1:"Choose bus",s2:"Seats",s3:"Passengers",s4:"Payment",s5:"E-Ticket",pickStop:"Please choose both stops.",sameStop:"Boarding and dropping stops must be different.",pastDate:"Please pick today or a later date.",seatsLeft:"seats left",select:"Select seats",all:"All",ac:"AC",nonac:"Non-AC",sleeper:"Sleeper",morning:"Morning",afternoon:"Afternoon",night:"Evening/Night",sortP:"Price: low to high",sortT:"Earliest departure",noBus:"No buses match these filters.",back:"Back",cont:"Continue",boarding:"Boarding stop",dropping:"Dropping stop",seatsT:"Seats",perSeat:"Fare per seat",svc:"Service charge",total:"Total",none:"None yet",pickSeats:"Select",seatsWord:"seat(s)",avail:"Available",selected:"Selected",booked:"Booked",ladies:"Ladies only",front:"Front",name:"Full name",phone:"Mobile number",email:"Email (optional)",passenger:"Passenger",vName:"Please enter the passenger's name.",vPhone:"Use a valid mobile number like 01XXXXXXXXX.",vEmail:"That email doesn't look right.",payH:"Choose payment method",cash:"Cash at counter",card:"Card",payNote:"Payment is simulated. No money is charged.",pay:"Confirm & pay",needSeats:"Select all your seats to continue.",expired:"Your seat hold expired. Please choose seats again.",tkt:"E-Ticket",bid:"Booking ID",route:"Route",dt:"Date & time",st:"Seats",ps:"Passengers",fr:"Fare paid",bd:"Boarding",dr:"Dropping",sup:"Support",print:"Download PDF (A4)",another:"Book Another",arrive:"Arrives",dur:"h",bus:"Bus",confirmed:"Booking confirmed!",reach:"Please reach the boarding point at least 30 minutes early.",f1:"On-time departures",f1d:"We leave when we say we will, and we publish live timings.",f2:"Clean buses",f2d:"Every bus is washed and sanitised before each trip.",f3:"Trained drivers",f3d:"Verified licences, rest rules and speed monitoring.",f4:"Online tickets",f4d:"Book from your phone and show the QR at boarding.",f5:"Board anywhere",f5d:"Pick up and drop at any of our stops, not just the ends.",f6:"Real support",f6d:"A human on the phone, every day: 01935128454.",h1t:"Search",h1d:"Choose your boarding and dropping stops and a date.",h2t:"Pick seats",h2d:"See the seat map, choose the seats you like.",h3t:"Pay & travel",h3d:"Pay your way and show the e-ticket at boarding.",today:"Buses on",book:"Book",nFare:"Fare Chart",fareH:"Fare chart",fareS:"Pick a stop to see the fare to every other stop.",fareFrom:"Fares from",km:"Distance",dlPng:"Save image (A4)"},
+ bn:{tag:"নিরাপদ। আরামদায়ক। সময়মতো।",nHome:"হোম",nBook:"টিকিট কাটুন",nAbout:"আমাদের সম্পর্কে",nPolicy:"নীতিমালা",nContact:"যোগাযোগ",h1:"নওয়াপাড়া থেকে ঢাকা মেডিকেল, ভ্রমণ এখন সহজ।",lead:"যেকোনো স্টপ থেকে উঠুন, যেকোনো স্টপে নামুন। দুই মিনিটেই সিট বুক করুন।",from:"কোথা থেকে",to:"কোথায়",date:"তারিখ",pax:"যাত্রী",searchBtn:"বাস খুঁজুন",routeH:"আমাদের রুট",routeS:"পথের যেকোনো স্টপে উঠুন বা নামুন।",whyH:"কেন নড়াইল এক্সপ্রেস",whyS:"প্রতিটি যাত্রায় ছোট ছোট বিষয়ে যত্ন।",popH:"জনপ্রিয় ট্রিপ",popS:"বুকিং শুরু করতে ট্রিপে ট্যাপ করুন।",depH:"আজকের ছাড়ার সময়",howH:"কীভাবে কাজ করে",testH:"যাত্রীরা বলছেন",faqH:"সাধারণ জিজ্ঞাসা",quick:"দ্রুত লিংক",routes:"রুটসমূহ",rights:"সর্বস্বত্ব সংরক্ষিত।",holdT:"সিট ধরে রাখা আছে",
+ s1:"বাস বাছাই",s2:"সিট",s3:"যাত্রী",s4:"পেমেন্ট",s5:"ই-টিকিট",pickStop:"দুটি স্টপই নির্বাচন করুন।",sameStop:"উঠা ও নামার স্টপ আলাদা হতে হবে।",pastDate:"আজ বা পরের তারিখ বাছাই করুন।",seatsLeft:"টি সিট বাকি",select:"সিট বাছুন",all:"সব",ac:"এসি",nonac:"নন-এসি",sleeper:"স্লিপার",morning:"সকাল",afternoon:"দুপুর",night:"সন্ধ্যা/রাত",sortP:"দাম: কম থেকে বেশি",sortT:"আগে ছাড়বে যেটি",noBus:"এই ফিল্টারে কোনো বাস নেই।",back:"পিছনে",cont:"এগিয়ে যান",boarding:"উঠার স্টপ",dropping:"নামার স্টপ",seatsT:"সিট",perSeat:"প্রতি সিট ভাড়া",svc:"সার্ভিস চার্জ",total:"মোট",none:"এখনো নেই",pickSeats:"বাছুন",seatsWord:"টি সিট",avail:"খালি",selected:"নির্বাচিত",booked:"বুকড",ladies:"শুধু মহিলা",front:"সামনে",name:"পূর্ণ নাম",phone:"মোবাইল নম্বর",email:"ইমেইল (ঐচ্ছিক)",passenger:"যাত্রী",vName:"যাত্রীর নাম লিখুন।",vPhone:"সঠিক নম্বর দিন, যেমন 01XXXXXXXXX।",vEmail:"ইমেইলটি সঠিক মনে হচ্ছে না।",payH:"পেমেন্ট মাধ্যম বাছুন",cash:"কাউন্টারে নগদ",card:"কার্ড",payNote:"পেমেন্ট ডেমো মাত্র। কোনো টাকা কাটা হবে না।",pay:"নিশ্চিত ও পেমেন্ট",needSeats:"এগোতে সব সিট বাছাই করুন।",expired:"সিট ধরে রাখার সময় শেষ। আবার সিট বাছুন।",tkt:"ই-টিকিট",bid:"বুকিং আইডি",route:"রুট",dt:"তারিখ ও সময়",st:"সিট",ps:"যাত্রী",fr:"ভাড়া",bd:"উঠবেন",dr:"নামবেন",sup:"সাপোর্ট",print:"পিডিএফ ডাউনলোড (A4)",another:"আরেকটি বুক করুন",arrive:"পৌঁছাবে",dur:"ঘ.",bus:"বাস",confirmed:"বুকিং নিশ্চিত হয়েছে!",reach:"অনুগ্রহ করে অন্তত ৩০ মিনিট আগে পৌঁছান।",f1:"সময়মতো ছাড়া",f1d:"যে সময় বলি, সে সময়েই ছাড়ি।",f2:"পরিচ্ছন্ন বাস",f2d:"প্রতি ট্রিপের আগে বাস ধোয়া ও জীবাণুমুক্ত করা হয়।",f3:"প্রশিক্ষিত চালক",f3d:"যাচাইকৃত লাইসেন্স, বিশ্রামের নিয়ম ও গতি নজরদারি।",f4:"অনলাইন টিকিট",f4d:"ফোনেই বুক করুন, উঠার সময় QR দেখান।",f5:"যেকোনো স্টপে উঠুন",f5d:"শুধু শেষ প্রান্তে নয়, সব স্টপেই উঠা-নামা।",f6:"আসল সাপোর্ট",f6d:"প্রতিদিন ফোনে মানুষ পাবেন: 01935128454।",h1t:"খুঁজুন",h1d:"উঠা-নামার স্টপ ও তারিখ বাছুন।",h2t:"সিট বাছুন",h2d:"সিট ম্যাপ দেখে পছন্দের সিট নিন।",h3t:"পেমেন্ট ও যাত্রা",h3d:"পেমেন্ট করে ই-টিকিট দেখান।",today:"বাস",book:"বুক করুন",nFare:"ভাড়ার তালিকা",fareH:"ভাড়ার তালিকা",fareS:"একটি স্টপ বাছুন, অন্য সব স্টপের ভাড়া দেখুন।",fareFrom:"ভাড়া শুরু",km:"দূরত্ব",dlPng:"ছবি সেভ (A4)"}};
 Object.assign(T.en,{gender:"Gender",gPick:"Select gender",male:"Male",female:"Female",other:"Other",vGender:"Please select gender.",age:"Age",vAge:"Enter a valid age (1–120)."});
 Object.assign(T.bn,{gender:"লিঙ্গ",gPick:"লিঙ্গ বাছাই করুন",male:"পুরুষ",female:"মহিলা",other:"অন্যান্য",vGender:"লিঙ্গ নির্বাচন করুন।",age:"বয়স",vAge:"সঠিক বয়স দিন (১–১২০)।"});
+Object.assign(T.en,{"polH": "Policies & FAQ", "polS": "Everything you should know before you travel.", "polBoardT": "Boarding", "polBoardD": "Arrive at the boarding stop at least 30 minutes before departure.", "polIdT": "Valid ID", "polIdD": "Carry a valid government-issued photo ID matching your booking name.", "polBagT": "Carry-on only", "polBagD": "One carry-on bag free per passenger. Checked luggage is not accepted.", "polCanT": "Cancellation", "polCanD": "Cancel 6+ hours before departure by calling 01935128454.", "polHoldT": "Seat hold", "polHoldD": "Seats are held for 5 minutes while you complete your booking.", "aboutH": "About Narail Express", "aboutP1": "Narail Express runs bus services between Noapara and Dhaka Medical, crossing the Padma Bridge.", "aboutP2": "You can board and get off at any stop along the route, and the fare depends only on the distance between your two stops.", "aboutP3": "Book your seat online in a couple of minutes and show the QR code on your e-ticket when you board.", "contactS": "Questions about a booking or a trip? Call us.", "callT": "Call us", "callD": "A person answers the phone every day.", "chgT": "Cancel or change a ticket", "chgD": "Call at least 6 hours before departure.", "bookT": "Book online", "bookD": "Pick your stops and a date, and reserve your seat in minutes.", "via": "Via Padma Bridge", "modify": "Modify search", "allFares": "View full fare chart", "selectPh": "Select"});
+Object.assign(T.bn,{"polH": "নীতিমালা ও সাধারণ জিজ্ঞাসা", "polS": "ভ্রমণের আগে যা জানা দরকার।", "polBoardT": "বোর্ডিং", "polBoardD": "ছাড়ার অন্তত ৩০ মিনিট আগে বোর্ডিং স্টপে পৌঁছান।", "polIdT": "পরিচয়পত্র", "polIdD": "বুকিংয়ের নামের সাথে মিল রেখে সরকারি ছবিসহ পরিচয়পত্র রাখুন।", "polBagT": "হ্যান্ড ব্যাগেজ", "polBagD": "প্রতি যাত্রী একটি হ্যান্ড ব্যাগেজ বিনামূল্যে। চেক-ইন লাগেজ গ্রহণযোগ্য নয়।", "polCanT": "বাতিল", "polCanD": "ছাড়ার ৬+ ঘণ্টা আগে 01935128454 নম্বরে কল করুন।", "polHoldT": "সিট ধরে রাখা", "polHoldD": "বুকিং শেষ করার জন্য ৫ মিনিট সিট ধরে রাখা হয়।", "aboutH": "নড়াইল এক্সপ্রেস সম্পর্কে", "aboutP1": "নড়াইল এক্সপ্রেস নওয়াপাড়া থেকে ঢাকা মেডিকেল পর্যন্ত পদ্মা সেতু হয়ে বাস সার্ভিস চালায়।", "aboutP2": "রুটের যেকোনো স্টপে উঠা ও নামা যায়, আর ভাড়া নির্ভর করে শুধু দুই স্টপের দূরত্বের ওপর।", "aboutP3": "অনলাইনে কয়েক মিনিটে সিট বুক করুন, আর উঠার সময় ই-টিকিটের QR কোড দেখান।", "contactS": "বুকিং বা ট্রিপ নিয়ে প্রশ্ন? ফোন করুন।", "callT": "ফোন করুন", "callD": "প্রতিদিন ফোনে মানুষ পাবেন।", "chgT": "টিকিট বাতিল বা পরিবর্তন", "chgD": "ছাড়ার অন্তত ৬ ঘণ্টা আগে কল করুন।", "bookT": "অনলাইনে বুক করুন", "bookD": "স্টপ ও তারিখ বাছুন, কয়েক মিনিটে সিট রিজার্ভ করুন।", "via": "পদ্মা সেতু হয়ে", "modify": "সার্চ পরিবর্তন", "allFares": "পূর্ণ ভাড়ার তালিকা দেখুন", "selectPh": "নির্বাচন করুন"});
 const TESTI=[["Rafiq Ahmed","Jashore","Left on time and the AC actually worked. Booking took two minutes.","সময়মতো ছেড়েছে, এসিও ঠিক ছিল। বুকিং হয়েছে দুই মিনিটে।"],["Nusrat Jahan","Dhaka","Clean bus, friendly staff, and travelling alone felt comfortable.","পরিষ্কার বাস, ভালো ব্যবহার, একা যেতেও স্বস্তি পেয়েছি।"],["Sabbir Hossain","Magura","I boarded at Magura and paid for exactly my distance. Fair.","মাগুরা থেকে উঠেছি, দূরত্ব অনুযায়ী ভাড়া। ন্যায্য।"]];
 const FAQ=[["Can I board at any stop?","Yes. Choose any boarding and dropping stop on the route. The fare depends on the distance between them.","হ্যাঁ। রুটের যেকোনো স্টপ বাছুন। ভাড়া নির্ভর করে দুই স্টপের দূরত্বের ওপর।"],["How long are my seats held?","Seats are held for 5 minutes while you complete your booking.","বুকিং শেষ করার জন্য ৫ মিনিট সিট ধরে রাখা হয়।"],["How do I cancel or change a ticket?","Call support on 01935128454 at least 6 hours before departure.","ছাড়ার অন্তত ৬ ঘণ্টা আগে 01935128454 নম্বরে কল করুন।"],["Is there luggage allowance?","One carry-on bag per passenger is free. Checked luggage is not accepted.","প্রতি যাত্রী একটি হ্যান্ড ব্যাগেজ বিনামূল্যে। চেক-ইন লাগেজ গ্রহণযোগ্য নয়।"]];
 const FEAT=[["clock",1],["sparkle",2],["shield",3],["mobile",4],["pin",5],["headset",6]];
@@ -335,54 +349,73 @@ plug:'<path d="M9 2v5M15 2v5M6 7h12v4a6 6 0 0 1-12 0zM12 17v5"/>',wifi:'<path d=
 water:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',bed:'<path d="M3 18V6M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="11" r="1.6"/>',
 tv:'<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8"/>',print:'<path d="M6 9V3h12v6M6 18H4v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6h-2"/><rect x="6" y="14" width="12" height="7"/>',
 down:'<path d="M12 3v12M7 11l5 5 5-5M4 21h16"/>',star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>'};
+Object.assign(I,{bag:'<rect x="4" y="8" width="16" height="13" rx="2"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',x:'<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>'});
 const ic=n=>`<svg class="i" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]}</svg>`;
 const bil=id=>{const s=CONFIG.stops.find(x=>x.id==id);return s.id+" / "+s.bn};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 /* ============================ INIT ============================ */
+const todayIso=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
+const bookUrl=(a,b,d,n)=>"book.html?"+new URLSearchParams({from:a,to:b,date:d,pax:n});
 function init(){
- document.title=CONFIG.company+" – "+t("tag");
  document.querySelectorAll("[data-ic]").forEach(e=>e.innerHTML=ic(e.dataset.ic));
  document.querySelectorAll(".cname").forEach(e=>e.textContent=CONFIG.company);
  document.querySelectorAll(".ph").forEach(e=>e.textContent=CONFIG.phone);
  document.querySelectorAll('a[href^="tel:"]').forEach(a=>a.href="tel:"+CONFIG.phone);
- $("#yr").textContent=new Date().getFullYear();
- const d=new Date(),iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;$("#date").min=iso;$("#date").value=iso;
+ if($("#yr"))$("#yr").textContent=new Date().getFullYear();
+ const iso=todayIso();if($("#date"))$("#date").min=iso;
  const saved=localStorage.getItem("ne-theme")||"light";setTheme(saved);
  lang=localStorage.getItem("ne-lang")||"bn";
- S.from=CONFIG.stops[0].id;S.to=CONFIG.stops[CONFIG.stops.length-1].id;
  renderHome();
  $('#nav').addEventListener('click',e=>{if(e.target.closest('a'))$('#nav').classList.remove('open')});
  document.addEventListener('keydown',e=>{if(e.key=='Escape')$('#nav').classList.remove('open')});
+ const pg=document.body.dataset.page;
+ document.querySelectorAll("#nav a[data-page]").forEach(a=>{const on=a.dataset.page==pg;a.classList.toggle("active",on);if(on)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+ if(document.body.classList.contains("booking"))bookInit();
+}
+/* Runs on book.html: reads the search from the URL (?from=&to=&date=&pax=) and opens step 1. */
+function bookInit(){
+ const p=new URLSearchParams(location.search);
+ const known=id=>CONFIG.stops.some(s=>s.id==id);
+ let a=p.get("from"),b=p.get("to"),d=p.get("date"),n=Math.min(6,Math.max(1,parseInt(p.get("pax"))||1));
+ if(!a||!known(a))a=CONFIG.stops[0].id;
+ if(!b||!known(b)||b==a)b=CONFIG.stops[CONFIG.stops.length-1].id;
+ if(!d||d<todayIso())d=todayIso();
+ Object.assign(S,{from:a,to:b,date:d,pax:n,seats:[],bus:null,pass:[],step:1});
+ S.board=a;S.drop=b;S.buses=makeBuses(a,b,n,d);render();
 }
 function renderHome(){
  const opts=CONFIG.stops.map(s=>`<option value="${s.id}">${esc(sname(s.id))}</option>`).join("");
- const f=$("#from").value||S.from,tt=$("#to").value||S.to;
- $("#from").innerHTML=opts;$("#to").innerHTML=opts;$("#from").value=f;$("#to").value=tt;
- const fv=$("#fs").value||CONFIG.stops[0].id;$("#fs").innerHTML=opts;$("#fs").value=fv;fareTable();
- const pv=$("#pax").value||1;$("#pax").innerHTML=[1,2,3,4,5,6].map(n=>`<option value="${n}">${bn(n)}</option>`).join("");$("#pax").value=pv;
+ const put=(id,h)=>{const e=$(id);if(e)e.innerHTML=h};
+ if($("#from")){const blank=`<option value="" disabled selected>${t("selectPh")}</option>`,f=$("#from").value,tt=$("#to").value;$("#from").innerHTML=blank+opts;$("#to").innerHTML=blank+opts;$("#from").value=f||"";$("#to").value=tt||""}
+ if($("#fs")){const fv=$("#fs").value||CONFIG.stops[0].id;$("#fs").innerHTML=opts;$("#fs").value=fv;fareTable()}
+ if($("#pax")){const pv=$("#pax").value,paxOpts=[1,2,3,4,5,6].map(n=>`<option value="${n}">${bn(n)}</option>`).join("");$("#pax").innerHTML=`<option value="" disabled selected>${t("selectPh")}</option>`+paxOpts;$("#pax").value=pv||""}
  document.querySelectorAll("[data-i]").forEach(e=>e.textContent=t(e.dataset.i));
- // route map
- $("#rline").innerHTML=CONFIG.stops.map(s=>`<div class="stop ${s.major?"major":""}"><i></i><span>${s.major?`<b>${lang=="bn"?s.majorBn:s.major}</b>`:""}${esc(sname(s.id))}</span></div>`).join("");
- $("#feat").innerHTML=FEAT.map(([i,n])=>`<div class="card feat"><div class="ic">${ic(i)}</div><h3>${t("f"+n)}</h3><p>${t("f"+n+"d")}</p></div>`).join("");
- $("#pops").innerHTML=CONFIG.popular.map(([a,b],i)=>`<button class="card pop" onclick="quick(${i})"><b>${esc(sname(a))} → ${esc(sname(b))}</b><div style="color:var(--mut);font-size:.85rem">${t("book")}</div><div class="pr">${money(fare(a,b))}</div></button>`).join("");
- const [da,db]=CONFIG.popular[1];
- $("#depSub").textContent=`${sname(da)} → ${sname(db)}`;
- $("#deps").innerHTML=makeBuses(da,db,1,new Date().toISOString().slice(0,10)).map(b=>`<div class="card dep"><b>${bn(b.dep)}</b><span class="tag">${t(b.type)}</span><span>${bn(b.left)} ${t("seatsLeft")}</span><b style="color:var(--brand)">${money(b.price)}</b><button class="btn alt" onclick="quick(1)">${t("book")}</button></div>`).join("");
- $("#steps").innerHTML=[1,2,3].map(n=>`<div class="card"><h3>${t("h"+n+"t")}</h3><p style="color:var(--mut)">${t("h"+n+"d")}</p></div>`).join("");
- $("#tests").innerHTML=TESTI.map(x=>`<div class="card"><div class="stars" aria-label="5 stars">${ic("star").repeat(5)}</div><p style="margin:8px 0">“${lang=="bn"?x[3]:x[2]}”</p><b>${x[0]}</b> <span style="color:var(--mut)">· ${x[1]}</span></div>`).join("");
- $("#faq").innerHTML=FAQ.map(x=>`<details><summary>${lang=="bn"?x[2].split("।")[0]+"।":x[1].split(".")[0]+"."||x[0]}</summary><p>${lang=="bn"?x[2]:x[1]}</p></details>`).join("");
+ put("#rline",CONFIG.stops.map(s=>`<div class="stop ${s.major?"major":""}"><i></i><span>${s.major?`<b>${lang=="bn"?s.majorBn:s.major}</b>`:""}${esc(sname(s.id))}</span></div>`).join(""));
+ put("#feat",FEAT.map(([i,n])=>`<div class="card feat"><div class="ic">${ic(i)}</div><h3>${t("f"+n)}</h3><p>${t("f"+n+"d")}</p></div>`).join(""));
+ put("#pops",CONFIG.popular.map(([a,b],i)=>`<button class="card pop" onclick="quick(${i})"><b>${esc(sname(a))} → ${esc(sname(b))}</b><div style="color:var(--mut);font-size:.85rem">${t("book")}</div><div class="pr">${money(fare(a,b))}</div></button>`).join(""));
+ if($("#deps")){const [da,db]=CONFIG.popular[1];
+  $("#depSub").textContent=`${sname(da)} → ${sname(db)}`;
+  put("#deps",makeBuses(da,db,1,todayIso()).map(b=>`<div class="card dep"><b>${bn(b.dep)}</b><span class="tag">${t(b.type)}</span><span>${bn(b.left)} ${t("seatsLeft")}</span><b style="color:var(--brand)">${money(b.price)}</b><button class="btn alt" onclick="quick(1)">${t("book")}</button></div>`).join(""))}
+ put("#steps",[1,2,3].map(n=>`<div class="card"><h3>${t("h"+n+"t")}</h3><p style="color:var(--mut)">${t("h"+n+"d")}</p></div>`).join(""));
+ put("#tests",TESTI.map(x=>`<div class="card"><div class="stars" aria-label="5 stars">${ic("star").repeat(5)}</div><p style="margin:8px 0">“${lang=="bn"?x[3]:x[2]}”</p><b>${x[0]}</b> <span style="color:var(--mut)">· ${x[1]}</span></div>`).join(""));
+ put("#faq",FAQ.map(x=>`<details><summary>${lang=="bn"?x[2].split("।")[0]+"।":x[1].split(".")[0]+"."||x[0]}</summary><p>${lang=="bn"?x[2]:x[1]}</p></details>`).join(""));
+ put("#polc",[["pin","polBoard"],["shield","polId"],["bag","polBag"],["x","polCan"],["clock","polHold"]].map(([i,k])=>`<div class="card feat"><div class="ic">${ic(i)}</div><h3>${t(k+"T")}</h3><p>${t(k+"D")}</p></div>`).join(""));
+ put("#contc",`<div class="card feat"><div class="ic">${ic("phone")}</div><h3>${t("callT")}</h3><p>${t("callD")}</p><a class="btn" style="margin-top:14px" href="tel:${CONFIG.phone}">${ic("phone")} ${CONFIG.phone}</a></div>
+  <div class="card feat"><div class="ic">${ic("clock")}</div><h3>${t("chgT")}</h3><p>${t("chgD")}</p></div>
+  <div class="card feat"><div class="ic">${ic("pin")}</div><h3>${t("bookT")}</h3><p>${t("bookD")}</p><a class="btn alt" style="margin-top:14px" href="book.html">${t("nBook")}</a></div>
+  <div class="card feat"><div class="ic">${ic("bus")}</div><h3>${t("routes")}</h3><ul class="rl">${CONFIG.popular.map(([a,b])=>`<li>${esc(sname(a))} → ${esc(sname(b))}</li>`).join("")}<li>${t("via")}</li></ul></div>`);
  $("#lang").textContent=lang=="en"?"বাং":"EN";document.documentElement.lang=lang;
- if(document.body.classList.contains("booking"))render();
+ if(document.body.classList.contains("booking")&&S.buses.length)render();
 }
 function fareTable(){const a=$("#fs").value,m=CONFIG.typeMultiplier,A=CONFIG.stops.find(s=>s.id==a);
  $("#ft").innerHTML=`<tr><th>${t("to")}</th><th>${t("km")}</th><th>${t("nonac")}</th><th>${t("ac")}</th><th>${t("sleeper")}</th></tr>`+CONFIG.stops.filter(s=>s.id!=a).map(s=>{const f=fare(a,s.id),p=k=>money(Math.round(f*m[k]/5)*5);return `<tr><td>${esc(sname(s.id))}</td><td>${bn(Math.abs(s.km-A.km))} km</td><td>${p("nonac")}</td><td>${p("ac")}</td><td>${p("sleeper")}</td></tr>`}).join("")}
-function quick(i){const [a,b]=CONFIG.popular[i];$("#from").value=a;$("#to").value=b;$("#search").scrollIntoView();doSearch()}
+function quick(i){const [a,b]=CONFIG.popular[i];location.href=bookUrl(a,b,todayIso(),1)}
 function swapStops(){const a=$("#from"),b=$("#to"),x=a.value;a.value=b.value;b.value=x;const s=$(".swap");s.dataset.swapped=(s.dataset.swapped=="1")?"0":"1";s.style.transform=s.dataset.swapped=="1"?"rotate(180deg)":""}
 function setTheme(m){document.documentElement.dataset.theme=m;$("#dark").innerHTML=ic(m=="dark"?"sun":"moon");localStorage.setItem("ne-theme",m)}
 function toggleDark(){setTheme(document.documentElement.dataset.theme=="dark"?"light":"dark")}
 function toggleLang(){lang=lang=="en"?"bn":"en";localStorage.setItem("ne-lang",lang);renderHome()}
-function goHome(sec){clearInterval(timer);document.body.classList.remove("booking");$("#nav").classList.remove("open");$("#mbar").classList.remove("show");if(sec)setTimeout(()=>$("#"+sec).scrollIntoView(),30);else scrollTo(0,0)}
+function goHome(sec){clearInterval(timer);location.href="index.html"+(sec?"#"+sec:"")}
 
 /* ============================ BUSES ============================ */
 // Generate buses for a pair of stops. Seats are pre-booked randomly each load.
@@ -413,9 +446,7 @@ function doSearch(e){
  if(!a||!b){err.textContent=t("pickStop");return false}
  if(a==b){err.textContent=t("sameStop");return false}
  if(!d||d<$("#date").min){err.textContent=t("pastDate");return false}
- Object.assign(S,{from:a,to:b,date:d,pax:+$("#pax").value,seats:[],bus:null,pass:[],step:1});
- S.board=a;S.drop=b;S.buses=makeBuses(a,b,S.pax,d);
- document.body.classList.add("booking");scrollTo(0,0);render();return false;
+ location.href=bookUrl(a,b,d,$("#pax").value);return false;
 }
 
 /* ============================ FLOW ============================ */
@@ -444,7 +475,7 @@ function r1(){
  const F=S.filt;let list=S.buses.filter(b=>(F.type=="all"||b.type==F.type)&&(F.time=="all"||(F.time=="morning"?b.dm<720:F.time=="afternoon"?b.dm>=720&&b.dm<1020:b.dm>=1020)));
  list.sort((x,y)=>F.sort=="price"?x.price-y.price:x.dm-y.dm);
  const sel=(k,o)=>`<select class="in" aria-label="${k}" onchange="S.filt.${k}=this.value;r1()">${o.map(([v,l])=>`<option value="${v}" ${F[k]==v?"selected":""}>${l}</option>`).join("")}</select>`;
- $("#stepBody").innerHTML=`<h2 style="font-size:1.4rem">${esc(sname(S.from))} → ${esc(sname(S.to))}</h2><p class="sub" style="margin-bottom:14px">${bn(S.date)} · ${bn(S.pax)} ${t("pax")}</p>
+ $("#stepBody").innerHTML=`<a class="back" href="index.html#search">← ${t("modify")}</a><h2 style="font-size:1.4rem;margin-top:4px">${esc(sname(S.from))} → ${esc(sname(S.to))}</h2><p class="sub" style="margin-bottom:14px">${bn(S.date)} · ${bn(S.pax)} ${t("pax")}</p>
  <div class="bar">${sel("type",[["all",t("all")],["ac",t("ac")],["nonac",t("nonac")],["sleeper",t("sleeper")]])}${sel("time",[["all",t("all")],["morning",t("morning")],["afternoon",t("afternoon")],["night",t("night")]])}${sel("sort",[["time",t("sortT")],["price",t("sortP")]])}</div>`+
  (list.map((b,i)=>`<div class="card bus" style="animation-delay:${i*50}ms"><div><span class="tag">${t(b.type)}</span> <b>${esc(b.name)}</b><div class="t">${bn(b.dep)} → ${bn(b.arr)}</div><div class="am">${Math.floor(b.dur/60)}${t("dur")} ${bn(b.dur%60)}m</div></div>
  <div><div class="am" style="margin:0">${b.amen.map(a=>`<span title="${a}">${ic(a)}</span>`).join("")}</div><div class="${b.left<8?"low-s":""}" style="margin-top:6px">${bn(b.left)} ${t("seatsLeft")}</div></div>
@@ -515,12 +546,19 @@ function r4(){
 function confirmBooking(){
  // TODO: connect API – POST /bookings with S.bus.id, seats, passengers, payment; use returned booking ID.
  const T_=totals(),id="NE"+Date.now().toString(36).toUpperCase().slice(-6)+Math.floor(Math.random()*90+10);
- S.booking={id,...T_,seats:[...S.seats],pass:S.pass.map(p=>({...p})),bus:S.bus,from:S.from,to:S.to,board:S.board,drop:S.drop,date:S.date,pay:S.pay};
+ S.booking={id,...T_,seats:[...S.seats],pass:S.pass.map(p=>({...p})),bus:S.bus,from:S.from,to:S.to,board:S.board,drop:S.drop,date:S.date,pay:S.pay,issued:nowStamp()};
  stopHold();S.step=5;render();scrollTo(0,0)}
 
+const nowStamp=()=>{const d=new Date(),p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`};
+/* Text shown by any phone's QR scanner. English/ASCII where possible to keep the QR small. */
+function qrPayload(k){
+ const ty={ac:"AC",nonac:"Non-AC",sleeper:"Sleeper"}[k.bus.type],pm={bkash:"bKash",nagad:"Nagad",card:"Card",cash:"Cash at counter"}[k.pay],g={male:"M",female:"F",other:"O"};
+ return [`${CONFIG.company.toUpperCase()} E-TICKET`,`ID: ${k.id}`,"Status: CONFIRMED",`From: ${k.board}`,`To: ${k.drop}`,`Date: ${k.date}`,`Dep: ${k.bus.dep}  Arr: ${k.bus.arr}`,`Bus: ${k.bus.plate.en} (${ty})`,`Seats: ${k.seats.join(", ")}`,"Passengers:",
+  ...k.pass.map((p,i)=>`${i+1}. ${p.name.trim()}${p.gender?", "+g[p.gender]:""}${p.age?", "+p.age+"y":""}, ${p.phone} [${k.seats[i]||""}]`),
+  `Fare: BDT ${k.tot.toLocaleString("en-US")} (${k.seats.length} x ${k.f} + svc ${k.svc})`,`Pay: ${pm} - ${k.pay=="cash"?"UNPAID, pay at counter":"PAID"}`,`Issued: ${k.issued}`,`Help: ${CONFIG.phone}`,"Arrive 30 min early. Carry photo ID."].join("\n")}
 /* Step 5: e-ticket — full A4 layout */
 function r5(){
- const k=S.booking,d=k.bus.dur,qrText=`${CONFIG.company}|${k.id}|${k.board}>${k.drop}|${k.date} ${k.bus.dep}|${k.seats.join(",")}`.slice(0,70);
+ const k=S.booking,d=k.bus.dur,qrText=qrPayload(k);
  k.qr=qrText;$("#hold").hidden=true;$("#mbar").classList.remove("show");
  // Bus icon SVG (white on brand)
  const busIco=`<svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="13" fill="rgba(255,255,255,0.18)"/><path d="M10 30V18a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v12H10z" fill="#fff"/><rect x="14" y="18" width="8" height="6" rx="1.5" fill="#0b7a4b"/><rect x="26" y="18" width="8" height="6" rx="1.5" fill="#0b7a4b"/><circle cx="17" cy="32" r="3.5" fill="#f4a51c"/><circle cx="31" cy="32" r="3.5" fill="#f4a51c"/><rect x="10" y="26" width="28" height="2" fill="#e3f4eb" opacity=".5"/></svg>`;
@@ -548,7 +586,7 @@ function r5(){
  const userIco=`<svg class="i" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg>`;
  // Policy items
  const policyItems=[
-  [pinIco,"Boarding / বোর্ডিং",`Arrive at the boarding stop at least 15 minutes before departure.<br><span style="font-family:'Hind Siliguri',sans-serif;font-size:.9em">ছাড়ার অন্তত ১৫ মিনিট আগে বোর্ডিং স্টপে পৌঁছান।</span>`],
+  [pinIco,"Boarding / বোর্ডিং",`Arrive at the boarding stop at least 30 minutes before departure.<br><span style="font-family:'Hind Siliguri',sans-serif;font-size:.9em">ছাড়ার অন্তত ৩০ মিনিট আগে বোর্ডিং স্টপে পৌঁছান।</span>`],
   [`<svg class="i" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-8 8.5C7.5 20.5 4 18 4 13V6l8-3 8 3z"/></svg>`,"Valid ID / পরিচয়পত্র",`Carry a valid government-issued photo ID matching your booking name.<br><span style="font-family:'Hind Siliguri',sans-serif;font-size:.9em">বুকিংয়ের নামের সাথে মিল রেখে সরকারি ছবিসহ পরিচয়পত্র রাখুন।</span>`],
   [`<svg class="i" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`,"Carry-on Only / হ্যান্ড ব্যাগেজ",`One carry-on bag free per passenger. Checked luggage is not accepted.<br><span style="font-family:'Hind Siliguri',sans-serif;font-size:.9em">প্রতি যাত্রী একটি হ্যান্ড ব্যাগেজ বিনামূল্যে। চেক-ইন লাগেজ গ্রহণযোগ্য নয়।</span>`],
   [`<svg class="i" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>`,"Cancellation / বাতিল",`Cancel 6+ hours before departure by calling ${CONFIG.phone}.<br><span style="font-family:'Hind Siliguri',sans-serif;font-size:.9em">ছাড়ার ৬+ ঘণ্টা আগে ${CONFIG.phone} নম্বরে কল করুন।</span>`]
@@ -605,6 +643,7 @@ function r5(){
   <div class="stub">
    <div class="qr-bc">
     <div class="qr" id="qr" role="img" aria-label="Ticket QR code"></div>
+    <div class="qr-cap">Scan for full ticket details<br><span style="font-family:'Hind Siliguri',sans-serif">সম্পূর্ণ তথ্যের জন্য স্ক্যান করুন</span></div>
     <div class="bc-wrap" role="img" aria-label="Booking barcode" id="bc"></div>
    </div>
    <div id="stub-info">
@@ -631,7 +670,7 @@ function r5(){
   <div class="tkt-foot">
    <span>${CONFIG.company} &nbsp;·&nbsp; ${T.en.tag} &nbsp;/&nbsp; <span style="font-family:'Hind Siliguri',sans-serif">${T.bn.tag}</span></span>
    <span>www.narailexpress.com &nbsp;·&nbsp; <a href="tel:${CONFIG.phone}">${CONFIG.phone}</a></span>
-   <span style="font-size:.76rem;opacity:.7">Ticket ID: ${k.id}</span>
+   <span style="font-size:.76rem;opacity:.7">Ticket ID: ${k.id} · ${k.issued}</span>
   </div>
  </div>
  <div class="nav" style="justify-content:center;flex-wrap:wrap"><button class="btn" id="pdfBtn" onclick="downloadPdf()">${ic("print")} ${t("print")}</button><button class="btn alt" onclick="savePng()">${ic("down")} ${t("dlPng")}</button><button class="btn alt" onclick="again()">${t("another")}</button></div>`;
@@ -724,31 +763,64 @@ function barcodeSvg(text,barW=2,barH=52){
  return `<svg viewBox="0 0 ${totalW} ${barH}" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">${svgBars.join("")}</svg>`;
 }
 
-/* ======================= Minimal QR encoder =======================
-   Version 4-L, byte mode, mask 0. Payload ≤ 70 chars. Scannable by phone cameras. */
+/* ======================= QR encoder =======================
+   Versions 1-40 (auto-selected), error-correction level L, byte mode (UTF-8),
+   automatic mask selection. Holds up to ~2,900 characters, so the QR can carry
+   the full ticket. Output: SVG string. */
 function qrSvg(text){
- const N=33,m=[...Array(N)].map(()=>Array(N).fill(false)),fn=[...Array(N)].map(()=>Array(N).fill(false));
+ const ECC=[7,10,15,20,26,18,20,24,30,18,20,24,26,30,22,24,28,30,28,28,28,28,30,30,26,28,30,30,30,30,30,30,30,30,30,30,30,30,30,30],
+ BLK=[1,1,1,1,1,2,2,2,2,4,4,4,4,4,6,6,6,6,7,8,8,9,9,10,12,12,12,13,14,15,16,17,18,19,19,20,21,22,24,25];
+ const raw=v=>{let r=(16*v+128)*v+64;if(v>=2){const a=Math.floor(v/7)+2;r-=(25*a-10)*a-55;if(v>=7)r-=36}return r};
+ const cap=v=>Math.floor(raw(v)/8)-ECC[v-1]*BLK[v-1];
+ let bytes=[...new TextEncoder().encode(text)],ver=1;
+ while(ver<40&&4+(ver<10?8:16)+bytes.length*8>cap(ver)*8)ver++;
+ const maxB=cap(ver)-(ver<10?2:3);if(bytes.length>maxB)bytes=bytes.slice(0,maxB);
+ /* data bits */
+ const bits=[],push=(v,n)=>{for(let i=n-1;i>=0;i--)bits.push((v>>>i)&1)};
+ push(4,4);push(bytes.length,ver<10?8:16);bytes.forEach(b=>push(b,8));
+ push(0,Math.min(4,cap(ver)*8-bits.length));while(bits.length%8)bits.push(0);
+ const cw=[];for(let i=0;i<bits.length;i+=8)cw.push(parseInt(bits.slice(i,i+8).join(""),2));
+ for(let p=0xEC;cw.length<cap(ver);p^=0xEC^0x11)cw.push(p);
+ /* Reed-Solomon, split into blocks, interleave */
+ const gmul=(x,y)=>{let z=0;for(let i=7;i>=0;i--){z=(z<<1)^((z>>>7)*0x11D);z^=((y>>>i)&1)*x}return z};
+ const ne=ECC[ver-1],nb=BLK[ver-1];
+ const gen=(()=>{const r=Array(ne).fill(0);r[ne-1]=1;let root=1;for(let i=0;i<ne;i++){for(let j=0;j<ne;j++){r[j]=gmul(r[j],root);if(j+1<ne)r[j]^=r[j+1]}root=gmul(root,2)}return r})();
+ const rs=d=>{const r=Array(ne).fill(0);d.forEach(b=>{const f=b^r.shift();r.push(0);gen.forEach((c,i)=>r[i]^=gmul(c,f))});return r};
+ const rawCw=Math.floor(raw(ver)/8),nShort=nb-rawCw%nb,shortLen=Math.floor(rawCw/nb);
+ const blocks=[];for(let i=0,k=0;i<nb;i++){const dl=shortLen-ne+(i<nShort?0:1),d=cw.slice(k,k+dl);k+=dl;blocks.push({d,e:rs(d)})}
+ const all=[];for(let i=0;i<blocks[nb-1].d.length;i++)blocks.forEach(b=>{if(i<b.d.length)all.push(b.d[i])});
+ for(let i=0;i<ne;i++)blocks.forEach(b=>all.push(b.e[i]));
+ /* matrix + function patterns */
+ const N=ver*4+17,m=[...Array(N)].map(()=>Array(N).fill(false)),fn=[...Array(N)].map(()=>Array(N).fill(false));
  const set=(x,y,v)=>{if(x>=0&&y>=0&&x<N&&y<N){m[y][x]=v;fn[y][x]=true}};
  for(let i=0;i<N;i++){set(6,i,i%2==0);set(i,6,i%2==0)}
  [[3,3],[N-4,3],[3,N-4]].forEach(([cx,cy])=>{for(let dy=-4;dy<=4;dy++)for(let dx=-4;dx<=4;dx++){const d=Math.max(Math.abs(dx),Math.abs(dy));set(cx+dx,cy+dy,d!=2&&d!=4)}});
- for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++)set(26+dx,26+dy,Math.max(Math.abs(dx),Math.abs(dy))!=1);
- // format bits (EC level L=01, mask 0)
- let data=1<<3,rem=data;for(let i=0;i<10;i++)rem=(rem<<1)^((rem>>>9)*0x537);const fb=((data<<10)|rem)^0x5412,bit=i=>((fb>>>i)&1)!=0;
- for(let i=0;i<=5;i++)set(8,i,bit(i));set(8,7,bit(6));set(8,8,bit(7));set(7,8,bit(8));for(let i=9;i<15;i++)set(14-i,8,bit(i));
- for(let i=0;i<8;i++)set(N-1-i,8,bit(i));for(let i=8;i<15;i++)set(8,N-15+i,bit(i));set(8,N-8,true);
- // data codewords
- const bytes=[...new TextEncoder().encode(text)].slice(0,78);let bits=[];const push=(v,n)=>{for(let i=n-1;i>=0;i--)bits.push((v>>>i)&1)};
- push(4,4);push(bytes.length,8);bytes.forEach(b=>push(b,8));push(0,Math.min(4,640-bits.length));while(bits.length%8)bits.push(0);
- const cw=[];for(let i=0;i<bits.length;i+=8)cw.push(parseInt(bits.slice(i,i+8).join(""),2));for(let p=0xEC;cw.length<80;p^=0xEC^0x11)cw.push(p);
- // Reed-Solomon (20 EC codewords)
- const mul=(a,b)=>{let z=0;for(let i=0;i<8;i++){if((b>>>i)&1)z^=a<<i}let r=z;for(let i=14;i>=8;i--)if((r>>>i)&1)r^=0x11D<<(i-8);return r&255};
- let div=Array(19).fill(0).concat(1),root=1;for(let i=0;i<20;i++){for(let j=0;j<20;j++){div[j]=mul(div[j],root);if(j+1<20)div[j]^=div[j+1]}root=mul(root,2)}
- const ec=Array(20).fill(0);cw.forEach(b=>{const f=b^ec.shift();ec.push(0);div.slice(0,20).forEach((c,i)=>ec[i]^=mul(c,f))});
- const all=cw.concat(ec);let k=0;
+ if(ver>1){const na=Math.floor(ver/7)+2,step=ver==32?26:Math.ceil((ver*4+4)/(na*2-2))*2,pos=[6];for(let p=N-7;pos.length<na;p-=step)pos.splice(1,0,p);
+  pos.forEach((cy,i)=>pos.forEach((cx,j)=>{if((i==0&&j==0)||(i==0&&j==na-1)||(i==na-1&&j==0))return;
+   for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++)set(cx+dx,cy+dy,Math.max(Math.abs(dx),Math.abs(dy))!=1)}))}
+ const fmt=(put,mask)=>{const d=(1<<3)|mask;let r=d;for(let i=0;i<10;i++)r=(r<<1)^((r>>>9)*0x537);const fb=((d<<10)|r)^0x5412,bit=i=>((fb>>>i)&1)!=0;
+  for(let i=0;i<=5;i++)put(8,i,bit(i));put(8,7,bit(6));put(8,8,bit(7));put(7,8,bit(8));for(let i=9;i<15;i++)put(14-i,8,bit(i));
+  for(let i=0;i<8;i++)put(N-1-i,8,bit(i));for(let i=8;i<15;i++)put(8,N-15+i,bit(i));put(8,N-8,true)};
+ fmt(set,0);
+ if(ver>=7){let r=ver;for(let i=0;i<12;i++)r=(r<<1)^((r>>>11)*0x1F25);const vb=(ver<<12)|r;
+  for(let i=0;i<18;i++){const b=((vb>>>i)&1)!=0,a=N-11+i%3,c=Math.floor(i/3);set(a,c,b);set(c,a,b)}}
+ /* place data (zig-zag) */
+ let k=0;
  for(let right=N-1;right>=1;right-=2){if(right==6)right=5;for(let v=0;v<N;v++)for(let j=0;j<2;j++){const x=right-j,up=((right+1)&2)==0,y=up?N-1-v:v;
-  if(!fn[y][x]){let d=k<all.length*8&&((all[k>>>3]>>>(7-(k&7)))&1)==1;k++;if((x+y)%2==0)d=!d;m[y][x]=d}}}
- let r="";for(let y=0;y<N;y++)for(let x=0;x<N;x++)if(m[y][x])r+=`M${x+2},${y+2}h1v1h-1z`;
- return `<svg viewBox="0 0 ${N+4} ${N+4}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="${r}" fill="#000"/></svg>`;
+  if(!fn[y][x]){m[y][x]=k<all.length*8&&((all[k>>>3]>>>(7-(k&7)))&1)==1;k++}}}
+ /* choose best mask */
+ const mf=[(x,y)=>(x+y)%2==0,(x,y)=>y%2==0,(x,y)=>x%3==0,(x,y)=>(x+y)%3==0,(x,y)=>(Math.floor(x/3)+Math.floor(y/2))%2==0,(x,y)=>x*y%2+x*y%3==0,(x,y)=>(x*y%2+x*y%3)%2==0,(x,y)=>((x+y)%2+x*y%3)%2==0];
+ const pen=M=>{let p=0,dk=0;
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++)if(M[y][x])dk++;
+  for(let t=0;t<2;t++)for(let a=0;a<N;a++){const g=b=>t?M[b][a]:M[a][b];let run=1;
+   for(let b=1;b<N;b++){if(g(b)==g(b-1)){run++;if(run==5)p+=3;else if(run>5)p++}else run=1}
+   for(let b=0;b+10<N;b++){let s="";for(let i=0;i<11;i++)s+=g(b+i)?1:0;if(s=="10111010000"||s=="00001011101")p+=40}}
+  for(let y=0;y<N-1;y++)for(let x=0;x<N-1;x++){const c=M[y][x];if(c==M[y][x+1]&&c==M[y+1][x]&&c==M[y+1][x+1])p+=3}
+  return p+(Math.ceil(Math.abs(dk*20-N*N*10)/(N*N))-1)*10};
+ let best=null,bp=1e9;
+ for(let mk=0;mk<8;mk++){const M=m.map((r,y)=>r.map((v,x)=>fn[y][x]?v:v!==mf[mk](x,y)));fmt((x,y,v)=>{M[y][x]=v},mk);const p=pen(M);if(p<bp){bp=p;best=M}}
+ let r="";for(let y=0;y<N;y++)for(let x=0;x<N;x++)if(best[y][x])r+=`M${x+4},${y+4}h1v1h-1z`;
+ return `<svg viewBox="0 0 ${N+8} ${N+8}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="${r}" fill="#000"/></svg>`;
 }
 init();
 </script>
