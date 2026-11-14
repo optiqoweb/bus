@@ -441,8 +441,8 @@ let LSS=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 
 /* ============ GOOGLE SHEETS SYNC ============ */
 /* See sheet-sync.js for details. Set the URL below once deployed. */
-var SHEET_API_URL="PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
-var SHEET_TOKEN="";
+var SHEET_API_URL="https://script.google.com/macros/s/AKfycbyFKtfH0_Vw5kTJvqqrYaxMQ4nOScCrFoAQIW1oBun_y0fElemzAdcURcIyPe3Q_1DS/exec";
+var SHEET_TOKEN="narail-2026-secret";
 var SYNCED_KEYS=["adm-stops","adm-deps","adm-settings","adm-bookings","adm-drivers","adm-notifs","adm-checkins"];
 function sheetGet(key){return fetch(SHEET_API_URL+"?key="+encodeURIComponent(key)).then(r=>r.json()).then(res=>res.ok?res.data:null).catch(()=>null)}
 function sheetSet(key,data){return fetch(SHEET_API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({key,data,token:SHEET_TOKEN})}).catch(err=>console.warn("Sheet sync failed for",key,err))}
