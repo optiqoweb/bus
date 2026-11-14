@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin – Narail Express</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#0b7a4b;--brand-d:#085c38;--brand-l:#e3f4eb;--accent:#f4a51c;--bg:#f6f8f7;--card:#fff;--ink:#14231c;--mut:#5d6f66;--line:#dbe5df;--sh:0 8px 28px rgba(12,60,40,.10);--r:16px;--bad:#c62f3b;--ok:#0b7a4b;--btn:#0b7a4b;--btn-d:#085c38}
+[data-theme=dark]{--brand:#5ad6a8;--brand-d:#3fbf90;--btn:#138a5b;--btn-d:#0f7049;--brand-l:#1a3228;--accent:#f2b84b;--bg:#0e1311;--card:#171f1b;--ink:#eaf1ed;--mut:#a0b1a9;--line:#2a3730;--sh:0 8px 28px rgba(0,0,0,.5);--bad:#ff6b76}
+*{box-sizing:border-box;margin:0}
+body{font-family:Poppins,'Hind Siliguri',sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-text-size-adjust:100%;min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+.wrap{width:min(1280px,100% - 32px);margin-inline:auto}
+.btn{min-height:40px;padding:8px 16px;border-radius:10px;border:0;background:var(--btn);color:#fff;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:.88rem;transition:transform .15s,background .15s}
+.btn:hover{background:var(--btn-d)}
+.btn:active{transform:scale(.97)}
+.btn.alt{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.btn.alt:hover{background:var(--brand-l)}
+.btn.danger{background:var(--bad)}
+.btn.danger:hover{background:#a52530}
+.btn.sm{min-height:32px;padding:5px 11px;font-size:.78rem}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:18px}
+.in{min-height:40px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);padding:7px 11px;width:100%}
+.in:focus{border-color:var(--brand);outline:none;box-shadow:0 0 0 3px var(--brand-l)}
+label{font-size:.72rem;font-weight:600;color:var(--mut);display:block;margin-bottom:4px}
+.fld{display:flex;flex-direction:column;gap:2px;min-width:0}
+
+/* ===== LAYOUT: sidebar + main ===== */
+.shell{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+@media(max-width:860px){.shell{grid-template-columns:1fr}.side{position:fixed;inset:0 auto 0 0;z-index:60;width:230px;transform:translateX(-100%);transition:transform .25s;box-shadow:var(--sh)}.side.open{transform:none}.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:55;display:none}.overlay.show{display:block}}
+.side{background:var(--card);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:4px}
+.side .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;padding:6px 8px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.side .logo small{display:block;font-weight:500;font-size:.62rem;color:var(--mut)}
+.navi{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-weight:600;font-size:.88rem;cursor:pointer;color:var(--mut);border:0;background:none;text-align:left;width:100%}
+.navi:hover{background:var(--brand-l);color:var(--brand)}
+.navi.on{background:var(--brand-l);color:var(--brand)}
+.navi svg{flex:none;width:18px;height:18px}
+.side .foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);font-size:.76rem;color:var(--mut)}
+.main{padding:22px 24px 60px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.topbar h1{font-size:1.4rem;font-weight:800}
+.topbar .sub{color:var(--mut);font-size:.86rem}
+.burger{display:none;width:40px;height:40px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);cursor:pointer;place-items:center}
+@media(max-width:860px){.burger{display:grid}}
+.spacer{flex:1}
+.ibtn{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);cursor:pointer;display:grid;place-items:center;font-weight:600;font-size:.8rem}
+.ibtn:hover{background:var(--brand-l)}
+
+/* ===== DASHBOARD ===== */
+.kpis{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-bottom:20px}
+.kpi{padding:16px 18px}
+.kpi .l{font-size:.76rem;color:var(--mut);font-weight:600;margin-bottom:6px}
+.kpi .v{font-size:1.6rem;font-weight:800}
+.kpi .d{font-size:.74rem;margin-top:4px;font-weight:600}
+.kpi .d.up{color:var(--ok)}.kpi .d.down{color:var(--bad)}
+.grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+@media(max-width:980px){.grid2{grid-template-columns:1fr}}
+.panel-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap}
+.panel-h h2{font-size:1.05rem;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th{text-align:left;color:var(--mut);font-weight:600;font-size:.74rem;text-transform:uppercase;letter-spacing:.3px;padding:9px 10px;border-bottom:1.5px solid var(--line)}
+td{padding:10px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.tbl-wrap{overflow-x:auto}
+.pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:99px;font-size:.72rem;font-weight:700}
+.pill.ok{background:var(--brand-l);color:var(--brand)}
+.pill.warn{background:#fdf0d8;color:#8a5a00}
+.pill.bad{background:#fde3e6;color:var(--bad)}
+[data-theme=dark] .pill.warn{background:#3a2d12;color:#f2b84b}
+[data-theme=dark] .pill.bad{background:#3a1c20;color:#ff6b76}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.bar-row .lbl{width:92px;font-size:.78rem;color:var(--mut);flex:none}
+.bar-track{flex:1;height:10px;border-radius:6px;background:var(--brand-l);overflow:hidden}
+.bar-fill{height:100%;background:var(--brand);border-radius:6px}
+.bar-row .val{width:54px;text-align:right;font-size:.8rem;font-weight:700;flex:none}
+
+/* ===== SEARCH/FILTER BAR ===== */
+.fbar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;align-items:center}
+.fbar .in,.fbar select{width:auto;min-width:140px}
+.fbar .grow{flex:1;min-width:200px}
+
+/* ===== STOPS/FARES EDITOR ===== */
+.stopgrid{display:grid;gap:10px}
+.stoprow{display:grid;grid-template-columns:28px 1.3fr 1.3fr 90px 100px auto;gap:10px;align-items:center;padding:8px;border-radius:10px;border:1px solid var(--line)}
+.stoprow.major{background:var(--brand-l);border-color:transparent}
+@media(max-width:760px){.stoprow{grid-template-columns:1fr;gap:6px}.stoprow .in{width:100%}}
+.handle{color:var(--mut);cursor:grab;text-align:center;font-weight:700}
+.stat-sm{font-size:.72rem;color:var(--mut)}
+
+/* ===== TOAST / MODAL ===== */
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;z-index:99;box-shadow:var(--sh);font-size:.85rem}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:80;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-bg.show{display:flex}
+.modal{background:var(--card);border-radius:16px;max-width:480px;width:100%;padding:22px;box-shadow:var(--sh)}
+.modal h3{margin-bottom:12px;font-size:1.1rem}
+.modal .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.modal .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.badge-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.view{display:none}
+.view.active{display:block}
+.empty{text-align:center;color:var(--mut);padding:30px;font-size:.9rem}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--card);padding:7px 14px;font-size:.8rem;font-weight:600;cursor:pointer;color:var(--mut)}
+.seg button.on{background:var(--brand);color:#fff}
+
+/* ===== LOGIN ===== */
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:20px}
+.login-card{width:100%;max-width:380px;padding:34px 30px}
+.login-card .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem;margin-bottom:22px;justify-content:center}
+.login-card h2{text-align:center;margin-bottom:4px;font-size:1.2rem}
+.login-card .sub2{text-align:center;color:var(--mut);font-size:.84rem;margin-bottom:22px}
+.login-err{color:var(--bad);font-size:.8rem;margin-top:8px;min-height:1.2em;text-align:center}
+.login-hint{text-align:center;font-size:.74rem;color:var(--mut);margin-top:16px}
+
+/* ===== REPORTS / CHARTS ===== */
+.chart-wrap{overflow-x:auto}
+.linechart{width:100%;height:220px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:.78rem;color:var(--mut)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.topgrid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.topgrid3{grid-template-columns:1fr}}
+.donut-wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+
+/* ===== NOTIFICATIONS ===== */
+.bell-wrap{position:relative}
+.bell-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--bad);display:none}
+.bell-dot.show{display:block}
+.notif-pop{position:absolute;right:0;top:48px;width:300px;max-height:360px;overflow:auto;z-index:70;display:none;padding:10px}
+.notif-pop.show{display:block}
+.notif-item{padding:9px 8px;border-bottom:1px solid var(--line);font-size:.82rem}
+.notif-item:last-child{border-bottom:0}
+.notif-item .t{color:var(--mut);font-size:.72rem;margin-top:2px}
+
+/* ===== PROMO / DRIVERS ===== */
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:99px;background:var(--brand-l);color:var(--brand);font-weight:700;font-size:.78rem;letter-spacing:.3px}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--brand-l);color:var(--brand);display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;flex:none}
+</style>
+</head>
+<body data-theme="light">
+
+<!-- ================= LOGIN ================= -->
+<div class="login-wrap" id="loginScreen">
+ <div class="card login-card">
+  <div class="logo"><svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="var(--brand)"/><path d="M9 25V15a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v10H9z" fill="#fff"/><rect x="12" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><rect x="21" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><circle cx="15" cy="27" r="3" fill="var(--accent)"/><circle cx="26" cy="27" r="3" fill="var(--accent)"/></svg><span>Narail Express</span></div>
+  <h2>Admin sign in</h2>
+  <div class="sub2">Staff access only</div>
+  <div class="fld" style="margin-bottom:12px"><label>Username</label><input class="in" id="loginUser" value="admin" autocomplete="username"></div>
+  <div class="fld" style="margin-bottom:4px"><label>Password</label><input class="in" id="loginPass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+  <div class="login-err" id="loginErr"></div>
+  <button class="btn" style="width:100%;margin-top:10px" onclick="doLogin()">Sign in</button>
+  <div class="login-hint">Demo credentials — username <b>admin</b>, password <b>admin123</b></div>
+ </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeSide()"></div>
+<div class="shell" id="shell" style="display:none">
+<aside class="side" id="side">
+ <div class="logo"><svg width="32" height="32" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="var(--brand)"/><path d="M9 25V15a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v10H9z" fill="#fff"/><rect x="12" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><rect x="21" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><circle cx="15" cy="27" r="3" fill="var(--accent)"/><circle cx="26" cy="27" r="3" fill="var(--accent)"/></svg><span>Narail Express<small>Admin Panel</small></span></div>
+
+ <button class="navi on" data-view="dash" onclick="showView('dash')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Dashboard</button>
+ <button class="navi" data-view="bookings" onclick="showView('bookings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Bookings</button>
+ <button class="navi" data-view="buses" onclick="showView('buses')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="3"/><path d="M2 12h20M6 20v2M18 20v2"/><circle cx="7" cy="17" r="1.5"/><circle cx="17" cy="17" r="1.5"/></svg>Buses &amp; Schedule</button>
+ <button class="navi" data-view="stops" onclick="showView('stops')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Stops &amp; Fares</button>
+ <button class="navi" data-view="pass" onclick="showView('pass')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M2 21v-1a7 7 0 0 1 14 0v1"/><circle cx="18" cy="8" r="2.6"/><path d="M16.5 14.2A4.8 4.8 0 0 1 22 18.8V21"/></svg>Passengers</button>
+ <button class="navi" data-view="drivers" onclick="showView('drivers')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-3.8 3.6-6 8-6s8 2.2 8 6"/></svg>Drivers</button>
+ <button class="navi" data-view="promo" onclick="showView('promo')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.6 11.4L12.6 3.4a2 2 0 0 0-1.4-.6H5a2 2 0 0 0-2 2v6.2a2 2 0 0 0 .6 1.4l8 8a2 2 0 0 0 2.8 0l6.2-6.2a2 2 0 0 0 0-2.8z"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>Promo Codes</button>
+ <button class="navi" data-view="reports" onclick="showView('reports')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16l4-6 3 4 5-8"/></svg>Reports</button>
+ <button class="navi" data-view="settings" onclick="showView('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06A2 2 0 1 1 7 4.29l.06.06A1.65 1.65 0 0 0 8.88 4.7H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.14.32.35.6.63.82.28.22.6.36.95.42H21a2 2 0 1 1 0 4h-.09c-.35.06-.67.2-.95.42-.28.22-.49.5-.56.82z"/></svg>Settings</button>
+
+ <div class="foot">Signed in as <b style="color:var(--ink)" id="sideUser">Admin</b><br>Narail Express · v1.0<br><a href="#" onclick="doLogout();return false" style="color:var(--bad);font-weight:600">Sign out</a></div>
+</aside>
+
+<main class="main">
+ <div class="topbar">
+  <button class="burger" onclick="openSide()" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <div><h1 id="pageTitle">Dashboard</h1><div class="sub" id="pageSub">Today's overview at a glance</div></div>
+  <div class="spacer"></div>
+  <div class="bell-wrap">
+   <button class="ibtn" onclick="toggleNotif()" aria-label="Notifications"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="bell-dot" id="bellDot"></span></button>
+   <div class="card notif-pop" id="notifPop">
+    <div class="panel-h" style="margin-bottom:8px"><h2 style="font-size:.92rem">Activity</h2><button class="btn sm alt" onclick="clearNotifs()">Clear</button></div>
+    <div id="notifList"></div>
+   </div>
+  </div>
+  <button class="ibtn" onclick="toggleDark()" id="darkBtn" aria-label="Toggle dark mode"></button>
+  <a class="btn alt" href="index.html" target="_blank">View site</a>
+ </div>
+
+ <!-- ================= DASHBOARD ================= -->
+ <section class="view active" id="view-dash">
+  <div class="kpis">
+   <div class="card kpi"><div class="l">Today's bookings</div><div class="v" id="kBookings">0</div><div class="d up" id="kBookingsD">+0 vs yesterday</div></div>
+   <div class="card kpi"><div class="l">Revenue today</div><div class="v" id="kRevenue">৳0</div><div class="d up" id="kRevenueD">+0%</div></div>
+   <div class="card kpi"><div class="l">Seats sold today</div><div class="v" id="kSeats">0</div><div class="d" id="kSeatsD">0 buses running</div></div>
+   <div class="card kpi"><div class="l">Avg. load factor</div><div class="v" id="kLoad">0%</div><div class="d" id="kLoadD">across today's trips</div></div>
+  </div>
+
+  <div class="grid2">
+   <div class="card">
+    <div class="panel-h"><h2>Recent bookings</h2><button class="btn sm alt" onclick="showView('bookings')">View all</button></div>
+    <div class="tbl-wrap"><table id="recentTbl"><thead><tr><th>ID</th><th>Route</th><th>Bus</th><th>Seats</th><th>Fare</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+    <div class="empty" id="recentEmpty" style="display:none">No bookings yet. Bookings made on the live site will show up here once synced.</div>
+   </div>
+   <div class="card">
+    <div class="panel-h"><h2>Load by departure</h2></div>
+    <div id="loadBars"></div>
+   </div>
+  </div>
+ </section>
+
+ <!-- ================= BOOKINGS ================= -->
+ <section class="view" id="view-bookings">
+  <div class="card">
+   <div class="fbar">
+    <input class="in grow" id="bkSearch" placeholder="Search by booking ID, name or phone" oninput="renderBookings()">
+    <select class="in" id="bkStatus" onchange="renderBookings()"><option value="all">All statuses</option><option value="confirmed">Confirmed</option><option value="cancelled">Cancelled</option><option value="pending">Pending</option></select>
+    <input class="in" type="date" id="bkDate" onchange="renderBookings()">
+    <button class="btn alt sm" onclick="clearBkFilters()">Clear</button>
+    <div class="spacer"></div>
+    <button class="btn sm" onclick="exportCsv()">Export CSV</button>
+    <button class="btn sm acc-add" onclick="openBookingModal()">+ Add booking</button>
+   </div>
+   <div class="tbl-wrap"><table id="bkTbl"><thead><tr><th>Booking ID</th><th>Date</th><th>Route</th><th>Passenger</th><th>Seats</th><th>Fare</th><th>Payment</th><th>Status</th><th></th></tr></thead><tbody></tbody></table></div>
+   <div class="empty" id="bkEmpty" style="display:none">No bookings match these filters.</div>
+  </div>
+ </section>
+
+ <!-- ================= BUSES & SCHEDULE ================= -->
+ <section class="view" id="view-buses">
+  <div class="card" style="margin-bottom:16px">
+   <div class="panel-h"><h2>Departure times</h2><button class="btn sm" onclick="addDeparture()">+ Add departure</button></div>
+   <div class="tbl-wrap"><table id="depTbl"><thead><tr><th>Time</th><th>Type</th><th>Capacity</th><th>Amenities</th><th></th></tr></thead><tbody></tbody></table></div>
+   <p class="stat-sm" style="margin-top:10px">These are the base departure times used to generate the live schedule on the booking page.</p>
+  </div>
+  <div class="card">
+   <div class="panel-h"><h2>Fleet</h2></div>
+   <div class="tbl-wrap"><table id="fleetTbl"><thead><tr><th>Plate</th><th>Type</th><th>Capacity</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+  </div>
+ </section>
+
+ <!-- ================= STOPS & FARES ================= -->
+ <section class="view" id="view-stops">
+  <div class="card" style="margin-bottom:16px">
+   <div class="panel-h">
+    <h2>Route stops</h2>
+    <div style="display:flex;gap:8px">
+     <button class="btn sm alt" onclick="resetStops()">Reset</button>
+     <button class="btn sm" onclick="addStop()">+ Add stop</button>
+    </div>
+   </div>
+   <p class="stat-sm" style="margin-bottom:10px">Order matters — stops run from Noapara to Dhaka Medical. Mark a stop "Major" to highlight it on the route map.</p>
+   <div class="stopgrid" id="stopGrid"></div>
+   <div class="modal-bg" id="saveBar" style="display:none"></div>
+  </div>
+
+  <div class="card">
+   <div class="panel-h"><h2>Fare settings</h2><button class="btn sm" onclick="saveFareSettings()">Save</button></div>
+   <div class="modal .row2" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px">
+    <div class="fld"><label>Per-km rate (৳)</label><input class="in" id="fPerKm" type="number" step="0.1"></div>
+    <div class="fld"><label>Minimum fare (৳)</label><input class="in" id="fMin" type="number"></div>
+    <div class="fld"><label>Service charge (৳)</label><input class="in" id="fSvc" type="number"></div>
+    <div class="fld"><label>AC multiplier</label><input class="in" id="fAc" type="number" step="0.01"></div>
+    <div class="fld"><label>Seat hold (minutes)</label><input class="in" id="fHold" type="number"></div>
+   </div>
+   <div class="tbl-wrap" style="margin-top:16px"><table id="fareTbl"></table></div>
+  </div>
+ </section>
+
+ <!-- ================= PASSENGERS ================= -->
+ <section class="view" id="view-pass">
+  <div class="card">
+   <div class="fbar"><input class="in grow" id="paxSearch" placeholder="Search passengers by name or phone" oninput="renderPassengers()"></div>
+   <div class="tbl-wrap"><table id="paxTbl"><thead><tr><th>Name</th><th>Phone</th><th>Gender</th><th>Trips</th><th>Last travelled</th></tr></thead><tbody></tbody></table></div>
+   <div class="empty" id="paxEmpty" style="display:none">No passenger records yet.</div>
+  </div>
+ </section>
+
+ <!-- ================= DRIVERS ================= -->
+ <section class="view" id="view-drivers">
+  <div class="card">
+   <div class="panel-h"><h2>Driver roster</h2><button class="btn sm" onclick="addDriver()">+ Add driver</button></div>
+   <div class="tbl-wrap"><table id="drvTbl"><thead><tr><th>Driver</th><th>License</th><th>Phone</th><th>Assigned bus</th><th>Trips (30d)</th><th>Rating</th><th>Status</th><th></th></tr></thead><tbody></tbody></table></div>
+  </div>
+ </section>
+
+ <!-- ================= PROMO CODES ================= -->
+ <section class="view" id="view-promo">
+  <div class="card">
+   <div class="panel-h"><h2>Discount codes</h2><button class="btn sm" onclick="addPromo()">+ New code</button></div>
+   <p class="stat-sm" style="margin-bottom:12px">These codes can be applied at checkout on the booking page once wired to the live site.</p>
+   <div class="tbl-wrap"><table id="promoTbl"><thead><tr><th>Code</th><th>Discount</th><th>Uses</th><th>Expires</th><th>Status</th><th></th></tr></thead><tbody></tbody></table></div>
+  </div>
+ </section>
+
+ <!-- ================= REPORTS ================= -->
+ <section class="view" id="view-reports">
+  <div class="card" style="margin-bottom:16px">
+   <div class="panel-h">
+    <h2>Revenue &amp; bookings — last 14 days</h2>
+    <div class="seg" id="repRange">
+     <button class="on" onclick="setRepRange(7)">7d</button>
+     <button onclick="setRepRange(14)">14d</button>
+     <button onclick="setRepRange(30)">30d</button>
+    </div>
+   </div>
+   <div class="chart-wrap"><svg class="linechart" id="repChart" viewBox="0 0 700 220" preserveAspectRatio="none"></svg></div>
+   <div class="legend"><span><i style="background:var(--brand)"></i>Revenue (৳)</span><span><i style="background:var(--accent)"></i>Bookings</span></div>
+  </div>
+
+  <div class="topgrid3">
+   <div class="card">
+    <div class="panel-h"><h2>Top routes</h2></div>
+    <div id="topRoutes"></div>
+   </div>
+   <div class="card">
+    <div class="panel-h"><h2>Payment methods</h2></div>
+    <div id="payBreak"></div>
+   </div>
+   <div class="card">
+    <div class="panel-h"><h2>Booking status split</h2></div>
+    <div id="statusBreak"></div>
+   </div>
+  </div>
+ </section>
+
+ <!-- ================= SETTINGS ================= -->
+ <section class="view" id="view-settings">
+  <div class="card" style="max-width:640px">
+   <div class="panel-h"><h2>Company details</h2></div>
+   <div class="fld" style="margin-bottom:12px"><label>Company name</label><input class="in" id="sName"></div>
+   <div class="fld" style="margin-bottom:12px"><label>Support phone</label><input class="in" id="sPhone"></div>
+   <div class="fld" style="margin-bottom:12px"><label>Tagline</label><input class="in" id="sTag"></div>
+   <div class="fld" style="margin-bottom:16px"><label>Theme accent color</label><input class="in" id="sColor" type="color" style="height:44px;padding:4px"></div>
+   <button class="btn" onclick="saveSettings()">Save settings</button>
+   <p class="stat-sm" style="margin-top:14px">Changes here are stored locally in this browser for demo purposes. Connect this panel to a backend to make them live on the public site.</p>
+  </div>
+
+  <div class="card" style="max-width:640px;margin-top:16px">
+   <div class="panel-h"><h2>Data &amp; backup</h2></div>
+   <p class="stat-sm" style="margin-bottom:12px">Export everything stored in this panel (bookings, stops, departures, drivers, promo codes, settings) as a JSON backup, or restore from one.</p>
+   <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button class="btn alt sm" onclick="exportBackup()">Export backup (.json)</button>
+    <button class="btn alt sm" onclick="document.getElementById('restoreFile').click()">Restore from file</button>
+    <button class="btn danger sm" onclick="wipeAll()">Reset all data</button>
+   </div>
+   <input type="file" id="restoreFile" accept=".json" style="display:none" onchange="restoreBackup(this.files[0])">
+  </div>
+
+  <div class="card" style="max-width:640px;margin-top:16px">
+   <div class="panel-h"><h2>Change password</h2></div>
+   <div class="row2" style="margin-bottom:0">
+    <div class="fld"><label>New username</label><input class="in" id="sUser"></div>
+    <div class="fld"><label>New password</label><input class="in" id="sPass" type="password" placeholder="Leave blank to keep current"></div>
+   </div>
+   <button class="btn" style="margin-top:14px" onclick="saveCreds()">Update credentials</button>
+  </div>
+ </section>
+</main>
+</div>
+
+<div class="modal-bg" id="modalBg"><div class="modal">
+ <h3 id="modalTitle">Add booking</h3>
+ <div class="row2"><div class="fld"><label>Passenger name</label><input class="in" id="mName"></div><div class="fld"><label>Phone</label><input class="in" id="mPhone"></div></div>
+ <div class="row2"><div class="fld"><label>From</label><select class="in" id="mFrom"></select></div><div class="fld"><label>To</label><select class="in" id="mTo"></select></div></div>
+ <div class="row2"><div class="fld"><label>Date</label><input class="in" type="date" id="mDate"></div><div class="fld"><label>Seats</label><input class="in" id="mSeats" placeholder="e.g. 3A, 3B"></div></div>
+ <div class="row2"><div class="fld"><label>Fare (৳)</label><input class="in" type="number" id="mFare"></div><div class="fld"><label>Status</label><select class="in" id="mStatus"><option value="confirmed">Confirmed</option><option value="pending">Pending</option><option value="cancelled">Cancelled</option></select></div></div>
+ <div class="acts"><button class="btn alt" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveBookingModal()">Save</button></div>
+</div></div>
+
+<div class="modal-bg" id="ticketBg"><div class="modal" id="ticketModal" style="max-width:380px"></div></div>
+
+<div class="modal-bg" id="driverBg"><div class="modal">
+ <h3>Add driver</h3>
+ <div class="row2"><div class="fld"><label>Name</label><input class="in" id="dName"></div><div class="fld"><label>License no.</label><input class="in" id="dLic"></div></div>
+ <div class="row2"><div class="fld"><label>Phone</label><input class="in" id="dPhone"></div><div class="fld"><label>Assigned bus</label><select class="in" id="dBus"></select></div></div>
+ <div class="acts"><button class="btn alt" onclick="closeDriverModal()">Cancel</button><button class="btn" onclick="saveDriverModal()">Save</button></div>
+</div></div>
+
+<div class="modal-bg" id="promoBg"><div class="modal">
+ <h3>New discount code</h3>
+ <div class="row2"><div class="fld"><label>Code</label><input class="in" id="pCode" placeholder="e.g. EID25" style="text-transform:uppercase"></div><div class="fld"><label>Discount %</label><input class="in" type="number" id="pPct" placeholder="10"></div></div>
+ <div class="fld" style="margin-bottom:10px"><label>Expires</label><input class="in" type="date" id="pExp"></div>
+ <div class="acts"><button class="btn alt" onclick="closePromoModal()">Cancel</button><button class="btn" onclick="savePromoModal()">Save</button></div>
+</div></div>
+
+<script>
+/* ============ CONFIG shared with public site (mirrored) ============ */
+const STOPS_DEFAULT=[
+ {id:"Noapara",bn:"নওয়াপাড়া",km:0,major:true},
+ {id:"Bhangagate Bridge",bn:"ভাঙ্গাগেট ব্রিজ",km:14,major:false},
+ {id:"Singari",bn:"সিংগাড়ী",km:20,major:false},
+ {id:"Agdia",bn:"আগদীয়া",km:26,major:false},
+ {id:"Gobra",bn:"গোবরা",km:31,major:false},
+ {id:"Narail",bn:"নড়াইল",km:36,major:true},
+ {id:"Kalna Bridge",bn:"কালনা সেতু",km:48,major:false},
+ {id:"Padma Bridge",bn:"পদ্মা সেতু",km:68,major:true},
+ {id:"Jatrabari",bn:"যাত্রাবাড়ী",km:118,major:false},
+ {id:"Gulistan",bn:"গুলিস্থান",km:122,major:false},
+ {id:"Bangabazar",bn:"বঙ্গবাজার",km:124,major:false},
+ {id:"Dhaka Medical",bn:"ঢাকা মেডিকেল",km:126,major:true}
+];
+const DEP_DEFAULT=[
+ {time:"06:30",type:"ac",cap:40,amen:["ac","plug","wifi"]},
+ {time:"08:00",type:"nonac",cap:40,amen:["plug","water"]},
+ {time:"10:30",type:"ac",cap:40,amen:["ac","wifi","water"]},
+ {time:"14:00",type:"nonac",cap:40,amen:["water","plug"]},
+ {time:"20:30",type:"nonac",cap:40,amen:["water","plug","wifi"]},
+ {time:"22:30",type:"ac",cap:40,amen:["ac","plug","tv"]}
+];
+const FLEET=[
+ {plate:"Dhaka Metro-Ga 11-9453",type:"ac",cap:40,status:"active"},
+ {plate:"Dhaka Metro-Ga 11-7821",type:"nonac",cap:40,status:"active"},
+ {plate:"Dhaka Metro-Ga 11-6307",type:"ac",cap:40,status:"active"},
+ {plate:"Dhaka Metro-Ga 11-5146",type:"nonac",cap:40,status:"maintenance"},
+ {plate:"Dhaka Metro-Ga 11-8862",type:"nonac",cap:40,status:"active"},
+ {plate:"Dhaka Metro-Ga 11-4419",type:"ac",cap:40,status:"active"}
+];
+const SETTINGS_DEFAULT={company:"Narail Express",phone:"01935128454",tag:"Safe. Comfortable. On Time.",color:"#0b7a4b",perKm:2.1,min:60,svc:20,ac:1.35,hold:5};
+const DRIVERS_DEFAULT=[
+ {id:"D1",name:"Abdul Karim",lic:"DH-4471182",phone:"01711223344",bus:"Dhaka Metro-Ga 11-9453",trips:22,rating:4.8,status:"active"},
+ {id:"D2",name:"Mosharraf Hossain",lic:"DH-3391021",phone:"01822334455",bus:"Dhaka Metro-Ga 11-7821",trips:19,rating:4.6,status:"active"},
+ {id:"D3",name:"Liton Sheikh",lic:"DH-5512873",phone:"01933445566",bus:"Dhaka Metro-Ga 11-6307",trips:25,rating:4.9,status:"active"},
+ {id:"D4",name:"Jamal Uddin",lic:"DH-2287401",phone:"01644556677",bus:"Dhaka Metro-Ga 11-5146",trips:8,rating:4.3,status:"off"}
+];
+const PROMO_DEFAULT=[
+ {code:"EID25",pct:25,uses:140,exp:daysAgoIsoFuture(10),status:"active"},
+ {code:"WELCOME10",pct:10,uses:62,exp:daysAgoIsoFuture(45),status:"active"},
+ {code:"RAINY15",pct:15,uses:4,exp:daysAgoIso(5),status:"expired"}
+];
+const CREDS_DEFAULT={user:"admin",pass:"admin123"};
+
+const LS=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v??d}catch(e){return d}};
+let LSS=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+
+/* ============ GOOGLE SHEETS SYNC ============ */
+/* See sheet-sync.js for details. Set the URL below once deployed. */
+var SHEET_API_URL="PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+var SHEET_TOKEN="";
+var SYNCED_KEYS=["adm-stops","adm-deps","adm-settings","adm-bookings","adm-drivers","adm-notifs","adm-checkins"];
+function sheetGet(key){return fetch(SHEET_API_URL+"?key="+encodeURIComponent(key)).then(r=>r.json()).then(res=>res.ok?res.data:null).catch(()=>null)}
+function sheetSet(key,data){return fetch(SHEET_API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({key,data,token:SHEET_TOKEN})}).catch(err=>console.warn("Sheet sync failed for",key,err))}
+function syncFromSheetsThenInit(){
+ if(!SHEET_API_URL||SHEET_API_URL.indexOf("PASTE_YOUR")===0){console.warn("SHEET_API_URL not configured — running on local data only.");return Promise.resolve(false)}
+ return Promise.all(SYNCED_KEYS.map(key=>sheetGet(key).then(remote=>{if(remote!==null)localStorage.setItem(key,JSON.stringify(remote))}))).then(()=>true)
+}
+LSS=((orig)=>(k,v)=>{orig(k,v);if(SYNCED_KEYS.includes(k))sheetSet(k,v)})(LSS);
+function reloadDataFromLocalStorage(){
+ STOPS=LS("adm-stops",STOPS_DEFAULT);DEPS=LS("adm-deps",DEP_DEFAULT);SETTINGS=LS("adm-settings",SETTINGS_DEFAULT);
+ BOOKINGS=LS("adm-bookings",seedBookings());DRIVERS=LS("adm-drivers",DRIVERS_DEFAULT);PROMOS=LS("adm-promos",PROMO_DEFAULT);
+ NOTIFS=LS("adm-notifs",seedNotifs());
+}
+
+let STOPS=LS("adm-stops",STOPS_DEFAULT);
+let DEPS=LS("adm-deps",DEP_DEFAULT);
+let SETTINGS=LS("adm-settings",SETTINGS_DEFAULT);
+let BOOKINGS=LS("adm-bookings",seedBookings());
+let DRIVERS=LS("adm-drivers",DRIVERS_DEFAULT);
+let PROMOS=LS("adm-promos",PROMO_DEFAULT);
+let CREDS=LS("adm-creds",CREDS_DEFAULT);
+let NOTIFS=LS("adm-notifs",seedNotifs());
+
+function money(n){return "৳"+Number(n||0).toLocaleString("en-US")}
+function uid(){return "NE"+Date.now().toString(36).toUpperCase().slice(-6)+Math.floor(Math.random()*90+10)}
+function todayIso(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function daysAgoIso(n){const d=new Date();d.setDate(d.getDate()-n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function daysAgoIsoFuture(n){return daysAgoIso(-n)}
+function seedNotifs(){
+ return [
+  {t:"New booking NE"+Math.floor(Math.random()*900000+100000)+" confirmed",when:"12 min ago"},
+  {t:"Departure 08:00 Non-AC is at 95% capacity",when:"1 hr ago"},
+  {t:"Bus Dhaka Metro-Ga 11-5146 marked for maintenance",when:"Yesterday"},
+  {t:"Promo code EID25 used 20 times today",when:"Yesterday"}
+ ];
+}
+
+/* seed a few demo bookings so the dashboard isn't empty on first load */
+function seedBookings(){
+ const names=["Rafiq Ahmed","Nusrat Jahan","Sabbir Hossain","Mitu Akter","Jahid Hasan","Rima Sultana"];
+ const routes=[["Noapara","Dhaka Medical"],["Noapara","Jatrabari"],["Dhaka Medical","Noapara"],["Noapara","Padma Bridge"]];
+ const statuses=["confirmed","confirmed","confirmed","pending","cancelled"];
+ const out=[];
+ for(let i=0;i<14;i++){
+  const r=routes[i%routes.length],seatN=1+Math.floor(Math.random()*3);
+  out.push({
+   id:uid(),date:i<5?todayIso():daysAgoIso(Math.floor(Math.random()*6)+1),
+   from:r[0],to:r[1],name:names[i%names.length],phone:"017"+Math.floor(10000000+Math.random()*89999999),
+   seats:Array.from({length:seatN},(_,k)=>(k+1)+"A").join(", "),
+   fare:(150+Math.floor(Math.random()*8)*25)*seatN,
+   pay:["bKash","Cash","Card","Nagad"][i%4],
+   status:statuses[i%statuses.length],
+   bus:["06:30 AC","08:00 Non-AC","10:30 AC","14:00 Non-AC"][i%4]
+  });
+ }
+ return out;
+}
+
+/* ============ NAV / VIEWS ============ */
+const TITLES={dash:["Dashboard","Today's overview at a glance"],bookings:["Bookings","All tickets booked across the site"],buses:["Buses & Schedule","Departure times and fleet status"],stops:["Stops & Fares","Edit the route and fare rules"],pass:["Passengers","Everyone who has travelled with you"],drivers:["Drivers","Roster and bus assignments"],promo:["Promo Codes","Discount codes available at checkout"],reports:["Reports","Trends across bookings and revenue"],settings:["Settings","Company details shown on the public site"]};
+function showView(v){
+ document.querySelectorAll(".view").forEach(e=>e.classList.remove("active"));
+ document.getElementById("view-"+v).classList.add("active");
+ document.querySelectorAll(".navi").forEach(e=>e.classList.toggle("on",e.dataset.view==v));
+ document.getElementById("pageTitle").textContent=TITLES[v][0];
+ document.getElementById("pageSub").textContent=TITLES[v][1];
+ closeSide();closeNotif();
+ if(v=="dash")renderDash();
+ if(v=="bookings")renderBookings();
+ if(v=="buses")renderBuses();
+ if(v=="stops")renderStops();
+ if(v=="pass")renderPassengers();
+ if(v=="drivers")renderDrivers();
+ if(v=="promo")renderPromo();
+ if(v=="reports")renderReports(repDays||7);
+ if(v=="settings")renderSettings();
+}
+function openSide(){document.getElementById("side").classList.add("open");document.getElementById("overlay").classList.add("show")}
+function closeSide(){document.getElementById("side").classList.remove("open");document.getElementById("overlay").classList.remove("show")}
+function setTheme(m){document.documentElement.dataset.theme=m;document.getElementById("darkBtn").innerHTML=m=="dark"?sunIco():moonIco();localStorage.setItem("ne-admin-theme",m)}
+function toggleDark(){setTheme(document.documentElement.dataset.theme=="dark"?"light":"dark")}
+function moonIco(){return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>'}
+function sunIco(){return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'}
+
+function toast(m){const e=document.createElement("div");e.className="toast";e.textContent=m;document.body.append(e);setTimeout(()=>e.remove(),2400)}
+function logActivity(t){NOTIFS.unshift({t,when:"Just now"});NOTIFS=NOTIFS.slice(0,20);LSS("adm-notifs",NOTIFS);renderNotifs()}
+function renderNotifs(){
+ document.getElementById("notifList").innerHTML=NOTIFS.length?NOTIFS.map(n=>`<div class="notif-item">${n.t}<div class="t">${n.when}</div></div>`).join(""):'<div class="empty" style="padding:16px">No activity yet</div>';
+ document.getElementById("bellDot").classList.toggle("show",NOTIFS.length>0);
+}
+function toggleNotif(){document.getElementById("notifPop").classList.toggle("show")}
+function closeNotif(){document.getElementById("notifPop").classList.remove("show")}
+function clearNotifs(){NOTIFS=[];LSS("adm-notifs",NOTIFS);renderNotifs();closeNotif()}
+
+/* ============ LOGIN ============ */
+function doLogin(){
+ const u=document.getElementById("loginUser").value.trim();
+ const p=document.getElementById("loginPass").value;
+ if(u===CREDS.user&&p===CREDS.pass){
+  sessionStorage.setItem("ne-admin-auth","1");
+  document.getElementById("loginScreen").style.display="none";
+  document.getElementById("shell").style.display="";
+  document.getElementById("sideUser").textContent=u.charAt(0).toUpperCase()+u.slice(1);
+  renderDash();renderNotifs();
+ }else{
+  document.getElementById("loginErr").textContent="Incorrect username or password.";
+ }
+}
+function doLogout(){sessionStorage.removeItem("ne-admin-auth");location.reload()}
+function checkAuth(){
+ if(sessionStorage.getItem("ne-admin-auth")=="1"){
+  document.getElementById("loginScreen").style.display="none";
+  document.getElementById("shell").style.display="";
+  document.getElementById("sideUser").textContent=CREDS.user.charAt(0).toUpperCase()+CREDS.user.slice(1);
+  return true;
+ }
+ return false;
+}
+
+/* ============ DASHBOARD ============ */
+function renderDash(){
+ const today=todayIso();
+ const todays=BOOKINGS.filter(b=>b.date==today&&b.status!="cancelled");
+ const yestr=daysAgoIso(1);
+ const yests=BOOKINGS.filter(b=>b.date==yestr&&b.status!="cancelled");
+ const rev=todays.reduce((s,b)=>s+Number(b.fare||0),0);
+ const yrev=yests.reduce((s,b)=>s+Number(b.fare||0),0);
+ const seatsToday=todays.reduce((s,b)=>s+String(b.seats||"").split(",").filter(Boolean).length,0);
+ document.getElementById("kBookings").textContent=todays.length;
+ document.getElementById("kBookingsD").textContent=(todays.length-yests.length>=0?"+":"")+(todays.length-yests.length)+" vs yesterday";
+ document.getElementById("kBookingsD").className="d "+(todays.length>=yests.length?"up":"down");
+ document.getElementById("kRevenue").textContent=money(rev);
+ const pct=yrev?Math.round((rev-yrev)/yrev*100):0;
+ document.getElementById("kRevenueD").textContent=(pct>=0?"+":"")+pct+"% vs yesterday";
+ document.getElementById("kRevenueD").className="d "+(pct>=0?"up":"down");
+ document.getElementById("kSeats").textContent=seatsToday;
+ document.getElementById("kSeatsD").textContent=DEPS.length+" departures today";
+ const cap=DEPS.length*40;
+ const load=cap?Math.round(seatsToday/cap*100):0;
+ document.getElementById("kLoad").textContent=load+"%";
+ document.getElementById("kLoadD").textContent="across today's trips";
+
+ const recent=[...BOOKINGS].sort((a,b)=>b.id.localeCompare(a.id)).slice(0,6);
+ const tb=document.querySelector("#recentTbl tbody");
+ tb.innerHTML=recent.map(b=>`<tr><td>${b.id}</td><td>${b.from} → ${b.to}</td><td>${b.bus||"—"}</td><td>${b.seats}</td><td>${money(b.fare)}</td><td>${statusPill(b.status)}</td></tr>`).join("");
+ document.getElementById("recentEmpty").style.display=recent.length?"none":"block";
+
+ const byDep={};
+ DEPS.forEach(d=>byDep[d.time]={booked:0,cap:d.cap});
+ BOOKINGS.filter(b=>b.date==today&&b.status!="cancelled").forEach(b=>{const key=(b.bus||"").split(" ")[0];if(byDep[key])byDep[key].booked+=String(b.seats||"").split(",").filter(Boolean).length});
+ const lb=document.getElementById("loadBars");
+ lb.innerHTML=Object.entries(byDep).map(([t,v])=>{const pct2=v.cap?Math.min(100,Math.round(v.booked/v.cap*100)):0;return `<div class="bar-row"><span class="lbl">${t}</span><div class="bar-track"><div class="bar-fill" style="width:${pct2}%"></div></div><span class="val">${pct2}%</span></div>`}).join("")||'<p class="stat-sm">No departures configured.</p>';
+}
+function statusPill(s){
+ if(s=="confirmed")return '<span class="pill ok">Confirmed</span>';
+ if(s=="pending")return '<span class="pill warn">Pending</span>';
+ return '<span class="pill bad">Cancelled</span>';
+}
+
+/* ============ BOOKINGS ============ */
+function clearBkFilters(){document.getElementById("bkSearch").value="";document.getElementById("bkStatus").value="all";document.getElementById("bkDate").value="";renderBookings()}
+function renderBookings(){
+ const q=(document.getElementById("bkSearch").value||"").toLowerCase();
+ const st=document.getElementById("bkStatus").value;
+ const dt=document.getElementById("bkDate").value;
+ let list=[...BOOKINGS].sort((a,b)=>b.id.localeCompare(a.id)).filter(b=>{
+  if(st!="all"&&b.status!=st)return false;
+  if(dt&&b.date!=dt)return false;
+  if(q&&!(b.id.toLowerCase().includes(q)||b.name.toLowerCase().includes(q)||b.phone.includes(q)))return false;
+  return true;
+ });
+ const tb=document.querySelector("#bkTbl tbody");
+ tb.innerHTML=list.map(b=>`<tr>
+  <td>${b.id}</td><td>${b.date}</td><td>${b.from} → ${b.to}</td>
+  <td>${b.name}<br><span class="stat-sm">${b.phone}</span></td>
+  <td>${b.seats}</td><td>${money(b.fare)}</td><td>${b.pay}</td>
+  <td>${statusPill(b.status)}</td>
+  <td style="white-space:nowrap">
+   <button class="btn sm alt" onclick="viewTicket('${b.id}')">Ticket</button>
+   <button class="btn sm alt" onclick="cycleStatus('${b.id}')">Update</button>
+   <button class="btn sm danger" onclick="removeBooking('${b.id}')">Delete</button>
+  </td></tr>`).join("");
+ document.getElementById("bkEmpty").style.display=list.length?"none":"block";
+}
+function cycleStatus(id){
+ const b=BOOKINGS.find(x=>x.id==id);if(!b)return;
+ const order=["confirmed","pending","cancelled"];
+ b.status=order[(order.indexOf(b.status)+1)%order.length];
+ LSS("adm-bookings",BOOKINGS);renderBookings();renderDash();toast("Booking "+id+" marked "+b.status);logActivity("Booking "+id+" marked "+b.status);
+}
+function removeBooking(id){
+ if(!confirm("Delete booking "+id+"? This cannot be undone."))return;
+ BOOKINGS=BOOKINGS.filter(b=>b.id!=id);LSS("adm-bookings",BOOKINGS);renderBookings();renderDash();toast("Booking deleted");logActivity("Booking "+id+" deleted");
+}
+function viewTicket(id){
+ const b=BOOKINGS.find(x=>x.id==id);if(!b)return;
+ document.getElementById("ticketModal").innerHTML=`
+  <div style="text-align:center;margin-bottom:14px">
+   <svg width="30" height="30" viewBox="0 0 40 40" style="margin-bottom:6px"><rect width="40" height="40" rx="12" fill="var(--brand)"/><path d="M9 25V15a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v10H9z" fill="#fff"/><rect x="12" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><rect x="21" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><circle cx="15" cy="27" r="3" fill="var(--accent)"/><circle cx="26" cy="27" r="3" fill="var(--accent)"/></svg>
+   <div style="font-weight:800">${SETTINGS.company}</div>
+   <div class="stat-sm">E-ticket · ${b.id}</div>
+  </div>
+  <div style="border-top:1.5px dashed var(--line);border-bottom:1.5px dashed var(--line);padding:12px 0;margin-bottom:12px;display:grid;gap:8px">
+   <div style="display:flex;justify-content:space-between"><span class="stat-sm">Passenger</span><b>${b.name}</b></div>
+   <div style="display:flex;justify-content:space-between"><span class="stat-sm">Phone</span><b>${b.phone||"—"}</b></div>
+   <div style="display:flex;justify-content:space-between"><span class="stat-sm">Route</span><b>${b.from} → ${b.to}</b></div>
+   <div style="display:flex;justify-content:space-between"><span class="stat-sm">Date</span><b>${b.date}</b></div>
+   <div style="display:flex;justify-content:space-between"><span class="stat-sm">Bus</span><b>${b.bus||"—"}</b></div>
+   <div style="display:flex;justify-content:space-between"><span class="stat-sm">Seats</span><b>${b.seats}</b></div>
+   <div style="display:flex;justify-content:space-between"><span class="stat-sm">Payment</span><b>${b.pay}</b></div>
+   ${b.txid?`<div style="display:flex;justify-content:space-between"><span class="stat-sm">Transaction ID</span><b>${b.txid}</b></div>`:""}
+   <div style="display:flex;justify-content:space-between"><span class="stat-sm">Status</span>${statusPill(b.status)}</div>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><span class="stat-sm">Total fare</span><b style="font-size:1.2rem">${money(b.fare)}</b></div>
+  <div class="acts" style="margin-top:0"><button class="btn alt" onclick="closeTicket()">Close</button><button class="btn" onclick="window.print()">Print</button></div>`;
+ document.getElementById("ticketBg").classList.add("show");
+}
+function closeTicket(){document.getElementById("ticketBg").classList.remove("show")}
+function exportCsv(){
+ const rows=[["Booking ID","Date","From","To","Name","Phone","Seats","Fare","Payment","Transaction ID","Status"]];
+ BOOKINGS.forEach(b=>rows.push([b.id,b.date,b.from,b.to,b.name,b.phone,b.seats,b.fare,b.pay,b.txid||"",b.status]));
+ const csv=rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+ const blob=new Blob([csv],{type:"text/csv"}),a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);a.download="bookings.csv";a.click();
+}
+function openBookingModal(){
+ const opts=STOPS.map(s=>`<option value="${s.id}">${s.id}</option>`).join("");
+ document.getElementById("mFrom").innerHTML=opts;document.getElementById("mTo").innerHTML=opts;
+ document.getElementById("mName").value="";document.getElementById("mPhone").value="";
+ document.getElementById("mDate").value=todayIso();document.getElementById("mSeats").value="";
+ document.getElementById("mFare").value="";document.getElementById("mStatus").value="confirmed";
+ document.getElementById("modalTitle").textContent="Add booking";
+ document.getElementById("modalBg").classList.add("show");
+}
+function closeModal(){document.getElementById("modalBg").classList.remove("show")}
+function saveBookingModal(){
+ const name=document.getElementById("mName").value.trim();
+ if(!name){toast("Enter a passenger name");return}
+ BOOKINGS.push({
+  id:uid(),date:document.getElementById("mDate").value||todayIso(),
+  from:document.getElementById("mFrom").value,to:document.getElementById("mTo").value,
+  name,phone:document.getElementById("mPhone").value.trim(),
+  seats:document.getElementById("mSeats").value.trim()||"1A",
+  fare:Number(document.getElementById("mFare").value)||0,
+  pay:"Cash",status:document.getElementById("mStatus").value,bus:"—"
+ });
+ LSS("adm-bookings",BOOKINGS);closeModal();renderBookings();renderDash();toast("Booking added");logActivity("New booking added for "+name);
+}
+
+/* ============ BUSES & SCHEDULE ============ */
+const AMEN_LABEL={ac:"AC",plug:"USB",wifi:"Wi-Fi",water:"Water",tv:"TV",bed:"Berth"};
+function renderBuses(){
+ const tb=document.querySelector("#depTbl tbody");
+ tb.innerHTML=DEPS.map((d,i)=>`<tr>
+  <td><input class="in" style="min-height:34px" type="time" value="${d.time}" onchange="DEPS[${i}].time=this.value;saveDeps()"></td>
+  <td><select class="in" style="min-height:34px" onchange="DEPS[${i}].type=this.value;saveDeps()">
+   <option value="ac" ${d.type=="ac"?"selected":""}>AC</option><option value="nonac" ${d.type=="nonac"?"selected":""}>Non-AC</option></select></td>
+  <td><input class="in" style="min-height:34px;width:90px" type="number" value="${d.cap}" onchange="DEPS[${i}].cap=+this.value;saveDeps()"></td>
+  <td class="stat-sm">${d.amen.map(a=>AMEN_LABEL[a]||a).join(", ")}</td>
+  <td><button class="btn sm danger" onclick="removeDep(${i})">Remove</button></td>
+ </tr>`).join("");
+ const fb=document.querySelector("#fleetTbl tbody")|| (function(){const t=document.getElementById("fleetTbl");t.innerHTML="<tbody></tbody>";return t.querySelector("tbody")})();
+ fb.innerHTML=FLEET.map(f=>`<tr><td>${f.plate}</td><td>${f.type=="ac"?"AC":"Non-AC"}</td><td>${f.cap}</td><td>${f.status=="active"?'<span class="pill ok">Active</span>':'<span class="pill warn">Maintenance</span>'}</td></tr>`).join("");
+}
+function addDeparture(){DEPS.push({time:"12:00",type:"nonac",cap:40,amen:["water"]});saveDeps();renderBuses();toast("Departure added")}
+function removeDep(i){DEPS.splice(i,1);saveDeps();renderBuses()}
+function saveDeps(){LSS("adm-deps",DEPS)}
+
+/* ============ STOPS & FARES ============ */
+function renderStops(){
+ const g=document.getElementById("stopGrid");
+ g.innerHTML=STOPS.map((s,i)=>`<div class="stoprow ${s.major?"major":""}">
+  <span class="handle">⠿</span>
+  <input class="in" value="${s.id}" onchange="STOPS[${i}].id=this.value;saveStopsQuiet()" placeholder="Stop name (EN)">
+  <input class="in" value="${s.bn}" onchange="STOPS[${i}].bn=this.value;saveStopsQuiet()" placeholder="স্টপ নাম (বাংলা)">
+  <input class="in" type="number" value="${s.km}" onchange="STOPS[${i}].km=+this.value;saveStopsQuiet()" placeholder="km">
+  <label style="display:flex;align-items:center;gap:6px;margin:0"><input type="checkbox" ${s.major?"checked":""} onchange="STOPS[${i}].major=this.checked;saveStopsQuiet()"><span style="font-size:.78rem;color:var(--mut)">Major</span></label>
+  <div style="display:flex;gap:6px;justify-content:flex-end">
+   <button class="btn sm alt" title="Move up" onclick="moveStop(${i},-1)">↑</button>
+   <button class="btn sm alt" title="Move down" onclick="moveStop(${i},1)">↓</button>
+   <button class="btn sm danger" onclick="removeStop(${i})">✕</button>
+  </div>
+ </div>`).join("");
+ renderFareTable();
+}
+function saveStopsQuiet(){LSS("adm-stops",STOPS)}
+function moveStop(i,dir){const j=i+dir;if(j<0||j>=STOPS.length)return;[STOPS[i],STOPS[j]]=[STOPS[j],STOPS[i]];saveStopsQuiet();renderStops()}
+function removeStop(i){if(STOPS.length<=2){toast("Keep at least two stops");return}STOPS.splice(i,1);saveStopsQuiet();renderStops();toast("Stop removed")}
+function addStop(){STOPS.push({id:"New Stop",bn:"নতুন স্টপ",km:(STOPS[STOPS.length-1]?.km||0)+5,major:false});saveStopsQuiet();renderStops()}
+function resetStops(){if(!confirm("Reset stops to default?"))return;STOPS=JSON.parse(JSON.stringify(STOPS_DEFAULT));saveStopsQuiet();renderStops();toast("Stops reset")}
+
+function fare(a,b){
+ const A=STOPS.find(s=>s.id==a),B=STOPS.find(s=>s.id==b);if(!A||!B)return 0;
+ const f=Math.max(SETTINGS.min,Math.abs(A.km-B.km)*SETTINGS.perKm);return Math.round(f/5)*5;
+}
+function renderFareTable(){
+ const a=STOPS[0]?.id;if(!a)return;
+ const rows=STOPS.filter(s=>s.id!=a).map(s=>{const f=fare(a,s.id);return `<tr><td>${s.id}</td><td>${Math.abs(s.km-STOPS[0].km)} km</td><td>${money(f)}</td><td>${money(Math.round(f*SETTINGS.ac/5)*5)}</td></tr>`}).join("");
+ document.getElementById("fareTbl").innerHTML=`<tr><th>From ${a} to</th><th>Distance</th><th>Non-AC</th><th>AC</th></tr>${rows}`;
+}
+function saveFareSettings(){
+ SETTINGS.perKm=+document.getElementById("fPerKm").value||SETTINGS.perKm;
+ SETTINGS.min=+document.getElementById("fMin").value||SETTINGS.min;
+ SETTINGS.svc=+document.getElementById("fSvc").value||SETTINGS.svc;
+ SETTINGS.ac=+document.getElementById("fAc").value||SETTINGS.ac;
+ SETTINGS.hold=+document.getElementById("fHold").value||SETTINGS.hold;
+ LSS("adm-settings",SETTINGS);renderFareTable();toast("Fare settings saved");
+}
+
+/* ============ PASSENGERS ============ */
+function renderPassengers(){
+ const q=(document.getElementById("paxSearch").value||"").toLowerCase();
+ const map={};
+ BOOKINGS.forEach(b=>{
+  const key=b.phone||b.name;
+  if(!map[key])map[key]={name:b.name,phone:b.phone,gender:"—",trips:0,last:b.date};
+  map[key].trips++;
+  if(b.date>map[key].last)map[key].last=b.date;
+ });
+ let list=Object.values(map).filter(p=>!q||p.name.toLowerCase().includes(q)||p.phone.includes(q));
+ list.sort((a,b)=>b.last.localeCompare(a.last));
+ document.querySelector("#paxTbl tbody").innerHTML=list.map(p=>`<tr><td>${p.name}</td><td>${p.phone}</td><td>${p.gender}</td><td>${p.trips}</td><td>${p.last}</td></tr>`).join("");
+ document.getElementById("paxEmpty").style.display=list.length?"none":"block";
+}
+
+/* ============ DRIVERS ============ */
+function renderDrivers(){
+ document.querySelector("#drvTbl tbody").innerHTML=DRIVERS.map(d=>`<tr>
+  <td style="display:flex;align-items:center;gap:10px"><span class="avatar">${d.name.split(" ").map(w=>w[0]).join("").slice(0,2)}</span>${d.name}</td>
+  <td>${d.lic}</td><td>${d.phone}</td><td>${d.bus}</td><td>${d.trips}</td>
+  <td>★ ${d.rating}</td>
+  <td>${d.status=="active"?'<span class="pill ok">Active</span>':'<span class="pill warn">Off duty</span>'}</td>
+  <td><button class="btn sm alt" onclick="toggleDriver('${d.id}')">Toggle</button> <button class="btn sm danger" onclick="removeDriver('${d.id}')">Remove</button></td>
+ </tr>`).join("");
+}
+function toggleDriver(id){const d=DRIVERS.find(x=>x.id==id);if(!d)return;d.status=d.status=="active"?"off":"active";LSS("adm-drivers",DRIVERS);renderDrivers()}
+function removeDriver(id){if(!confirm("Remove this driver?"))return;DRIVERS=DRIVERS.filter(d=>d.id!=id);LSS("adm-drivers",DRIVERS);renderDrivers();toast("Driver removed")}
+function addDriver(){
+ document.getElementById("dBus").innerHTML=FLEET.map(f=>`<option>${f.plate}</option>`).join("");
+ document.getElementById("dName").value="";document.getElementById("dLic").value="";document.getElementById("dPhone").value="";
+ document.getElementById("driverBg").classList.add("show");
+}
+function closeDriverModal(){document.getElementById("driverBg").classList.remove("show")}
+function saveDriverModal(){
+ const name=document.getElementById("dName").value.trim();if(!name){toast("Enter a driver name");return}
+ DRIVERS.push({id:"D"+(DRIVERS.length+1)+Date.now().toString(36).slice(-3),name,lic:document.getElementById("dLic").value.trim(),phone:document.getElementById("dPhone").value.trim(),bus:document.getElementById("dBus").value,trips:0,rating:5,status:"active"});
+ LSS("adm-drivers",DRIVERS);closeDriverModal();renderDrivers();toast("Driver added");logActivity("Driver "+name+" added to roster");
+}
+
+/* ============ PROMO CODES ============ */
+function renderPromo(){
+ document.querySelector("#promoTbl tbody").innerHTML=PROMOS.map((p,i)=>`<tr>
+  <td><span class="chip">${p.code}</span></td><td>${p.pct}%</td><td>${p.uses}</td><td>${p.exp}</td>
+  <td>${p.exp<todayIso()?'<span class="pill bad">Expired</span>':p.status=="active"?'<span class="pill ok">Active</span>':'<span class="pill warn">Paused</span>'}</td>
+  <td><button class="btn sm alt" onclick="togglePromo(${i})">Toggle</button> <button class="btn sm danger" onclick="removePromo(${i})">Remove</button></td>
+ </tr>`).join("");
+}
+function togglePromo(i){PROMOS[i].status=PROMOS[i].status=="active"?"paused":"active";LSS("adm-promos",PROMOS);renderPromo()}
+function removePromo(i){if(!confirm("Remove this code?"))return;PROMOS.splice(i,1);LSS("adm-promos",PROMOS);renderPromo();toast("Code removed")}
+function addPromo(){document.getElementById("pCode").value="";document.getElementById("pPct").value="";document.getElementById("pExp").value=daysAgoIsoFuture(30);document.getElementById("promoBg").classList.add("show")}
+function closePromoModal(){document.getElementById("promoBg").classList.remove("show")}
+function savePromoModal(){
+ const code=document.getElementById("pCode").value.trim().toUpperCase();if(!code){toast("Enter a code");return}
+ PROMOS.push({code,pct:+document.getElementById("pPct").value||10,uses:0,exp:document.getElementById("pExp").value||daysAgoIsoFuture(30),status:"active"});
+ LSS("adm-promos",PROMOS);closePromoModal();renderPromo();toast("Promo code created");logActivity("Promo code "+code+" created");
+}
+
+/* ============ REPORTS ============ */
+let repDays=7;
+function setRepRange(n){
+ repDays=n;
+ document.querySelectorAll("#repRange button").forEach(b=>b.classList.toggle("on",b.textContent==n+"d"));
+ renderReports(n);
+}
+function renderReports(n){
+ const days=[];
+ for(let i=n-1;i>=0;i--)days.push(daysAgoIso(i));
+ const rev=days.map(d=>BOOKINGS.filter(b=>b.date==d&&b.status!="cancelled").reduce((s,b)=>s+Number(b.fare||0),0));
+ const cnt=days.map(d=>BOOKINGS.filter(b=>b.date==d&&b.status!="cancelled").length);
+ const W=700,H=220,pad=30;
+ const maxRev=Math.max(...rev,1),maxCnt=Math.max(...cnt,1);
+ const stepX=(W-pad*2)/Math.max(1,days.length-1);
+ const pts=arr=>arr.map((v,i)=>`${pad+i*stepX},${H-pad-(v/Math.max(...arr,1))*(H-pad*2)}`).join(" ");
+ const revPts=rev.map((v,i)=>`${pad+i*stepX},${H-pad-(v/maxRev)*(H-pad*2)}`).join(" ");
+ const cntPts=cnt.map((v,i)=>`${pad+i*stepX},${H-pad-(v/maxCnt)*(H-pad*2)}`).join(" ");
+ let svg=`<line x1="${pad}" y1="${H-pad}" x2="${W-pad}" y2="${H-pad}" stroke="var(--line)" stroke-width="1.5"/>`;
+ svg+=`<polyline points="${revPts}" fill="none" stroke="var(--brand)" stroke-width="2.5"/>`;
+ svg+=`<polyline points="${cntPts}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="5 4"/>`;
+ rev.forEach((v,i)=>{const[x,y]=revPts.split(" ")[i].split(",");svg+=`<circle cx="${x}" cy="${y}" r="3" fill="var(--brand)"/>`});
+ days.forEach((d,i)=>{if(i%Math.ceil(days.length/7||1)==0)svg+=`<text x="${pad+i*stepX}" y="${H-8}" font-size="9" fill="var(--mut)" text-anchor="middle">${d.slice(5)}</text>`});
+ document.getElementById("repChart").innerHTML=svg;
+
+ const routeMap={};
+ BOOKINGS.forEach(b=>{const k=b.from+" → "+b.to;routeMap[k]=(routeMap[k]||0)+1});
+ const topR=Object.entries(routeMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
+ const maxR=Math.max(...topR.map(r=>r[1]),1);
+ document.getElementById("topRoutes").innerHTML=topR.map(([k,v])=>`<div class="bar-row"><span class="lbl" style="width:140px">${k}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxR*100)}%"></div></div><span class="val">${v}</span></div>`).join("")||'<p class="stat-sm">No data yet.</p>';
+
+ const payMap={};
+ BOOKINGS.forEach(b=>{payMap[b.pay]=(payMap[b.pay]||0)+1});
+ const maxP=Math.max(...Object.values(payMap),1);
+ document.getElementById("payBreak").innerHTML=Object.entries(payMap).map(([k,v])=>`<div class="bar-row"><span class="lbl">${k}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxP*100)}%"></div></div><span class="val">${v}</span></div>`).join("")||'<p class="stat-sm">No data yet.</p>';
+
+ const stMap={confirmed:0,pending:0,cancelled:0};
+ BOOKINGS.forEach(b=>{if(stMap[b.status]!=null)stMap[b.status]++});
+ const maxS=Math.max(...Object.values(stMap),1);
+ document.getElementById("statusBreak").innerHTML=Object.entries(stMap).map(([k,v])=>`<div class="bar-row"><span class="lbl">${k.charAt(0).toUpperCase()+k.slice(1)}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxS*100)}%"></div></div><span class="val">${v}</span></div>`).join("");
+}
+
+/* ============ BACKUP / RESTORE ============ */
+function exportBackup(){
+ const data={STOPS,DEPS,SETTINGS,BOOKINGS,DRIVERS,PROMOS,exportedAt:new Date().toISOString()};
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);a.download="narail-express-admin-backup.json";a.click();
+ logActivity("Data backup exported");
+}
+function restoreBackup(file){
+ if(!file)return;
+ const reader=new FileReader();
+ reader.onload=e=>{
+  try{
+   const d=JSON.parse(e.target.result);
+   if(d.STOPS)STOPS=d.STOPS;if(d.DEPS)DEPS=d.DEPS;if(d.SETTINGS)SETTINGS=d.SETTINGS;
+   if(d.BOOKINGS)BOOKINGS=d.BOOKINGS;if(d.DRIVERS)DRIVERS=d.DRIVERS;if(d.PROMOS)PROMOS=d.PROMOS;
+   LSS("adm-stops",STOPS);LSS("adm-deps",DEPS);LSS("adm-settings",SETTINGS);LSS("adm-bookings",BOOKINGS);LSS("adm-drivers",DRIVERS);LSS("adm-promos",PROMOS);
+   toast("Backup restored");logActivity("Data restored from backup file");renderDash();
+  }catch(err){toast("Couldn't read that file")}
+ };
+ reader.readAsText(file);
+}
+function wipeAll(){
+ if(!confirm("Reset ALL admin data to defaults? This cannot be undone."))return;
+ localStorage.removeItem("adm-stops");localStorage.removeItem("adm-deps");localStorage.removeItem("adm-settings");
+ localStorage.removeItem("adm-bookings");localStorage.removeItem("adm-drivers");localStorage.removeItem("adm-promos");localStorage.removeItem("adm-notifs");
+ location.reload();
+}
+function saveCreds(){
+ const u=document.getElementById("sUser").value.trim(),p=document.getElementById("sPass").value;
+ if(u)CREDS.user=u;if(p)CREDS.pass=p;
+ LSS("adm-creds",CREDS);document.getElementById("sPass").value="";toast("Credentials updated");
+}
+
+/* ============ SETTINGS ============ */
+function renderSettings(){
+ document.getElementById("sName").value=SETTINGS.company;
+ document.getElementById("sPhone").value=SETTINGS.phone;
+ document.getElementById("sTag").value=SETTINGS.tag;
+ document.getElementById("sColor").value=SETTINGS.color;
+ document.getElementById("sUser").value=CREDS.user;
+}
+function saveSettings(){
+ SETTINGS.company=document.getElementById("sName").value;
+ SETTINGS.phone=document.getElementById("sPhone").value;
+ SETTINGS.tag=document.getElementById("sTag").value;
+ SETTINGS.color=document.getElementById("sColor").value;
+ LSS("adm-settings",SETTINGS);document.documentElement.style.setProperty("--brand",SETTINGS.color);toast("Settings saved");
+}
+
+/* ============ INIT ============ */
+(function init(){
+ setTheme(localStorage.getItem("ne-admin-theme")||"light");
+ document.getElementById("bkDate").max="2099-12-31";
+ document.getElementById("loginUser").addEventListener("keydown",e=>{if(e.key=="Enter")doLogin()});
+ document.getElementById("loginPass").addEventListener("keydown",e=>{if(e.key=="Enter")doLogin()});
+ if(checkAuth()){renderDash();renderNotifs()}
+ // Pull latest data from Google Sheets in the background, then refresh the
+ // UI with whatever's current (handles other admins' changes on other devices).
+ syncFromSheetsThenInit().then(synced=>{
+  if(synced){
+   reloadDataFromLocalStorage();
+   if(checkAuth()){renderDash();renderNotifs()}
+  }
+ });
+ // Live refresh: new bookings/check-ins made on book.html or scan.html
+ // (possibly other devices) show up here without a manual reload.
+ setInterval(()=>{
+  syncFromSheetsThenInit().then(synced=>{
+   if(synced){reloadDataFromLocalStorage();if(checkAuth()){renderDash();renderNotifs()}}
+  });
+ },15000);
+})();
+</script>
+</body>
+</html>
