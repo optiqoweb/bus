@@ -83,15 +83,42 @@ h2{font-size:1.02rem;font-weight:700;margin-bottom:10px}
 .hist-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:.84rem}
 .hist-row:last-child{border-bottom:0}
 .hist-row .t{color:var(--mut);font-size:.72rem}
+
+/* login */
+.login-bg{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-box{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:26px 22px;width:min(380px,100%)}
+.login-box .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:1.02rem;margin-bottom:18px;justify-content:center}
+.login-box .logo small{display:block;font-weight:500;font-size:.62rem;color:var(--mut)}
+.login-err{color:var(--bad);font-size:.8rem;min-height:16px;margin-bottom:4px}
+.login-hint{font-size:.76rem;color:var(--mut);text-align:center;margin-top:12px}
+.sup-chip{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--mut);background:var(--brand-l);border-radius:10px;padding:6px 10px;margin-bottom:10px}
+.sup-chip b{color:var(--ink)}
+.sup-chip button{margin-left:auto;background:none;border:0;color:var(--brand);font-weight:700;cursor:pointer;font-size:.78rem;padding:2px 4px}
 </style>
 </head>
 <body>
-<div class="wrap">
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div class="login-bg" id="loginScreen">
+ <div class="login-box">
+  <div class="logo"><svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="var(--brand)"/><path d="M9 25V15a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v10H9z" fill="#fff"/><rect x="12" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><rect x="21" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><circle cx="15" cy="27" r="3" fill="var(--accent)"/><circle cx="26" cy="27" r="3" fill="var(--accent)"/></svg><span>Narail Express<small>Supervisor Scanner</small></span></div>
+  <div class="fld"><label>Supervisor ID</label><input class="in" id="loginSupId" placeholder="e.g. SV-104" style="text-transform:uppercase" onkeydown="if(event.key=='Enter')document.getElementById('loginPlate').focus()"></div>
+  <div class="fld" style="margin-bottom:6px"><label>Bus plate</label><input class="in" id="loginPlate" placeholder="e.g. Dhaka Metro-Ga 11-9453" onkeydown="if(event.key=='Enter')doLogin()"></div>
+  <div class="login-err" id="loginErr"></div>
+  <button class="btn" id="loginBtn" style="width:100%;margin-top:8px" onclick="doLogin()" disabled>Start shift</button>
+  <div class="login-hint" id="loginHint">Loading roster…</div>
+ </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div class="wrap" id="appScreen" style="display:none">
  <div class="topbar">
   <div class="logo"><svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="var(--brand)"/><path d="M9 25V15a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v10H9z" fill="#fff"/><rect x="12" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><rect x="21" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><circle cx="15" cy="27" r="3" fill="var(--accent)"/><circle cx="26" cy="27" r="3" fill="var(--accent)"/></svg><span>Narail Express<small>Supervisor Scanner</small></span></div>
   <div class="spacer"></div>
   <button class="ibtn" id="darkBtn" onclick="toggleDark()" aria-label="Toggle dark mode"></button>
  </div>
+
+ <div class="sup-chip" id="supChip"></div>
 
  <div class="seg">
   <button class="on" data-tab="scan" onclick="showTab('scan')">Scan ticket</button>
@@ -137,14 +164,15 @@ h2{font-size:1.02rem;font-weight:700;margin-bottom:10px}
  <div id="tab-loc" style="display:none">
   <div class="card">
    <h2>Update this bus's location</h2>
-   <div class="fld"><label>Which departure are you on?</label>
-    <select class="in" id="locDep"></select>
+   <p class="stat-sm" style="margin-bottom:12px">Tap the stop your bus (<b id="locPlateLbl"></b>) just reached or is near. No GPS needed.</p>
+   <div class="fld"><label>Current / last stop</label>
+    <select class="in" id="locStop"></select>
    </div>
-   <div class="fld"><label>Status note (optional)</label>
-    <input class="in" id="locNote" placeholder="e.g. Left Narail, on time">
+   <div class="fld"><label>Note (optional)</label>
+    <input class="in" id="locNote" placeholder="e.g. Left 5 min ago, on time">
    </div>
-   <button class="btn" onclick="updateLocation()">Use my current GPS location</button>
-   <p class="stat-sm" style="margin-top:10px" id="locStatus">Location permission will be requested by your browser.</p>
+   <button class="btn" onclick="updateLocation()">Update location</button>
+   <p class="stat-sm" style="margin-top:10px" id="locStatus"></p>
   </div>
 
   <div class="card">
@@ -161,9 +189,9 @@ const LS=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v??d}cat
 let LSS=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 
 /* ============ GOOGLE SHEETS SYNC ============ */
-var SHEET_API_URL="https://script.google.com/macros/s/AKfycbyFKtfH0_Vw5kTJvqqrYaxMQ4nOScCrFoAQIW1oBun_y0fElemzAdcURcIyPe3Q_1DS/exec";
+var SHEET_API_URL="https://script.google.com/macros/s/AKfycbxgoSu4PjQ9a1ngQkt90yBkMHJQTOeLFQMYkV3a4jHVEJ_ieZ2uF7d_-CJgmMdcXT1u/exec";
 var SHEET_TOKEN="narail-2026-secret";
-var SYNCED_KEYS=["adm-stops","adm-deps","adm-settings","adm-bookings","adm-drivers","adm-notifs","adm-checkins","adm-bus-locations"];
+var SYNCED_KEYS=["adm-stops","adm-deps","adm-settings","adm-bookings","adm-drivers","adm-supervisors","adm-buses","adm-notifs","adm-checkins","adm-bus-locations"]; // adm-stops already included — used for the location-update stop picker
 function sheetGet(key){return fetch(SHEET_API_URL+"?key="+encodeURIComponent(key)).then(r=>r.json()).then(res=>res.ok?res.data:null).catch(()=>null)}
 function sheetSet(key,data){return fetch(SHEET_API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({key,data,token:SHEET_TOKEN})}).catch(err=>console.warn("Sheet sync failed for",key,err))}
 function syncFromSheetsThenInit(){
@@ -178,9 +206,57 @@ let DEPS=LS("adm-deps",[
  {time:"14:00",type:"nonac"},{time:"20:30",type:"nonac"},{time:"22:30",type:"ac"}
 ]);
 let CHECKINS=LS("adm-checkins",{});       // {bookingId: {at, by}}
-let BUSLOC=LS("adm-bus-locations",{});    // {depTime: {lat,lon,note,at}}
+let BUSLOC=LS("adm-bus-locations",[]);    // [{id(=plate), stopId, note, at, by}] — manual stop-based, not GPS
+let SUPERVISORS=LS("adm-supervisors",[]); // [{id,name,phone,bus,status}]
+let BUSES=LS("adm-buses",[]);             // [{plate,routes,type,capacity,status,amenities}]
+let STOPS=LS("adm-stops",[]);             // [{id,bn,km,major,majorBn}] — route order
 function reloadDataFromLocalStorage(){
  BOOKINGS=LS("adm-bookings",BOOKINGS);DEPS=LS("adm-deps",DEPS);CHECKINS=LS("adm-checkins",CHECKINS);BUSLOC=LS("adm-bus-locations",BUSLOC);
+ SUPERVISORS=LS("adm-supervisors",SUPERVISORS);BUSES=LS("adm-buses",BUSES);STOPS=LS("adm-stops",STOPS);
+}
+
+/* ============ SUPERVISOR LOGIN ============ */
+let SESSION=JSON.parse(localStorage.getItem("ne-scan-session")||"null"); // {supId, supName, plate}
+function doLogin(){
+ const supId=document.getElementById("loginSupId").value.trim().toUpperCase();
+ const plate=document.getElementById("loginPlate").value.trim();
+ const errEl=document.getElementById("loginErr");
+ if(!supId||!plate){errEl.textContent="Enter both your Supervisor ID and the bus plate.";return}
+
+ let supName=supId;
+ if(SUPERVISORS.length){
+  const sup=SUPERVISORS.find(s=>String(s.id).toUpperCase()==supId);
+  if(!sup){errEl.textContent="Supervisor ID not found in the roster.";return}
+  if(sup.status&&sup.status!="active"){errEl.textContent="This Supervisor ID is marked inactive.";return}
+  supName=sup.name||supId;
+ }
+ if(BUSES.length){
+  const bus=BUSES.find(b=>String(b.plate).toUpperCase()==plate.toUpperCase());
+  if(!bus){errEl.textContent="Bus plate not found in the fleet list.";return}
+  if(bus.status&&bus.status!="active"){errEl.textContent="This bus is marked "+bus.status+" — check with admin before boarding passengers.";return}
+ }
+
+ errEl.textContent="";
+ SESSION={supId,supName,plate};
+ localStorage.setItem("ne-scan-session",JSON.stringify(SESSION));
+ enterApp();
+}
+function logout(){
+ if(!confirm("End this shift and switch supervisor/bus?"))return;
+ SESSION=null;
+ localStorage.removeItem("ne-scan-session");
+ document.getElementById("loginSupId").value="";
+ document.getElementById("loginPlate").value="";
+ document.getElementById("loginErr").textContent="";
+ document.getElementById("appScreen").style.display="none";
+ document.getElementById("loginScreen").style.display="flex";
+ stopCamera();
+}
+function enterApp(){
+ document.getElementById("supChip").innerHTML=`<span>On duty: <b>${SESSION.supName}</b> (${SESSION.supId}) · Bus <b>${SESSION.plate}</b></span><button onclick="logout()">Switch</button>`;
+ document.getElementById("loginScreen").style.display="none";
+ document.getElementById("appScreen").style.display="";
+ fillStopSelect();
 }
 
 function toast(m){const e=document.createElement("div");e.className="toast";e.textContent=m;document.body.append(e);setTimeout(()=>e.remove(),2600)}
@@ -237,7 +313,7 @@ function verifyTicket(raw){
   return;
  }
  // valid — mark checked in
- CHECKINS[b.id]={at:Date.now(),by:"Supervisor"};
+ CHECKINS[b.id]={at:Date.now(),by:SESSION.supId};
  LSS("adm-checkins",CHECKINS);
  box.className="verdict show good";
  box.innerHTML=`<div class="vic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></div><h3>Valid ticket — OK to board</h3>${ticketRows(b)}`;
@@ -325,44 +401,51 @@ function scanLoop(){
  rafId=requestAnimationFrame(scanLoop);
 }
 
-/* ============ BUS LOCATION ============ */
-function fillDepSelect(){
- document.getElementById("locDep").innerHTML=DEPS.map(d=>`<option value="${d.time}">${d.time} · ${d.type=="ac"?"AC":"Non-AC"}</option>`).join("");
+/* ============ BUS LOCATION (manual, stop-based — no GPS) ============ */
+function stopName(id){const s=STOPS.find(x=>x.id==id);return s?s.bn||s.id:id}
+function fillStopSelect(){
+ document.getElementById("locPlateLbl").textContent=SESSION?SESSION.plate:"";
+ document.getElementById("locStop").innerHTML=STOPS.map(s=>`<option value="${s.id}">${s.major?s.id+" ★":s.id}</option>`).join("");
 }
 function updateLocation(){
- const dep=document.getElementById("locDep").value;
+ if(!SESSION){return}
+ const stopId=document.getElementById("locStop").value;
  const note=document.getElementById("locNote").value.trim();
  const statusEl=document.getElementById("locStatus");
- if(!navigator.geolocation){statusEl.textContent="Geolocation isn't supported on this device.";return}
- statusEl.textContent="Getting GPS location…";
- navigator.geolocation.getCurrentPosition(pos=>{
-  BUSLOC[dep]={lat:pos.coords.latitude,lon:pos.coords.longitude,note,at:Date.now()};
-  LSS("adm-bus-locations",BUSLOC);
-  statusEl.textContent="Location updated just now.";
-  toast("Bus location updated for "+dep);
-  renderLocations();
- },err=>{
-  statusEl.textContent="Couldn't get location: "+(err.message||"permission denied");
- },{enableHighAccuracy:true,timeout:12000});
+ if(!stopId){statusEl.textContent="Pick a stop first.";return}
+
+ const idx=BUSLOC.findIndex(x=>String(x.id).toUpperCase()==SESSION.plate.toUpperCase());
+ const record={id:SESSION.plate,stopId,note,at:Date.now(),by:SESSION.supId};
+ if(idx>-1)BUSLOC[idx]=record;else BUSLOC.push(record);
+ LSS("adm-bus-locations",BUSLOC); // whole-collection write; sheetSet with op:"upsert" is preferred once wired per-row
+
+ statusEl.textContent="Location updated just now.";
+ toast("Location set to "+stopName(stopId));
+ renderLocations();
 }
 function renderLocations(){
- const entries=Object.entries(BUSLOC);
- document.getElementById("locEmpty").style.display=entries.length?"none":"block";
- document.getElementById("locGrid").innerHTML=entries.sort((a,b)=>b[1].at-a[1].at).map(([dep,v])=>{
+ const sorted=[...BUSLOC].sort((a,b)=>b.at-a.at);
+ document.getElementById("locEmpty").style.display=sorted.length?"none":"block";
+ document.getElementById("locGrid").innerHTML=sorted.map(v=>{
   const mins=Math.round((Date.now()-v.at)/60000);
-  const link=`https://www.google.com/maps?q=${v.lat},${v.lon}`;
-  return `<div class="loc-row"><div><b>${dep} departure</b><div class="stat-sm">${v.note||"No note"} · ${mins<1?"just now":mins+" min ago"}</div></div><a class="btn sm alt" href="${link}" target="_blank">Map</a></div>`;
+  return `<div class="loc-row"><div><b>${v.id}</b><div class="stat-sm">Near ${stopName(v.stopId)}${v.note?" · "+v.note:""} · ${mins<1?"just now":mins+" min ago"}</div></div></div>`;
  }).join("");
 }
 
 /* ============ INIT ============ */
-fillDepSelect();
 renderHistory();
 renderLocations();
 syncFromSheetsThenInit().then(synced=>{
- if(synced){
-  reloadDataFromLocalStorage();
-  fillDepSelect();renderHistory();renderLocations();
+ if(synced)reloadDataFromLocalStorage();
+ document.getElementById("loginHint").textContent="Enter the Supervisor ID and plate shown on your duty roster.";
+ document.getElementById("loginBtn").disabled=false;
+ if(SESSION&&SESSION.supId){
+  // revalidate the saved session against the freshly-synced roster, in case
+  // this supervisor or bus was deactivated since the last login
+  const supOk=!SUPERVISORS.length||(()=>{const s=SUPERVISORS.find(x=>String(x.id).toUpperCase()==SESSION.supId);return s&&(!s.status||s.status=="active")})();
+  const busOk=!BUSES.length||(()=>{const b=BUSES.find(x=>String(x.plate).toUpperCase()==SESSION.plate.toUpperCase());return b&&(!b.status||b.status=="active")})();
+  if(supOk&&busOk){enterApp();renderHistory();renderLocations();return}
+  logout();
  }
 });
 // Keep BOOKINGS fresh in the background: a passenger may book (from

@@ -138,7 +138,7 @@ tr:last-child td{border-bottom:0}
 .notif-item:last-child{border-bottom:0}
 .notif-item .t{color:var(--mut);font-size:.72rem;margin-top:2px}
 
-/* ===== PROMO / DRIVERS ===== */
+/* ===== DRIVERS ===== */
 .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:99px;background:var(--brand-l);color:var(--brand);font-weight:700;font-size:.78rem;letter-spacing:.3px}
 .avatar{width:36px;height:36px;border-radius:50%;background:var(--brand-l);color:var(--brand);display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;flex:none}
 </style>
@@ -151,11 +151,10 @@ tr:last-child td{border-bottom:0}
   <div class="logo"><svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="var(--brand)"/><path d="M9 25V15a3 3 0 0 1 3-3h16a3 3 0 0 1 3 3v10H9z" fill="#fff"/><rect x="12" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><rect x="21" y="15" width="7" height="5" rx="1" fill="var(--brand)"/><circle cx="15" cy="27" r="3" fill="var(--accent)"/><circle cx="26" cy="27" r="3" fill="var(--accent)"/></svg><span>Narail Express</span></div>
   <h2>Admin sign in</h2>
   <div class="sub2">Staff access only</div>
-  <div class="fld" style="margin-bottom:12px"><label>Username</label><input class="in" id="loginUser" value="admin" autocomplete="username"></div>
+  <div class="fld" style="margin-bottom:12px"><label>Username</label><input class="in" id="loginUser" autocomplete="username"></div>
   <div class="fld" style="margin-bottom:4px"><label>Password</label><input class="in" id="loginPass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
   <div class="login-err" id="loginErr"></div>
   <button class="btn" style="width:100%;margin-top:10px" onclick="doLogin()">Sign in</button>
-  <div class="login-hint">Demo credentials — username <b>admin</b>, password <b>admin123</b></div>
  </div>
 </div>
 
@@ -170,7 +169,6 @@ tr:last-child td{border-bottom:0}
  <button class="navi" data-view="stops" onclick="showView('stops')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Stops &amp; Fares</button>
  <button class="navi" data-view="pass" onclick="showView('pass')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M2 21v-1a7 7 0 0 1 14 0v1"/><circle cx="18" cy="8" r="2.6"/><path d="M16.5 14.2A4.8 4.8 0 0 1 22 18.8V21"/></svg>Passengers</button>
  <button class="navi" data-view="drivers" onclick="showView('drivers')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-3.8 3.6-6 8-6s8 2.2 8 6"/></svg>Drivers</button>
- <button class="navi" data-view="promo" onclick="showView('promo')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.6 11.4L12.6 3.4a2 2 0 0 0-1.4-.6H5a2 2 0 0 0-2 2v6.2a2 2 0 0 0 .6 1.4l8 8a2 2 0 0 0 2.8 0l6.2-6.2a2 2 0 0 0 0-2.8z"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>Promo Codes</button>
  <button class="navi" data-view="reports" onclick="showView('reports')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16l4-6 3 4 5-8"/></svg>Reports</button>
  <button class="navi" data-view="settings" onclick="showView('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06A2 2 0 1 1 7 4.29l.06.06A1.65 1.65 0 0 0 8.88 4.7H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.14.32.35.6.63.82.28.22.6.36.95.42H21a2 2 0 1 1 0 4h-.09c-.35.06-.67.2-.95.42-.28.22-.49.5-.56.82z"/></svg>Settings</button>
 
@@ -290,15 +288,6 @@ tr:last-child td{border-bottom:0}
   </div>
  </section>
 
- <!-- ================= PROMO CODES ================= -->
- <section class="view" id="view-promo">
-  <div class="card">
-   <div class="panel-h"><h2>Discount codes</h2><button class="btn sm" onclick="addPromo()">+ New code</button></div>
-   <p class="stat-sm" style="margin-bottom:12px">These codes can be applied at checkout on the booking page once wired to the live site.</p>
-   <div class="tbl-wrap"><table id="promoTbl"><thead><tr><th>Code</th><th>Discount</th><th>Uses</th><th>Expires</th><th>Status</th><th></th></tr></thead><tbody></tbody></table></div>
-  </div>
- </section>
-
  <!-- ================= REPORTS ================= -->
  <section class="view" id="view-reports">
   <div class="card" style="margin-bottom:16px">
@@ -339,12 +328,12 @@ tr:last-child td{border-bottom:0}
    <div class="fld" style="margin-bottom:12px"><label>Tagline</label><input class="in" id="sTag"></div>
    <div class="fld" style="margin-bottom:16px"><label>Theme accent color</label><input class="in" id="sColor" type="color" style="height:44px;padding:4px"></div>
    <button class="btn" onclick="saveSettings()">Save settings</button>
-   <p class="stat-sm" style="margin-top:14px">Changes here are stored locally in this browser for demo purposes. Connect this panel to a backend to make them live on the public site.</p>
+   <p class="stat-sm" style="margin-top:14px">Changes here sync to the public site automatically.</p>
   </div>
 
   <div class="card" style="max-width:640px;margin-top:16px">
    <div class="panel-h"><h2>Data &amp; backup</h2></div>
-   <p class="stat-sm" style="margin-bottom:12px">Export everything stored in this panel (bookings, stops, departures, drivers, promo codes, settings) as a JSON backup, or restore from one.</p>
+   <p class="stat-sm" style="margin-bottom:12px">Export everything stored in this panel (bookings, stops, departures, drivers, settings) as a JSON backup, or restore from one.</p>
    <div style="display:flex;gap:10px;flex-wrap:wrap">
     <button class="btn alt sm" onclick="exportBackup()">Export backup (.json)</button>
     <button class="btn alt sm" onclick="document.getElementById('restoreFile').click()">Restore from file</button>
@@ -383,13 +372,6 @@ tr:last-child td{border-bottom:0}
  <div class="acts"><button class="btn alt" onclick="closeDriverModal()">Cancel</button><button class="btn" onclick="saveDriverModal()">Save</button></div>
 </div></div>
 
-<div class="modal-bg" id="promoBg"><div class="modal">
- <h3>New discount code</h3>
- <div class="row2"><div class="fld"><label>Code</label><input class="in" id="pCode" placeholder="e.g. EID25" style="text-transform:uppercase"></div><div class="fld"><label>Discount %</label><input class="in" type="number" id="pPct" placeholder="10"></div></div>
- <div class="fld" style="margin-bottom:10px"><label>Expires</label><input class="in" type="date" id="pExp"></div>
- <div class="acts"><button class="btn alt" onclick="closePromoModal()">Cancel</button><button class="btn" onclick="savePromoModal()">Save</button></div>
-</div></div>
-
 <script>
 /* ============ CONFIG shared with public site (mirrored) ============ */
 const STOPS_DEFAULT=[
@@ -423,17 +405,7 @@ const FLEET=[
  {plate:"Dhaka Metro-Ga 11-4419",type:"ac",cap:40,status:"active"}
 ];
 const SETTINGS_DEFAULT={company:"Narail Express",phone:"01935128454",tag:"Safe. Comfortable. On Time.",color:"#0b7a4b",perKm:2.1,min:60,svc:20,ac:1.35,hold:5};
-const DRIVERS_DEFAULT=[
- {id:"D1",name:"Abdul Karim",lic:"DH-4471182",phone:"01711223344",bus:"Dhaka Metro-Ga 11-9453",trips:22,rating:4.8,status:"active"},
- {id:"D2",name:"Mosharraf Hossain",lic:"DH-3391021",phone:"01822334455",bus:"Dhaka Metro-Ga 11-7821",trips:19,rating:4.6,status:"active"},
- {id:"D3",name:"Liton Sheikh",lic:"DH-5512873",phone:"01933445566",bus:"Dhaka Metro-Ga 11-6307",trips:25,rating:4.9,status:"active"},
- {id:"D4",name:"Jamal Uddin",lic:"DH-2287401",phone:"01644556677",bus:"Dhaka Metro-Ga 11-5146",trips:8,rating:4.3,status:"off"}
-];
-const PROMO_DEFAULT=[
- {code:"EID25",pct:25,uses:140,exp:daysAgoIsoFuture(10),status:"active"},
- {code:"WELCOME10",pct:10,uses:62,exp:daysAgoIsoFuture(45),status:"active"},
- {code:"RAINY15",pct:15,uses:4,exp:daysAgoIso(5),status:"expired"}
-];
+const DRIVERS_DEFAULT=[];
 const CREDS_DEFAULT={user:"admin",pass:"admin123"};
 
 const LS=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v??d}catch(e){return d}};
@@ -441,7 +413,7 @@ let LSS=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 
 /* ============ GOOGLE SHEETS SYNC ============ */
 /* See sheet-sync.js for details. Set the URL below once deployed. */
-var SHEET_API_URL="https://script.google.com/macros/s/AKfycbyFKtfH0_Vw5kTJvqqrYaxMQ4nOScCrFoAQIW1oBun_y0fElemzAdcURcIyPe3Q_1DS/exec";
+var SHEET_API_URL="https://script.google.com/macros/s/AKfycbxgoSu4PjQ9a1ngQkt90yBkMHJQTOeLFQMYkV3a4jHVEJ_ieZ2uF7d_-CJgmMdcXT1u/exec";
 var SHEET_TOKEN="narail-2026-secret";
 var SYNCED_KEYS=["adm-stops","adm-deps","adm-settings","adm-bookings","adm-drivers","adm-notifs","adm-checkins"];
 function sheetGet(key){return fetch(SHEET_API_URL+"?key="+encodeURIComponent(key)).then(r=>r.json()).then(res=>res.ok?res.data:null).catch(()=>null)}
@@ -453,7 +425,7 @@ function syncFromSheetsThenInit(){
 LSS=((orig)=>(k,v)=>{orig(k,v);if(SYNCED_KEYS.includes(k))sheetSet(k,v)})(LSS);
 function reloadDataFromLocalStorage(){
  STOPS=LS("adm-stops",STOPS_DEFAULT);DEPS=LS("adm-deps",DEP_DEFAULT);SETTINGS=LS("adm-settings",SETTINGS_DEFAULT);
- BOOKINGS=LS("adm-bookings",seedBookings());DRIVERS=LS("adm-drivers",DRIVERS_DEFAULT);PROMOS=LS("adm-promos",PROMO_DEFAULT);
+ BOOKINGS=LS("adm-bookings",seedBookings());DRIVERS=LS("adm-drivers",DRIVERS_DEFAULT);
  NOTIFS=LS("adm-notifs",seedNotifs());
 }
 
@@ -462,7 +434,6 @@ let DEPS=LS("adm-deps",DEP_DEFAULT);
 let SETTINGS=LS("adm-settings",SETTINGS_DEFAULT);
 let BOOKINGS=LS("adm-bookings",seedBookings());
 let DRIVERS=LS("adm-drivers",DRIVERS_DEFAULT);
-let PROMOS=LS("adm-promos",PROMO_DEFAULT);
 let CREDS=LS("adm-creds",CREDS_DEFAULT);
 let NOTIFS=LS("adm-notifs",seedNotifs());
 
@@ -472,37 +443,15 @@ function todayIso(){const d=new Date();return `${d.getFullYear()}-${String(d.get
 function daysAgoIso(n){const d=new Date();d.setDate(d.getDate()-n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
 function daysAgoIsoFuture(n){return daysAgoIso(-n)}
 function seedNotifs(){
- return [
-  {t:"New booking NE"+Math.floor(Math.random()*900000+100000)+" confirmed",when:"12 min ago"},
-  {t:"Departure 08:00 Non-AC is at 95% capacity",when:"1 hr ago"},
-  {t:"Bus Dhaka Metro-Ga 11-5146 marked for maintenance",when:"Yesterday"},
-  {t:"Promo code EID25 used 20 times today",when:"Yesterday"}
- ];
+ return [];
 }
 
-/* seed a few demo bookings so the dashboard isn't empty on first load */
 function seedBookings(){
- const names=["Rafiq Ahmed","Nusrat Jahan","Sabbir Hossain","Mitu Akter","Jahid Hasan","Rima Sultana"];
- const routes=[["Noapara","Dhaka Medical"],["Noapara","Jatrabari"],["Dhaka Medical","Noapara"],["Noapara","Padma Bridge"]];
- const statuses=["confirmed","confirmed","confirmed","pending","cancelled"];
- const out=[];
- for(let i=0;i<14;i++){
-  const r=routes[i%routes.length],seatN=1+Math.floor(Math.random()*3);
-  out.push({
-   id:uid(),date:i<5?todayIso():daysAgoIso(Math.floor(Math.random()*6)+1),
-   from:r[0],to:r[1],name:names[i%names.length],phone:"017"+Math.floor(10000000+Math.random()*89999999),
-   seats:Array.from({length:seatN},(_,k)=>(k+1)+"A").join(", "),
-   fare:(150+Math.floor(Math.random()*8)*25)*seatN,
-   pay:["bKash","Cash","Card","Nagad"][i%4],
-   status:statuses[i%statuses.length],
-   bus:["06:30 AC","08:00 Non-AC","10:30 AC","14:00 Non-AC"][i%4]
-  });
- }
- return out;
+ return [];
 }
 
 /* ============ NAV / VIEWS ============ */
-const TITLES={dash:["Dashboard","Today's overview at a glance"],bookings:["Bookings","All tickets booked across the site"],buses:["Buses & Schedule","Departure times and fleet status"],stops:["Stops & Fares","Edit the route and fare rules"],pass:["Passengers","Everyone who has travelled with you"],drivers:["Drivers","Roster and bus assignments"],promo:["Promo Codes","Discount codes available at checkout"],reports:["Reports","Trends across bookings and revenue"],settings:["Settings","Company details shown on the public site"]};
+const TITLES={dash:["Dashboard","Today's overview at a glance"],bookings:["Bookings","All tickets booked across the site"],buses:["Buses & Schedule","Departure times and fleet status"],stops:["Stops & Fares","Edit the route and fare rules"],pass:["Passengers","Everyone who has travelled with you"],drivers:["Drivers","Roster and bus assignments"],reports:["Reports","Trends across bookings and revenue"],settings:["Settings","Company details shown on the public site"]};
 function showView(v){
  document.querySelectorAll(".view").forEach(e=>e.classList.remove("active"));
  document.getElementById("view-"+v).classList.add("active");
@@ -516,7 +465,6 @@ function showView(v){
  if(v=="stops")renderStops();
  if(v=="pass")renderPassengers();
  if(v=="drivers")renderDrivers();
- if(v=="promo")renderPromo();
  if(v=="reports")renderReports(repDays||7);
  if(v=="settings")renderSettings();
 }
@@ -542,7 +490,7 @@ function doLogin(){
  const u=document.getElementById("loginUser").value.trim();
  const p=document.getElementById("loginPass").value;
  if(u===CREDS.user&&p===CREDS.pass){
-  sessionStorage.setItem("ne-admin-auth","1");
+  localStorage.setItem("ne-admin-auth","1");
   document.getElementById("loginScreen").style.display="none";
   document.getElementById("shell").style.display="";
   document.getElementById("sideUser").textContent=u.charAt(0).toUpperCase()+u.slice(1);
@@ -551,9 +499,9 @@ function doLogin(){
   document.getElementById("loginErr").textContent="Incorrect username or password.";
  }
 }
-function doLogout(){sessionStorage.removeItem("ne-admin-auth");location.reload()}
+function doLogout(){localStorage.removeItem("ne-admin-auth");location.reload()}
 function checkAuth(){
- if(sessionStorage.getItem("ne-admin-auth")=="1"){
+ if(localStorage.getItem("ne-admin-auth")=="1"){
   document.getElementById("loginScreen").style.display="none";
   document.getElementById("shell").style.display="";
   document.getElementById("sideUser").textContent=CREDS.user.charAt(0).toUpperCase()+CREDS.user.slice(1);
@@ -792,24 +740,6 @@ function saveDriverModal(){
  LSS("adm-drivers",DRIVERS);closeDriverModal();renderDrivers();toast("Driver added");logActivity("Driver "+name+" added to roster");
 }
 
-/* ============ PROMO CODES ============ */
-function renderPromo(){
- document.querySelector("#promoTbl tbody").innerHTML=PROMOS.map((p,i)=>`<tr>
-  <td><span class="chip">${p.code}</span></td><td>${p.pct}%</td><td>${p.uses}</td><td>${p.exp}</td>
-  <td>${p.exp<todayIso()?'<span class="pill bad">Expired</span>':p.status=="active"?'<span class="pill ok">Active</span>':'<span class="pill warn">Paused</span>'}</td>
-  <td><button class="btn sm alt" onclick="togglePromo(${i})">Toggle</button> <button class="btn sm danger" onclick="removePromo(${i})">Remove</button></td>
- </tr>`).join("");
-}
-function togglePromo(i){PROMOS[i].status=PROMOS[i].status=="active"?"paused":"active";LSS("adm-promos",PROMOS);renderPromo()}
-function removePromo(i){if(!confirm("Remove this code?"))return;PROMOS.splice(i,1);LSS("adm-promos",PROMOS);renderPromo();toast("Code removed")}
-function addPromo(){document.getElementById("pCode").value="";document.getElementById("pPct").value="";document.getElementById("pExp").value=daysAgoIsoFuture(30);document.getElementById("promoBg").classList.add("show")}
-function closePromoModal(){document.getElementById("promoBg").classList.remove("show")}
-function savePromoModal(){
- const code=document.getElementById("pCode").value.trim().toUpperCase();if(!code){toast("Enter a code");return}
- PROMOS.push({code,pct:+document.getElementById("pPct").value||10,uses:0,exp:document.getElementById("pExp").value||daysAgoIsoFuture(30),status:"active"});
- LSS("adm-promos",PROMOS);closePromoModal();renderPromo();toast("Promo code created");logActivity("Promo code "+code+" created");
-}
-
 /* ============ REPORTS ============ */
 let repDays=7;
 function setRepRange(n){
@@ -854,7 +784,7 @@ function renderReports(n){
 
 /* ============ BACKUP / RESTORE ============ */
 function exportBackup(){
- const data={STOPS,DEPS,SETTINGS,BOOKINGS,DRIVERS,PROMOS,exportedAt:new Date().toISOString()};
+ const data={STOPS,DEPS,SETTINGS,BOOKINGS,DRIVERS,exportedAt:new Date().toISOString()};
  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");
  a.href=URL.createObjectURL(blob);a.download="narail-express-admin-backup.json";a.click();
  logActivity("Data backup exported");
@@ -866,8 +796,8 @@ function restoreBackup(file){
   try{
    const d=JSON.parse(e.target.result);
    if(d.STOPS)STOPS=d.STOPS;if(d.DEPS)DEPS=d.DEPS;if(d.SETTINGS)SETTINGS=d.SETTINGS;
-   if(d.BOOKINGS)BOOKINGS=d.BOOKINGS;if(d.DRIVERS)DRIVERS=d.DRIVERS;if(d.PROMOS)PROMOS=d.PROMOS;
-   LSS("adm-stops",STOPS);LSS("adm-deps",DEPS);LSS("adm-settings",SETTINGS);LSS("adm-bookings",BOOKINGS);LSS("adm-drivers",DRIVERS);LSS("adm-promos",PROMOS);
+   if(d.BOOKINGS)BOOKINGS=d.BOOKINGS;if(d.DRIVERS)DRIVERS=d.DRIVERS;
+   LSS("adm-stops",STOPS);LSS("adm-deps",DEPS);LSS("adm-settings",SETTINGS);LSS("adm-bookings",BOOKINGS);LSS("adm-drivers",DRIVERS);
    toast("Backup restored");logActivity("Data restored from backup file");renderDash();
   }catch(err){toast("Couldn't read that file")}
  };
@@ -876,7 +806,7 @@ function restoreBackup(file){
 function wipeAll(){
  if(!confirm("Reset ALL admin data to defaults? This cannot be undone."))return;
  localStorage.removeItem("adm-stops");localStorage.removeItem("adm-deps");localStorage.removeItem("adm-settings");
- localStorage.removeItem("adm-bookings");localStorage.removeItem("adm-drivers");localStorage.removeItem("adm-promos");localStorage.removeItem("adm-notifs");
+ localStorage.removeItem("adm-bookings");localStorage.removeItem("adm-drivers");localStorage.removeItem("adm-notifs");
  location.reload();
 }
 function saveCreds(){
