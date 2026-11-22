@@ -46,9 +46,6 @@ h2{font-size:clamp(1.5rem,3.4vw,2.2rem);margin-bottom:8px}
 .btn.acc{background:var(--accent);color:#2a1c00}
 .btn[disabled]{opacity:.45;pointer-events:none}
 .card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:22px}
-.busloc-grid{display:grid;gap:8px;margin-top:10px}
-.busloc-row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:.88rem}
-.busloc-row .t{color:var(--mut);font-size:.78rem}
 /* ===== HEADER ===== */
 header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--card) 90%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .hd{display:flex;align-items:center;gap:12px;min-height:68px}
@@ -278,7 +275,6 @@ nav a.active{background:var(--brand-l);color:var(--brand);font-weight:600}
    <button class="btn" type="submit" data-i="searchBtn">Search Buses</button>
    <div class="err" id="serr" role="alert" style="grid-column:1/-1"></div>
   </form></div></div>
-<div class="wrap" id="busLocWrap" style="margin-top:14px"></div>
 <div id="booking"><div class="wrap">
  <div class="prog" id="prog" aria-label="Progress"></div>
  <div class="hold" id="hold" hidden><span data-i="holdT">Seats held for</span><span id="clock">05:00</span></div>
@@ -292,7 +288,7 @@ nav a.active{background:var(--brand-l);color:var(--brand);font-weight:600}
   <div class="soc"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="YouTube">yt</a><a href="#" aria-label="WhatsApp">w</a><a href="#" aria-label="Instagram">ig</a></div></div>
  <div><h4 data-i="quick">Quick links</h4><ul class="ql"><li><a href="index.html" data-i="nHome">Home</a></li><li><a href="book.html" data-i="nBook">Book Ticket</a></li><li><a href="fares.html" data-i="nFare">Fare Chart</a></li><li><a href="about.html" data-i="nAbout">About Us</a></li><li><a href="policy.html" data-i="nPolicy">Policy</a></li><li><a href="contact.html" data-i="nContact">Contact</a></li></ul></div>
  <div><h4 data-i="routes">Routes</h4><ul><li>Noapara → Dhaka Medical</li><li>Noapara → Jatrabari</li><li>Dhaka Medical → Noapara</li><li>Via Padma Bridge</li></ul></div></div>
- <div class="copy"><span>© <span id="yr"></span> <span class="cname">Narail Express</span>. <span data-i="rights">All rights reserved.</span></span><span data-i="tag">Safe. Comfortable. On Time.</span><span class="credit">Designed &amp; Maintained by <a href="https://optiqoweb.github.io/optiqoweb/" target="_blank" rel="noopener">Optiqo Web</a></span></div></div></footer>
+ <div class="copy"><span>© <span id="yr"></span> <span class="cname">Narail Express</span>. <span data-i="rights">All rights reserved.</span></span><span data-i="tag">Safe. Comfortable. On Time.</span><span class="credit">Crafted &amp; Maintained by <a href="https://optiqoweb.github.io/optiqoweb/" target="_blank" rel="noopener">Optiqo Web</a></span></div></div></footer>
 
 <a class="fab" id="fab" href="tel:01935128454" aria-label="Call support"><i data-ic="phone"></i></a>
 <div class="mbar" id="mbar"><div><span id="mbL"></span><b id="mbT"></b></div><button class="btn" id="mbBtn" onclick="next()"></button></div>
@@ -328,15 +324,15 @@ function fare(a,b){const k=CONFIG.fareOverrides[a+"|"+b]||CONFIG.fareOverrides[b
  const A=CONFIG.stops.find(s=>s.id==a),B=CONFIG.stops.find(s=>s.id==b);const f=Math.max(CONFIG.minFare,Math.abs(A.km-B.km)*CONFIG.perKm);return Math.round(f/5)*5}
 
 /* ============================ i18n ============================ */
-const T={en:{tag:"Safe. Comfortable. On Time.",nHome:"Home",nBook:"Book Ticket",nAbout:"About Us",nPolicy:"Policy",nContact:"Contact",h1:"Noapara to Dhaka Medical, travelling the easy way.",lead:"Pick any stop to board and any stop to get off. Book your seat in under two minutes.",from:"From",to:"To",date:"Date",pax:"Passengers",busType:"Bus Type",searchBtn:"Search Buses",routeH:"Our route",routeS:"Board or drop at any stop along the way.",whyH:"Why travel with Narail Express",whyS:"Small things done right, on every trip.",popH:"Popular trips",popS:"Tap a trip to start booking.",depH:"Today's departures",howH:"How it works",faqH:"Questions, answered",quick:"Quick links",routes:"Routes",rights:"All rights reserved.",holdT:"Seats held for",
- s1:"Choose bus",s2:"Seats",s3:"Passengers",s4:"Payment",s5:"E-Ticket",pickStop:"Please choose both stops.",sameStop:"Boarding and dropping stops must be different.",pastDate:"Please pick today or a later date.",seatsLeft:"seats left",select:"Select seats",all:"All",ac:"AC",nonac:"Non-AC",standing:"Standing",unlimited:"unlimited availability",standingQ:"Want a standing ticket?",maxSeats:"You can select a maximum of 6 seats.",morning:"Morning",afternoon:"Afternoon",night:"Evening/Night",sortP:"Price: low to high",sortT:"Earliest departure",noBus:"No buses match these filters.",back:"Back",cont:"Continue",boarding:"Boarding stop",dropping:"Dropping stop",seatsT:"Seats",perSeat:"Fare per seat",svc:"Service charge",total:"Total",none:"None yet",pickSeats:"Select",seatsWord:"seat(s)",avail:"Available",selected:"Selected",booked:"Booked",ladies:"Ladies only",front:"Front",door:"DOROJA",name:"Full name",phone:"Mobile number",email:"Email (optional)",passenger:"Passenger",vName:"Please enter the passenger's name.",vPhone:"Use a valid mobile number like 01XXXXXXXXX.",vEmail:"That email doesn't look right.",payH:"Choose payment method",cash:"Cash at counter",card:"Card",txid:"Transaction ID",txidPh:"e.g. 9HK3F7A2B1",txidHelp:"Found in the payment confirmation SMS after you send money.",vTxid:"Please enter the Transaction ID from your payment SMS.",payNote:"Payment is simulated. No money is charged.",pay:"Confirm & pay",needSeats:"Select all your seats to continue.",expired:"Your seat hold expired. Please choose seats again.",tkt:"E-Ticket",bid:"Booking ID",route:"Route",dt:"Date & time",st:"Seats",ps:"Passengers",fr:"Fare paid",bd:"Boarding",dr:"Dropping",sup:"Support",print:"Download PDF (A4)",another:"Book Another",arrive:"Arrives",dur:"h",bus:"Bus",confirmed:"Booking confirmed!",reach:"Please reach the boarding point at least 30 minutes early.",f1:"On-time departures",f1d:"We leave when we say we will, and we publish live timings.",f2:"Clean buses",f2d:"Every bus is washed and sanitised before each trip.",f3:"Trained drivers",f3d:"Verified licences, rest rules and speed monitoring.",f4:"Online tickets",f4d:"Book from your phone and show the QR at boarding.",f5:"Board anywhere",f5d:"Pick up and drop at any of our stops, not just the ends.",f6:"Real support",f6d:"A human on the phone, every day: 01935128454.",h1t:"Search",h1d:"Choose your boarding and dropping stops and a date.",h2t:"Pick seats",h2d:"See the seat map, choose the seats you like.",h3t:"Pay & travel",h3d:"Pay your way and show the e-ticket at boarding.",today:"Buses on",book:"Book",nFare:"Fare Chart",fareH:"Fare chart",fareS:"Pick a stop to see the fare to every other stop.",fareFrom:"Fares from",km:"Distance",dlPng:"Save image (A4)",busLocH:"Live bus locations",busLocS:"Where our buses are right now, reported by the on-board supervisor.",ago:"min ago",justNow:"just now",near:"Near"},
- bn:{tag:"নিরাপদ। আরামদায়ক। সময়মতো।",nHome:"হোম",nBook:"টিকিট কাটুন",nAbout:"আমাদের সম্পর্কে",nPolicy:"নীতিমালা",nContact:"যোগাযোগ",h1:"নওয়াপাড়া থেকে ঢাকা মেডিকেল, ভ্রমণ এখন সহজ।",lead:"যেকোনো স্টপ থেকে উঠুন, যেকোনো স্টপে নামুন। দুই মিনিটেই সিট বুক করুন।",from:"কোথা থেকে",to:"কোথায়",date:"তারিখ",pax:"যাত্রী",busType:"বাসের ধরন",searchBtn:"বাস খুঁজুন",routeH:"আমাদের রুট",routeS:"পথের যেকোনো স্টপে উঠুন বা নামুন।",whyH:"কেন নড়াইল এক্সপ্রেস",whyS:"প্রতিটি যাত্রায় ছোট ছোট বিষয়ে যত্ন।",popH:"জনপ্রিয় ট্রিপ",popS:"বুকিং শুরু করতে ট্রিপে ট্যাপ করুন।",depH:"আজকের ছাড়ার সময়",howH:"কীভাবে কাজ করে",faqH:"সাধারণ জিজ্ঞাসা",quick:"দ্রুত লিংক",routes:"রুটসমূহ",rights:"সর্বস্বত্ব সংরক্ষিত।",holdT:"সিট ধরে রাখা আছে",
- s1:"বাস বাছাই",s2:"সিট",s3:"যাত্রী",s4:"পেমেন্ট",s5:"ই-টিকিট",pickStop:"দুটি স্টপই নির্বাচন করুন।",sameStop:"উঠা ও নামার স্টপ আলাদা হতে হবে।",pastDate:"আজ বা পরের তারিখ বাছাই করুন।",seatsLeft:"টি সিট বাকি",select:"সিট বাছুন",all:"সব",ac:"এসি",nonac:"নন-এসি",standing:"দাঁড়ানো",unlimited:"সীমাহীন",standingQ:"দাঁড়ানো টিকিট চান?",maxSeats:"সর্বোচ্চ ৬টি সিট নির্বাচন করা যাবে।",morning:"সকাল",afternoon:"দুপুর",night:"সন্ধ্যা/রাত",sortP:"দাম: কম থেকে বেশি",sortT:"আগে ছাড়বে যেটি",noBus:"এই ফিল্টারে কোনো বাস নেই।",back:"পিছনে",cont:"এগিয়ে যান",boarding:"উঠার স্টপ",dropping:"নামার স্টপ",seatsT:"সিট",perSeat:"প্রতি সিট ভাড়া",svc:"সার্ভিস চার্জ",total:"মোট",none:"এখনো নেই",pickSeats:"বাছুন",seatsWord:"টি সিট",avail:"খালি",selected:"নির্বাচিত",booked:"বুকড",ladies:"শুধু মহিলা",front:"সামনে",door:"দরজা",name:"পূর্ণ নাম",phone:"মোবাইল নম্বর",email:"ইমেইল (ঐচ্ছিক)",passenger:"যাত্রী",vName:"যাত্রীর নাম লিখুন।",vPhone:"সঠিক নম্বর দিন, যেমন 01XXXXXXXXX।",vEmail:"ইমেইলটি সঠিক মনে হচ্ছে না।",payH:"পেমেন্ট মাধ্যম বাছুন",cash:"কাউন্টারে নগদ",card:"কার্ড",txid:"ট্রানজেকশন আইডি",txidPh:"যেমন 9HK3F7A2B1",txidHelp:"টাকা পাঠানোর পর কনফার্মেশন এসএমএসে পাবেন।",vTxid:"পেমেন্ট এসএমএস থেকে ট্রানজেকশন আইডি লিখুন।",payNote:"পেমেন্ট ডেমো মাত্র। কোনো টাকা কাটা হবে না।",pay:"নিশ্চিত ও পেমেন্ট",needSeats:"এগোতে সব সিট বাছাই করুন।",expired:"সিট ধরে রাখার সময় শেষ। আবার সিট বাছুন।",tkt:"ই-টিকিট",bid:"বুকিং আইডি",route:"রুট",dt:"তারিখ ও সময়",st:"সিট",ps:"যাত্রী",fr:"ভাড়া",bd:"উঠবেন",dr:"নামবেন",sup:"সাপোর্ট",print:"পিডিএফ ডাউনলোড (A4)",another:"আরেকটি বুক করুন",arrive:"পৌঁছাবে",dur:"ঘ.",bus:"বাস",confirmed:"বুকিং নিশ্চিত হয়েছে!",reach:"অনুগ্রহ করে অন্তত ৩০ মিনিট আগে পৌঁছান।",f1:"সময়মতো ছাড়া",f1d:"যে সময় বলি, সে সময়েই ছাড়ি।",f2:"পরিচ্ছন্ন বাস",f2d:"প্রতি ট্রিপের আগে বাস ধোয়া ও জীবাণুমুক্ত করা হয়।",f3:"প্রশিক্ষিত চালক",f3d:"যাচাইকৃত লাইসেন্স, বিশ্রামের নিয়ম ও গতি নজরদারি।",f4:"অনলাইন টিকিট",f4d:"ফোনেই বুক করুন, উঠার সময় QR দেখান।",f5:"যেকোনো স্টপে উঠুন",f5d:"শুধু শেষ প্রান্তে নয়, সব স্টপেই উঠা-নামা।",f6:"আসল সাপোর্ট",f6d:"প্রতিদিন ফোনে মানুষ পাবেন: 01935128454।",h1t:"খুঁজুন",h1d:"উঠা-নামার স্টপ ও তারিখ বাছুন।",h2t:"সিট বাছুন",h2d:"সিট ম্যাপ দেখে পছন্দের সিট নিন।",h3t:"পেমেন্ট ও যাত্রা",h3d:"পেমেন্ট করে ই-টিকিট দেখান।",today:"বাস",book:"বুক করুন",nFare:"ভাড়ার তালিকা",fareH:"ভাড়ার তালিকা",fareS:"একটি স্টপ বাছুন, অন্য সব স্টপের ভাড়া দেখুন।",fareFrom:"ভাড়া শুরু",km:"দূরত্ব",dlPng:"ছবি সেভ (A4)",busLocH:"বাসের লাইভ অবস্থান",busLocS:"আমাদের বাসগুলো এখন কোথায় আছে, সুপারভাইজার জানিয়েছেন।",ago:"মিনিট আগে",justNow:"এইমাত্র",near:"কাছে"}};
+const T={en:{tag:"Safe. Comfortable. On Time.",nHome:"Home",nBook:"Book Ticket",nAbout:"About Us",nPolicy:"Policy",nContact:"Contact",h1:"Noapara to Dhaka Medical, travelling the easy way.",lead:"Pick any stop to board and any stop to get off. Book your seat in under two minutes.",from:"From",to:"To",date:"Date",pax:"Passengers",busType:"Bus Type",searchBtn:"Search Buses",routeH:"Our route",routeS:"Board or drop at any stop along the way.",whyH:"Why travel with Narail Express",whyS:"Small things done right, on every trip.",popH:"Popular trips",popS:"Tap a trip to start booking.",depH:"Today's departures",howH:"How it works",testH:"Passengers say",faqH:"Questions, answered",quick:"Quick links",routes:"Routes",rights:"All rights reserved.",holdT:"Seats held for",
+ s1:"Choose bus",s2:"Seats",s3:"Passengers",s4:"Payment",s5:"E-Ticket",pickStop:"Please choose both stops.",sameStop:"Boarding and dropping stops must be different.",pastDate:"Please pick today or a later date.",seatsLeft:"seats left",select:"Select seats",all:"All",ac:"AC",nonac:"Non-AC",standing:"Standing",unlimited:"unlimited availability",standingQ:"Want a standing ticket?",maxSeats:"You can select a maximum of 6 seats.",morning:"Morning",afternoon:"Afternoon",night:"Evening/Night",sortP:"Price: low to high",sortT:"Earliest departure",noBus:"No buses match these filters.",back:"Back",cont:"Continue",boarding:"Boarding stop",dropping:"Dropping stop",seatsT:"Seats",perSeat:"Fare per seat",svc:"Service charge",total:"Total",none:"None yet",pickSeats:"Select",seatsWord:"seat(s)",avail:"Available",selected:"Selected",booked:"Booked",ladies:"Ladies only",front:"Front",door:"DOROJA",name:"Full name",phone:"Mobile number",email:"Email (optional)",passenger:"Passenger",vName:"Please enter the passenger's name.",vPhone:"Use a valid mobile number like 01XXXXXXXXX.",vEmail:"That email doesn't look right.",payH:"Choose payment method",cash:"Cash at counter",card:"Card",payNote:"Payment is simulated. No money is charged.",pay:"Confirm & pay",needSeats:"Select all your seats to continue.",expired:"Your seat hold expired. Please choose seats again.",tkt:"E-Ticket",bid:"Booking ID",route:"Route",dt:"Date & time",st:"Seats",ps:"Passengers",fr:"Fare paid",bd:"Boarding",dr:"Dropping",sup:"Support",print:"Download PDF (A4)",another:"Book Another",arrive:"Arrives",dur:"h",bus:"Bus",confirmed:"Booking confirmed!",reach:"Please reach the boarding point at least 30 minutes early.",f1:"On-time departures",f1d:"We leave when we say we will, and we publish live timings.",f2:"Clean buses",f2d:"Every bus is washed and sanitised before each trip.",f3:"Trained drivers",f3d:"Verified licences, rest rules and speed monitoring.",f4:"Online tickets",f4d:"Book from your phone and show the QR at boarding.",f5:"Board anywhere",f5d:"Pick up and drop at any of our stops, not just the ends.",f6:"Real support",f6d:"A human on the phone, every day: 01935128454.",h1t:"Search",h1d:"Choose your boarding and dropping stops and a date.",h2t:"Pick seats",h2d:"See the seat map, choose the seats you like.",h3t:"Pay & travel",h3d:"Pay your way and show the e-ticket at boarding.",today:"Buses on",book:"Book",nFare:"Fare Chart",fareH:"Fare chart",fareS:"Pick a stop to see the fare to every other stop.",fareFrom:"Fares from",km:"Distance",dlPng:"Save image (A4)"},
+ bn:{tag:"নিরাপদ। আরামদায়ক। সময়মতো।",nHome:"হোম",nBook:"টিকিট কাটুন",nAbout:"আমাদের সম্পর্কে",nPolicy:"নীতিমালা",nContact:"যোগাযোগ",h1:"নওয়াপাড়া থেকে ঢাকা মেডিকেল, ভ্রমণ এখন সহজ।",lead:"যেকোনো স্টপ থেকে উঠুন, যেকোনো স্টপে নামুন। দুই মিনিটেই সিট বুক করুন।",from:"কোথা থেকে",to:"কোথায়",date:"তারিখ",pax:"যাত্রী",busType:"বাসের ধরন",searchBtn:"বাস খুঁজুন",routeH:"আমাদের রুট",routeS:"পথের যেকোনো স্টপে উঠুন বা নামুন।",whyH:"কেন নড়াইল এক্সপ্রেস",whyS:"প্রতিটি যাত্রায় ছোট ছোট বিষয়ে যত্ন।",popH:"জনপ্রিয় ট্রিপ",popS:"বুকিং শুরু করতে ট্রিপে ট্যাপ করুন।",depH:"আজকের ছাড়ার সময়",howH:"কীভাবে কাজ করে",testH:"যাত্রীরা বলছেন",faqH:"সাধারণ জিজ্ঞাসা",quick:"দ্রুত লিংক",routes:"রুটসমূহ",rights:"সর্বস্বত্ব সংরক্ষিত।",holdT:"সিট ধরে রাখা আছে",
+ s1:"বাস বাছাই",s2:"সিট",s3:"যাত্রী",s4:"পেমেন্ট",s5:"ই-টিকিট",pickStop:"দুটি স্টপই নির্বাচন করুন।",sameStop:"উঠা ও নামার স্টপ আলাদা হতে হবে।",pastDate:"আজ বা পরের তারিখ বাছাই করুন।",seatsLeft:"টি সিট বাকি",select:"সিট বাছুন",all:"সব",ac:"এসি",nonac:"নন-এসি",standing:"দাঁড়ানো",unlimited:"সীমাহীন",standingQ:"দাঁড়ানো টিকিট চান?",maxSeats:"সর্বোচ্চ ৬টি সিট নির্বাচন করা যাবে।",morning:"সকাল",afternoon:"দুপুর",night:"সন্ধ্যা/রাত",sortP:"দাম: কম থেকে বেশি",sortT:"আগে ছাড়বে যেটি",noBus:"এই ফিল্টারে কোনো বাস নেই।",back:"পিছনে",cont:"এগিয়ে যান",boarding:"উঠার স্টপ",dropping:"নামার স্টপ",seatsT:"সিট",perSeat:"প্রতি সিট ভাড়া",svc:"সার্ভিস চার্জ",total:"মোট",none:"এখনো নেই",pickSeats:"বাছুন",seatsWord:"টি সিট",avail:"খালি",selected:"নির্বাচিত",booked:"বুকড",ladies:"শুধু মহিলা",front:"সামনে",door:"দরজা",name:"পূর্ণ নাম",phone:"মোবাইল নম্বর",email:"ইমেইল (ঐচ্ছিক)",passenger:"যাত্রী",vName:"যাত্রীর নাম লিখুন।",vPhone:"সঠিক নম্বর দিন, যেমন 01XXXXXXXXX।",vEmail:"ইমেইলটি সঠিক মনে হচ্ছে না।",payH:"পেমেন্ট মাধ্যম বাছুন",cash:"কাউন্টারে নগদ",card:"কার্ড",payNote:"পেমেন্ট ডেমো মাত্র। কোনো টাকা কাটা হবে না।",pay:"নিশ্চিত ও পেমেন্ট",needSeats:"এগোতে সব সিট বাছাই করুন।",expired:"সিট ধরে রাখার সময় শেষ। আবার সিট বাছুন।",tkt:"ই-টিকিট",bid:"বুকিং আইডি",route:"রুট",dt:"তারিখ ও সময়",st:"সিট",ps:"যাত্রী",fr:"ভাড়া",bd:"উঠবেন",dr:"নামবেন",sup:"সাপোর্ট",print:"পিডিএফ ডাউনলোড (A4)",another:"আরেকটি বুক করুন",arrive:"পৌঁছাবে",dur:"ঘ.",bus:"বাস",confirmed:"বুকিং নিশ্চিত হয়েছে!",reach:"অনুগ্রহ করে অন্তত ৩০ মিনিট আগে পৌঁছান।",f1:"সময়মতো ছাড়া",f1d:"যে সময় বলি, সে সময়েই ছাড়ি।",f2:"পরিচ্ছন্ন বাস",f2d:"প্রতি ট্রিপের আগে বাস ধোয়া ও জীবাণুমুক্ত করা হয়।",f3:"প্রশিক্ষিত চালক",f3d:"যাচাইকৃত লাইসেন্স, বিশ্রামের নিয়ম ও গতি নজরদারি।",f4:"অনলাইন টিকিট",f4d:"ফোনেই বুক করুন, উঠার সময় QR দেখান।",f5:"যেকোনো স্টপে উঠুন",f5d:"শুধু শেষ প্রান্তে নয়, সব স্টপেই উঠা-নামা।",f6:"আসল সাপোর্ট",f6d:"প্রতিদিন ফোনে মানুষ পাবেন: 01935128454।",h1t:"খুঁজুন",h1d:"উঠা-নামার স্টপ ও তারিখ বাছুন।",h2t:"সিট বাছুন",h2d:"সিট ম্যাপ দেখে পছন্দের সিট নিন।",h3t:"পেমেন্ট ও যাত্রা",h3d:"পেমেন্ট করে ই-টিকিট দেখান।",today:"বাস",book:"বুক করুন",nFare:"ভাড়ার তালিকা",fareH:"ভাড়ার তালিকা",fareS:"একটি স্টপ বাছুন, অন্য সব স্টপের ভাড়া দেখুন।",fareFrom:"ভাড়া শুরু",km:"দূরত্ব",dlPng:"ছবি সেভ (A4)"}};
 Object.assign(T.en,{gender:"Gender",gPick:"Select gender",male:"Male",female:"Female",other:"Other",vGender:"Please select gender.",age:"Age",vAge:"Enter a valid age (1–120)."});
 Object.assign(T.bn,{gender:"লিঙ্গ",gPick:"লিঙ্গ বাছাই করুন",male:"পুরুষ",female:"মহিলা",other:"অন্যান্য",vGender:"লিঙ্গ নির্বাচন করুন।",age:"বয়স",vAge:"সঠিক বয়স দিন (১–১২০)।"});
 Object.assign(T.en,{"polH": "Policies & FAQ", "polS": "Everything you should know before you travel.", "polBoardT": "Boarding", "polBoardD": "Arrive at the boarding stop at least 30 minutes before departure.", "polIdT": "Valid ID", "polIdD": "Carry a valid government-issued photo ID matching your booking name.", "polBagT": "Carry-on only", "polBagD": "One carry-on bag free per passenger. Checked luggage is not accepted.", "polCanT": "Cancellation", "polCanD": "Cancel 12+ hours before departure by calling 01935128454.", "polHoldT": "Seat hold", "polHoldD": "Seats are held for 5 minutes while you complete your booking.", "aboutH": "About Narail Express", "aboutP1": "Narail Express runs bus services between Noapara and Dhaka Medical, crossing the Padma Bridge.", "aboutP2": "You can board and get off at any stop along the route, and the fare depends only on the distance between your two stops.", "aboutP3": "Book your seat online in a couple of minutes and show the QR code on your e-ticket when you board.", "contactS": "Questions about a booking or a trip? Call us.", "callT": "Call us", "callD": "A person answers the phone every day.", "chgT": "Cancel or change a ticket", "chgD": "Call at least 12 hours before departure.", "bookT": "Book online", "bookD": "Pick your stops and a date, and reserve your seat in minutes.", "via": "Via Padma Bridge", "modify": "Modify search", "allFares": "View full fare chart", "searchPrompt": "Choose your stops and date above, then tap Search Buses to see available trips.", "selectPh": "Select"});
 Object.assign(T.bn,{"polH": "নীতিমালা ও সাধারণ জিজ্ঞাসা", "polS": "ভ্রমণের আগে যা জানা দরকার।", "polBoardT": "বোর্ডিং", "polBoardD": "ছাড়ার অন্তত ৩০ মিনিট আগে বোর্ডিং স্টপে পৌঁছান।", "polIdT": "পরিচয়পত্র", "polIdD": "বুকিংয়ের নামের সাথে মিল রেখে সরকারি ছবিসহ পরিচয়পত্র রাখুন।", "polBagT": "হ্যান্ড ব্যাগেজ", "polBagD": "প্রতি যাত্রী একটি হ্যান্ড ব্যাগেজ বিনামূল্যে। চেক-ইন লাগেজ গ্রহণযোগ্য নয়।", "polCanT": "বাতিল", "polCanD": "ছাড়ার ১২+ ঘণ্টা আগে 01935128454 নম্বরে কল করুন।", "polHoldT": "সিট ধরে রাখা", "polHoldD": "বুকিং শেষ করার জন্য ৫ মিনিট সিট ধরে রাখা হয়।", "aboutH": "নড়াইল এক্সপ্রেস সম্পর্কে", "aboutP1": "নড়াইল এক্সপ্রেস নওয়াপাড়া থেকে ঢাকা মেডিকেল পর্যন্ত পদ্মা সেতু হয়ে বাস সার্ভিস চালায়।", "aboutP2": "রুটের যেকোনো স্টপে উঠা ও নামা যায়, আর ভাড়া নির্ভর করে শুধু দুই স্টপের দূরত্বের ওপর।", "aboutP3": "অনলাইনে কয়েক মিনিটে সিট বুক করুন, আর উঠার সময় ই-টিকিটের QR কোড দেখান।", "contactS": "বুকিং বা ট্রিপ নিয়ে প্রশ্ন? ফোন করুন।", "callT": "ফোন করুন", "callD": "প্রতিদিন ফোনে মানুষ পাবেন।", "chgT": "টিকিট বাতিল বা পরিবর্তন", "chgD": "ছাড়ার অন্তত ১২ ঘণ্টা আগে কল করুন।", "bookT": "অনলাইনে বুক করুন", "bookD": "স্টপ ও তারিখ বাছুন, কয়েক মিনিটে সিট রিজার্ভ করুন।", "via": "পদ্মা সেতু হয়ে", "modify": "সার্চ পরিবর্তন", "allFares": "পূর্ণ ভাড়ার তালিকা দেখুন", "searchPrompt": "উপরে স্টপ ও তারিখ বাছুন, তারপর বাস খুঁজুন বাটনে চাপ দিন।", "selectPh": "নির্বাচন করুন"});
-
+const TESTI=[["Rafiq Ahmed","Jashore","Left on time and the AC actually worked. Booking took two minutes.","সময়মতো ছেড়েছে, এসিও ঠিক ছিল। বুকিং হয়েছে দুই মিনিটে।"],["Nusrat Jahan","Dhaka","Clean bus, friendly staff, and travelling alone felt comfortable.","পরিষ্কার বাস, ভালো ব্যবহার, একা যেতেও স্বস্তি পেয়েছি।"],["Sabbir Hossain","Magura","I boarded at Magura and paid for exactly my distance. Fair.","মাগুরা থেকে উঠেছি, দূরত্ব অনুযায়ী ভাড়া। ন্যায্য।"]];
 const FAQ=[
  ["Can I board or drop at any stop?","যেকোনো স্টপে কি উঠা-নামা যায়?","Yes. Choose any boarding and dropping stop on the route. The fare depends on the distance between them.","হ্যাঁ। রুটের যেকোনো স্টপ বাছুন। ভাড়া নির্ভর করে দুই স্টপের দূরত্বের ওপর।"],
  ["How long are my seats held?","আমার সিট কতক্ষণ ধরে রাখা হয়?","Seats are held for 5 minutes while you complete your booking.","বুকিং শেষ করার জন্য ৫ মিনিট সিট ধরে রাখা হয়।"],
@@ -352,19 +348,7 @@ const FEAT=[["clock",1],["sparkle",2],["shield",3],["mobile",4],["pin",5],["head
 
 /* ============================ STATE ============================ */
 // TODO: connect API – replace local state with server-side booking/session.
-let lang="en",S={from:"",to:"",date:"",pax:1,buses:[],bus:null,seats:[],board:"",drop:"",pass:[],pay:"bkash",payPhone:"",txid:"",step:1,filt:{type:"all",time:"all",sort:"time"},holdEnd:0,booking:null,errs:{},standingOn:false};
-
-/* ============ shared storage + GOOGLE SHEETS SYNC ============ */
-/* Same keys/API the admin panel and supervisor scanner use, so a
- * booking made here shows up live for them. */
-const LS=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v??d}catch(e){return d}};
-let LSS=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-var SHEET_API_URL="https://script.google.com/macros/s/AKfycbxgoSu4PjQ9a1ngQkt90yBkMHJQTOeLFQMYkV3a4jHVEJ_ieZ2uF7d_-CJgmMdcXT1u/exec";
-var SHEET_TOKEN="narail-2026-secret";
-var SYNCED_KEYS=["adm-bookings","adm-bus-locations"];
-function sheetGet(key){return fetch(SHEET_API_URL+"?key="+encodeURIComponent(key)).then(r=>r.json()).then(res=>res.ok?res.data:null).catch(()=>null)}
-function sheetSet(key,data){return fetch(SHEET_API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({key,data,token:SHEET_TOKEN})}).catch(err=>console.warn("Sheet sync failed for",key,err))}
-LSS=((orig)=>(k,v)=>{orig(k,v);if(SYNCED_KEYS.includes(k))sheetSet(k,v)})(LSS);
+let lang="en",S={from:"",to:"",date:"",pax:1,buses:[],bus:null,seats:[],board:"",drop:"",pass:[],pay:"bkash",step:1,filt:{type:"all",time:"all",sort:"time"},holdEnd:0,booking:null,errs:{},standingOn:false};
 let timer=null;
 const $=s=>document.querySelector(s),t=k=>T[lang][k]||k;
 const sname=id=>{const s=CONFIG.stops.find(x=>x.id==id);return lang=="bn"?s.bn:s.id};
@@ -448,8 +432,8 @@ function renderHome(){
  if($("#deps")){const [da,db]=CONFIG.popular[1];
   $("#depSub").textContent=`${sname(da)} → ${sname(db)}`;
   put("#deps",makeBuses(da,db,1,todayIso()).map(b=>`<div class="card dep"><b>${bn(b.dep)}</b><span class="tag">${t(b.type)}</span><span>${bn(b.left)} ${t("seatsLeft")}</span><b style="color:var(--brand)">${money(b.price)}</b><button class="btn alt" onclick="quick(1)">${t("book")}</button></div>`).join(""))}
- renderBusLocations();
  put("#steps",[1,2,3].map(n=>`<div class="card"><h3>${t("h"+n+"t")}</h3><p style="color:var(--mut)">${t("h"+n+"d")}</p></div>`).join(""));
+ put("#tests",TESTI.map(x=>`<div class="card"><div class="stars" aria-label="5 stars">${ic("star").repeat(5)}</div><p style="margin:8px 0">“${lang=="bn"?x[3]:x[2]}”</p><b>${x[0]}</b> <span style="color:var(--mut)">· ${x[1]}</span></div>`).join(""));
  put("#faq",FAQ.map(x=>`<details><summary>${lang=="bn"?x[1]:x[0]}</summary><p>${lang=="bn"?x[3]:x[2]}</p></details>`).join(""));
  put("#polc",[["pin","polBoard"],["shield","polId"],["bag","polBag"],["x","polCan"],["clock","polHold"]].map(([i,k])=>`<div class="card feat"><div class="ic">${ic(i)}</div><h3>${t(k+"T")}</h3><p>${t(k+"D")}</p></div>`).join(""));
  put("#contc",`<div class="card feat"><div class="ic">${ic("phone")}</div><h3>${t("callT")}</h3><p>${t("callD")}</p><a class="btn" style="margin-top:14px" href="tel:${CONFIG.phone}">${ic("phone")} ${CONFIG.phone}</a></div>
@@ -458,25 +442,6 @@ function renderHome(){
   <div class="card feat"><div class="ic">${ic("bus")}</div><h3>${t("routes")}</h3><ul class="rl">${CONFIG.popular.map(([a,b])=>`<li>${esc(sname(a))} → ${esc(sname(b))}</li>`).join("")}<li>${t("via")}</li></ul></div>`);
  $("#lang").textContent=lang=="en"?"বাং":"EN";document.documentElement.lang=lang;
  if(document.body.classList.contains("booking")&&S.buses.length)render();
-}
-/* Public, read-only "where is my bus" panel. Pulled from adm-bus-locations
- * (written by supervisors in scan.html — a manual "nearest stop" update,
- * not GPS). Only shown when at least one bus has reported a location. */
-function renderBusLocations(){
- const wrap=$("#busLocWrap");
- if(!wrap)return;
- const configured=SHEET_API_URL&&SHEET_API_URL.indexOf("PASTE_YOUR")!==0;
- const p=configured?sheetGet("adm-bus-locations"):Promise.resolve(LS("adm-bus-locations",[]));
- p.then(data=>{
-  const locs=Array.isArray(data)?data:[];
-  if(!locs.length){wrap.innerHTML="";return}
-  const rows=[...locs].sort((a,b)=>b.at-a.at).map(v=>{
-   const mins=Math.round((Date.now()-v.at)/60000);
-   const when=mins<1?t("justNow"):bn(mins)+" "+t("ago");
-   return `<div class="busloc-row"><div><b>${esc(v.id)}</b><div class="t">${t("near")} ${esc(sname(v.stopId))}${v.note?" · "+esc(v.note):""}</div></div><span class="t">${when}</span></div>`;
-  }).join("");
-  wrap.innerHTML=`<div class="card"><h2 style="margin-bottom:2px">${t("busLocH")}</h2><p style="color:var(--mut);font-size:.85rem;margin-bottom:4px">${t("busLocS")}</p><div class="busloc-grid">${rows}</div></div>`;
- });
 }
 function fareTable(){const a=$("#fs").value,m=CONFIG.typeMultiplier,A=CONFIG.stops.find(s=>s.id==a);
  $("#ft").innerHTML=`<tr><th>${t("to")}</th><th>${t("km")}</th><th>${t("nonac")}</th><th>${t("ac")}</th><th>${t("standing")}</th></tr>`+CONFIG.stops.filter(s=>s.id!=a).map(s=>{const f=fare(a,s.id),p=k=>money(Math.round(f*m[k]/5)*5);return `<tr><td>${esc(sname(s.id))}</td><td>${bn(Math.abs(s.km-A.km))} km</td><td>${p("nonac")}</td><td>${p("ac")}</td><td>${p("standing")}</td></tr>`}).join("")}
@@ -629,41 +594,16 @@ function validate(){S.errs={};let ok=true,first=null;
 /* Step 4: payment (mock) */
 function r4(){
  const m=[["bkash","bKash"],["nagad","Nagad"],["card",t("card")],["cash",t("cash")]];
- const needsTxid=S.pay=="bkash"||S.pay=="nagad";
  $("#stepBody").innerHTML=`<div class="card"><h3 style="margin-bottom:14px">${t("payH")}</h3><div class="pay" role="group">${m.map(([k,l])=>`<button class="pm" aria-pressed="${S.pay==k}" onclick="S.pay='${k}';r4()">${l}</button>`).join("")}</div>
- ${S.pay=="card"?`<div class="row2"><div class="fld"><label for="cn">Card number</label><input class="in" id="cn" inputmode="numeric" placeholder="•••• •••• •••• ••••"></div><div class="fld"><label for="ce">MM/YY</label><input class="in" id="ce" placeholder="MM/YY"></div></div>`:S.pay=="cash"?`<p>${t("reach")}</p>`:`<div class="fld" style="max-width:320px"><label for="wn">${S.pay=="bkash"?"bKash":"Nagad"} ${t("phone")}</label><input class="in" id="wn" inputmode="numeric" placeholder="01XXXXXXXXX" value="${esc(S.payPhone||"")}" oninput="S.payPhone=this.value"></div>`}
- ${needsTxid?`<div class="fld" style="max-width:320px;margin-top:14px"><label for="txid">${t("txid")}</label><input class="in ${S.errs.txid?"bad":""}" id="txid" placeholder="${t("txidPh")}" value="${esc(S.txid||"")}" oninput="S.txid=this.value.toUpperCase();S.errs.txid=''" aria-describedby="etxid"><div class="err" id="etxid">${S.errs.txid||""}</div><p class="sub" style="margin-top:6px;font-size:.78rem">${t("txidHelp")}</p></div>`:""}
+ ${S.pay=="card"?`<div class="row2"><div class="fld"><label for="cn">Card number</label><input class="in" id="cn" inputmode="numeric" placeholder="•••• •••• •••• ••••"></div><div class="fld"><label for="ce">MM/YY</label><input class="in" id="ce" placeholder="MM/YY"></div></div>`:S.pay=="cash"?`<p>${t("reach")}</p>`:`<div class="fld" style="max-width:320px"><label for="wn">${S.pay=="bkash"?"bKash":"Nagad"} ${t("phone")}</label><input class="in" id="wn" inputmode="numeric" placeholder="01XXXXXXXXX"></div>`}
  <p class="sub" style="margin:14px 0 0;font-size:.82rem">${t("payNote")}</p></div>
  <div class="nav"><button class="btn alt" onclick="go(3)">← ${t("back")}</button><button class="btn" onclick="next()">${t("pay")}</button></div>`;
 }
 function confirmBooking(){
- if((S.pay=="bkash"||S.pay=="nagad")&&!(S.txid||"").trim()){S.errs.txid=t("vTxid");r4();return}
+ // TODO: connect API – POST /bookings with S.bus.id, seats, passengers, payment; use returned booking ID.
  const T_=totals(),id="NE"+Date.now().toString(36).toUpperCase().slice(-6)+Math.floor(Math.random()*90+10);
- S.booking={id,...T_,seats:[...S.seats],pass:S.pass.map(p=>({...p})),bus:S.bus,from:S.from,to:S.to,board:S.board,drop:S.drop,date:S.date,pay:S.pay,txid:(S.pay=="bkash"||S.pay=="nagad")?(S.txid||"").trim():"",issued:nowStamp()};
- saveBookingToAdmin(S.booking);
+ S.booking={id,...T_,seats:[...S.seats],pass:S.pass.map(p=>({...p})),bus:S.bus,from:S.from,to:S.to,board:S.board,drop:S.drop,date:S.date,pay:S.pay,issued:nowStamp()};
  stopHold();S.step=5;render();scrollTo(0,0)}
-/* Pushes the confirmed booking into the shared "adm-bookings" store (synced
- * to Google Sheets) so it shows up live in the admin dashboard and the
- * supervisor scanner. */
-function saveBookingToAdmin(k){
- const payLabel={bkash:"bKash",nagad:"Nagad",card:"Card",cash:"Cash"}[k.pay]||k.pay;
- const primary=k.pass[0]||{name:"",phone:""};
- const record={
-  id:k.id,date:k.date,from:k.board,to:k.drop,name:primary.name,phone:primary.phone,
-  seats:k.seats.join(", "),fare:k.tot,pay:payLabel,txid:k.txid||"",
-  status:k.pay=="cash"?"pending":"confirmed",
-  bus:`${k.bus.dep} ${k.bus.type=="ac"?"AC":"Non-AC"}`
- };
- // Pull the latest list from the Sheet first (so a booking made on another
- // device a moment ago isn't overwritten), then append and push back.
- const configured=SHEET_API_URL&&SHEET_API_URL.indexOf("PASTE_YOUR")!==0;
- const latest=configured?sheetGet("adm-bookings"):Promise.resolve(null);
- latest.then(remote=>{
-  const bookings=remote!==null?remote:LS("adm-bookings",[]);
-  bookings.unshift(record);
-  LSS("adm-bookings",bookings);
- });
-}
 
 const nowStamp=()=>{const d=new Date(),p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`};
 /* Text shown by any phone's QR scanner. English/ASCII where possible to keep the QR small. */
@@ -671,7 +611,7 @@ function qrPayload(k){
  const ty={ac:"AC",nonac:"Non-AC"}[k.bus.type],pm={bkash:"bKash",nagad:"Nagad",card:"Card",cash:"Cash at counter"}[k.pay],g={male:"M",female:"F",other:"O"};
  return [`${CONFIG.company.toUpperCase()} E-TICKET`,`ID: ${k.id}`,"Status: CONFIRMED",`From: ${k.board}`,`To: ${k.drop}`,`Date: ${k.date}`,`Dep: ${k.bus.dep}  Arr: ${k.bus.arr}`,`Bus: ${k.bus.plate.en} (${ty})`,`Seats: ${k.seats.join(", ")}`,"Passengers:",
   ...k.pass.map((p,i)=>`${i+1}. ${p.name.trim()}${p.gender?", "+g[p.gender]:""}${p.age?", "+p.age+"y":""}, ${p.phone} [${k.seats[i]||""}]`),
-  `Fare: BDT ${k.tot.toLocaleString("en-US")} (${k.seats.length} x ${k.f} + svc ${k.svc})`,`Pay: ${pm} - ${k.pay=="cash"?"UNPAID, pay at counter":"PAID"}`,...(k.txid?[`Txn ID: ${k.txid}`]:[]),`Issued: ${k.issued}`,`Help: ${CONFIG.phone}`,"Arrive 30 min early. Carry photo ID."].join("\n")}
+  `Fare: BDT ${k.tot.toLocaleString("en-US")} (${k.seats.length} x ${k.f} + svc ${k.svc})`,`Pay: ${pm} - ${k.pay=="cash"?"UNPAID, pay at counter":"PAID"}`,`Issued: ${k.issued}`,`Help: ${CONFIG.phone}`,"Arrive 30 min early. Carry photo ID."].join("\n")}
 /* Step 5: e-ticket — full A4 layout */
 function r5(){
  const k=S.booking,d=k.bus.dur,qrText=qrPayload(k);
@@ -739,7 +679,6 @@ function r5(){
    <div class="gc"><small>${ic("bus")||busIco} ${T.en.bus} / <span style="font-family:'Hind Siliguri',sans-serif">${T.bn.bus}</span></small><b>${esc(k.bus.plate.en+" / "+k.bus.plate.bn)}</b></div>
    <div class="gc"><small>${seatIco} ${T.en.st} / <span style="font-family:'Hind Siliguri',sans-serif">${T.bn.st}</span></small><b>${k.seats.join(", ")}</b></div>
    <div class="gc"><small>${fareIco} ${T.en.fr} / <span style="font-family:'Hind Siliguri',sans-serif">${T.bn.fr}</span></small><b style="color:var(--brand)">${CONFIG.currency}${k.tot.toLocaleString("en-US")}</b></div>
-   ${k.txid?`<div class="gc"><small>${T.en.txid} / <span style="font-family:'Hind Siliguri',sans-serif">${T.bn.txid}</span></small><b>${esc(k.txid)}</b></div>`:""}
   </div>
 
   <!-- AMENITIES -->
@@ -960,7 +899,6 @@ function qrSvg(text){
  return `<svg viewBox="0 0 ${N+8} ${N+8}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="${r}" fill="#000"/></svg>`;
 }
 init();
-setInterval(renderBusLocations,30000); // keep the live-locations panel fresh without a reload
 </script>
 </body>
 </html>
